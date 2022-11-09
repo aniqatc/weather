@@ -31,7 +31,7 @@
 					</p>
 					<div class="w-100 d-md-none d-block"></div>
 					<div class="ms-md-auto input-group col">
-						<button class="btn btn-outline-secondary">
+						<button class="btn btn-outline-primary">
 							<i class="fa-solid fa-location-arrow"></i>
 						</button>
 						<input
@@ -40,12 +40,12 @@
 							class="form-control"
 						/><button
 							type="submit"
-							class="btn btn-outline-secondary"
+							class="btn btn-outline-primary"
 							value="Search"
 						>
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
-						<button id="theme-toggle" class="btn btn-outline-secondary">
+						<button id="theme-toggle" class="btn btn-outline-primary">
 							<i class="fa-solid fa-sun"></i>
 						</button>
 					</div>
@@ -76,49 +76,50 @@
 							</p>
 						</div>
 					</div>
-					<div class="temp-details container text-center flex-wrap">
-						<ul class="row p-0">
-							<li class="col">
-								<i class="fa-solid fa-droplet"></i>
-								<p class="align-self">Humidity 10%</p>
-							</li>
-							<li class="col">
-								<i class="fa-solid fa-water"></i>
-								<p class="align-self">Precipiation 2%</p>
-							</li>
-
-							<li class="col">
-								<i class="fa-solid fa-temperature-arrow-up"></i>
-								<p class="align-self">High Temp</p>
-							</li>
-							<div class="w-100"></div>
-							<li class="col">
-								<i class="fa-solid fa-eye-slash"></i>
-								<p class="align-self">Visibility 10 Miles</p>
-							</li>
-
-							<li class="col">
-								<i class="fa-solid fa-wind"></i>
-								<p class="align-self">Wind 10 MPH</p>
-							</li>
-							<li class="col">
-								<i class="fa-solid fa-temperature-arrow-down"></i>
-								<p class="align-self">Low Temp</p>
-							</li>
-						</ul>
-					</div>
-					<div class="temp-range d-flex justify-content-evenly">
+					<div class="temp-range d-flex justify-content-evenly mt-4">
 						<div class="temp-high text-center mx-3 mb-3">
 							<h3>80°F <span class="celcius">/ C</span></h3>
 							High Temp<br />
-							<i class="fa-solid fa-sun"></i>
+							<!--<i class="fa-solid fa-sun"></i> -->
 						</div>
 
 						<div class="temp-low text-center mx-3 mb-3">
 							<h3>40°F <span class="celcius">/ C</span></h3>
 							Low Temp<br />
-							<i class="fa-solid fa-moon"></i>
+							<!-- <i class="fa-solid fa-moon"></i> -->
 						</div>
+					</div>
+
+					<div class="temp-details container text-center flex-wrap mt-4">
+						<ul class="row p-0">
+							<li class="col">
+								<i class="fa-solid fa-droplet"></i>
+								<p class="align-self"><small>Humidity 10%</small></p>
+							</li>
+							<li class="col">
+								<i class="fa-solid fa-water"></i>
+								<p class="align-self"><small>Precipiation 2%</small></p>
+							</li>
+
+							<li class="col">
+								<i class="fa-solid fa-temperature-arrow-up"></i>
+								<p class="align-self"><small>High Temp</small></p>
+							</li>
+							<div class="w-100"></div>
+							<li class="col">
+								<i class="fa-solid fa-eye-slash"></i>
+								<p class="align-self"><small>Visibility 10 Miles</small></p>
+							</li>
+
+							<li class="col">
+								<i class="fa-solid fa-wind"></i>
+								<p class="align-self"><small>Wind 10 MPH</small></p>
+							</li>
+							<li class="col">
+								<i class="fa-solid fa-temperature-arrow-down"></i>
+								<p class="align-self"><small>Low Temp</small></p>
+							</li>
+						</ul>
 					</div>
 				</section>
 
@@ -126,9 +127,11 @@
 					<h1>
 						Weather Forecast in <span class="location">New York, NY</span>
 					</h1>
-					<div id="forecast-toggle">
-						<button class="btn btn-primary">Hourly/Weekly</button>
+					<div id="forecast-toggle" class="btn-group" role="group">
+						<button class="btn btn-primary">Weekly</button>
+						<button class="btn btn-outline-primary">Hourly</button>
 					</div>
+					<br /><br />
 					<div
 						class="weekly d-flex p-3 ms-lg-2 justify-content-evenly flex-column flex-md-row"
 					>
@@ -190,9 +193,9 @@
 							<p>29°F</p>
 						</div>
 					</div>
-
-					<h4 class="mt-4">Currently</h4>
-					<div class="city-overview d-flex justify-content-evenly">
+					<br />
+					<h4 class="mt-2">Currently In</h4>
+					<div class="city-overview d-flex justify-content-evenly mx-md-5">
 						<div class="city-temp">
 							<strong>Shanghai</strong><br />
 							<img
@@ -200,9 +203,11 @@
 								width="70px"
 							/>
 							<p>
-								High 75°F<br />
-								Low 75°F<br />
-								Sunny Forecast
+								<small>
+									High 75°F<br />
+									Low 75°F<br />
+									Sunny Forecast
+								</small>
 							</p>
 						</div>
 						<div class="city-temp">
@@ -212,9 +217,11 @@
 								width="70px"
 							/>
 							<p>
-								High 75°F<br />
-								Low 75°F<br />
-								Sunny Forecast
+								<small>
+									High 75°F<br />
+									Low 75°F<br />
+									Sunny Forecast
+								</small>
 							</p>
 						</div>
 						<div class="city-temp">
@@ -224,9 +231,25 @@
 								width="70px"
 							/>
 							<p>
-								High 75°F<br />
-								Low 75°F<br />
-								Sunny Forecast
+								<small>
+									High 75°F<br />
+									Low 75°F<br />
+									Sunny Forecast
+								</small>
+							</p>
+						</div>
+						<div class="city-temp">
+							<strong>India</strong><br />
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="70px"
+							/>
+							<p>
+								<small>
+									High 75°F<br />
+									Low 75°F<br />
+									Sunny Forecast
+								</small>
 							</p>
 						</div>
 					</div>

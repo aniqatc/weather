@@ -4,7 +4,6 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
-	background: linear-gradient(180deg, #c8c6c6 0%, rgba(49, 49, 49, 0) 100%);
 }
 
 .overview-weather h2 {
@@ -51,7 +50,7 @@ ul i {
 .overview-container {
 	border-radius: 10px;
 	background: rgba(255, 255, 255, 0.3);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(9.5px);
 	-webkit-backdrop-filter: blur(9.5px);
 	border-radius: 10px;
@@ -91,15 +90,20 @@ ul i {
 	padding: 15px;
 }
 
+.city-overview {
+	background: #e6e6e67c;
+	border-radius: 10px;
+	padding-top: 15px;
+}
+
 #date {
 	font-weight: bold;
-
-	border-radius: 10px;
-	border: 1px solid #1b1a1d;
+	font-size: larger;
+	align-self: center;
 }
 
 header i {
-	font-size: 20px;
+	font-size: 15px;
 }
 
 @media only screen and (max-width: 480px) {
