@@ -23,9 +23,9 @@
 		/>
 	</head>
 	<body>
-		<div class="container full-page px-5">
+		<div class="container full-page py-5 ps-lg-5 pe-lg-1 p-5 mx-auto">
 			<header
-				class="d-flex align-items-center justify-content-center flex-wrap mb-3"
+				class="d-flex align-items-center justify-content-center flex-wrap mb-3 pe-5"
 			>
 				<p id="date">November 9th, <span id="time">12:02PM</span></p>
 				<div class="ms-md-auto">
@@ -37,18 +37,16 @@
 				</div>
 			</header>
 			<div class="row">
-				<section class="overview-container col-lg m-auto">
+				<section class="overview-container col-xl-4 col-lg-5 mx-auto">
 					<h1 class="text-center">Today's Overview</h1>
 					<p class="location text-center">New York, NY</p>
-					<div class="d-flex align-items-center justify-content-evenly">
+					<div class="d-flex align-items-center justify-content-center">
 						<img
 							src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-							alt="temp-icon"
-							width="220px"
-							class="overview-icon p-2"
+							width="130px"
 						/>
 
-						<div class="overview-weather d-flex flex-column">
+						<div class="overview-weather d-flex flex-column ps-3">
 							<h2>56°F <span class="celcius">/ C</span></h2>
 							<p class="overview-desc">
 								Partly Cloudy <br />
@@ -68,25 +66,30 @@
 							<i class="fa-solid fa-temperature-arrow-down"></i>
 						</div>
 					</div>
-					<div class="temp-details container text-center">
-						<ul class="row">
-							<li class="col-md">
-								<i class="fa-solid fa-droplet"></i> Humidity 10%
+					<div class="temp-details container text-center flex-wrap">
+						<ul class="row p-0">
+							<li class="col-lg">
+								<i class="fa-solid fa-droplet"></i>
+								<p class="align-self">Humidity 10%</p>
 							</li>
-							<li class="col-md">
-								<i class="fa-solid fa-water"></i> Precipiation 2%
+							<li class="col-lg">
+								<i class="fa-solid fa-water"></i>
+								<p class="align-self">Precipiation 2%</p>
 							</li>
 							<div class="w-100"></div>
-							<li class="col-md">
-								<i class="fa-solid fa-wind"></i> Wind 10 MPH
+							<li class="col-lg">
+								<i class="fa-solid fa-wind"></i>
+								<p class="align-self">Wind 10 MPH</p>
 							</li>
-							<li class="col-md">
-								<i class="fa-solid fa-eye-slash"></i> Visibility 10 Miles
+							<li class="col-lg">
+								<i class="fa-solid fa-eye-slash"></i>
+								<p class="align-self">Visibility 10 Miles</p>
 							</li>
 						</ul>
 					</div>
 				</section>
-				<section class="full-forecast col-lg text-center m-3 p-0 p-lg-1">
+
+				<section class="full-forecast col-lg text-center m-2 pt-5">
 					<h1>
 						Weather Forecast in <span class="location">New York, NY</span>
 					</h1>
@@ -173,8 +176,8 @@
 						</div>
 					</div>
 				</section>
-				<footer class="mt-4">Designed & Coded by Aniqa</footer>
 			</div>
 		</div>
+		<footer class="mt-4">Designed & Coded by Aniqa</footer>
 	</body>
 </html>
