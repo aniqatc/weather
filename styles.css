@@ -4,9 +4,7 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
-	background-image: url(https://img.freepik.com/free-vector/evening-cloudy-sky-purple-background-with-group-cumulus-cirrus-clouds-flat-cartoon-illustration_1284-62768.jpg?w=1380&t=st=1668012307~exp=1668012907~hmac=d88407a9ed4747a65e4e88a4acdb525b2f552bc77168f7a35a0c20bab90e9497);
-	background-repeat: no-repeat;
-	background-size: cover;
+	background: linear-gradient(180deg, #c8c6c6 0%, rgba(49, 49, 49, 0) 100%);
 }
 
 .overview-weather h2 {
