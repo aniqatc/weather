@@ -19,7 +19,10 @@ h2 {
 .heading {
 	align-self: center;
 	font-weight: bold;
-	font-size: larger;
+}
+
+.location {
+	font-size: 32px;
 }
 
 i {
@@ -38,11 +41,16 @@ li {
 
 footer {
 	text-align: center;
+	font-size: 12px;
 }
 
 ul i {
 	font-size: 25px;
 	margin-left: 5px;
+}
+
+.btn {
+	border: none;
 }
 
 .full-page h1 {
@@ -55,20 +63,28 @@ ul i {
 	box-shadow: -1px -1px 9px rgba(0, 0, 0, 0.1);
 }
 
-.overview-container {
-	border-radius: 10px;
-	background: rgba(149, 205, 236, 0.163);
+header {
+	background: #f2fbff;
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 10px 0;
 }
 
 .overview-bg {
 	padding: 10px 0 2px 8px;
 }
 
+#forecast-toggle {
+	margin-bottom: 20px;
+}
+
 .full-forecast {
-	padding: 30px;
+	align-self: center;
+}
+
+.full-forecast button {
+	font-size: 20px;
 }
 
 .temp-high {
@@ -101,6 +117,7 @@ ul i {
 	border-radius: 10px;
 	padding-top: 15px;
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
+	margin-top: 10px;
 }
 
 header i {

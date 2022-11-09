@@ -23,10 +23,10 @@
 		<link href="styles.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<div class="container full-page p-lg-5 p-5 mx-auto">
+		<div class="container-sm full-page p-lg-4 p-5 mx-auto">
 			<header class="container text-center text-md-start mb-4">
 				<div class="row">
-					<div class="heading col">
+					<div class="heading col col-lg-4">
 						<span class="location">New York, NY</span>
 					</div>
 
@@ -54,7 +54,7 @@
 			</header>
 			<div class="row">
 				<section
-					class="overview-container col-xl-4 col-lg-8 mx-auto p-lg-2 p-4"
+					class="overview-container col-xl-4 col-lg-9 mx-auto p-lg-1 p-3"
 				>
 					<div class="overview-bg">
 						<h1>Today's Overview</h1>
@@ -82,13 +82,13 @@
 					<div class="temp-range d-flex justify-content-evenly mt-4">
 						<div class="temp-high text-center mx-3 mb-3">
 							<h3>80°F <span class="celcius">/ C</span></h3>
-							High Temp<br />
+							High<br />
 							<!--<i class="fa-solid fa-sun"></i> -->
 						</div>
 
 						<div class="temp-low text-center mx-3 mb-3">
 							<h3>40°F <span class="celcius">/ C</span></h3>
-							Low Temp<br />
+							Low<br />
 							<!-- <i class="fa-solid fa-moon"></i> -->
 						</div>
 					</div>
@@ -105,8 +105,8 @@
 							</li>
 
 							<li class="col">
-								<i class="fa-solid fa-temperature-arrow-up"></i>
-								<p class="align-self"><small>High Temp</small></p>
+								<i class="fa-solid fa-sun"></i>
+								<p class="align-self"><small>Sunrise</small></p>
 							</li>
 							<div class="w-100"></div>
 							<li class="col">
@@ -119,23 +119,23 @@
 								<p class="align-self"><small>Wind 10 MPH</small></p>
 							</li>
 							<li class="col">
-								<i class="fa-solid fa-temperature-arrow-down"></i>
-								<p class="align-self"><small>Low Temp</small></p>
+								<i class="fa-solid fa-moon"></i>
+								<p class="align-self"><small>Sundown</small></p>
 							</li>
 						</ul>
 					</div>
 				</section>
 
-				<section class="full-forecast col-lg text-center m-lg-2 pt-3">
+				<section class="full-forecast col-lg text-center pt-2">
 					<div id="forecast-toggle" class="btn-group" role="group">
 						<button class="btn btn-primary">Weekly</button>
 						<button class="btn btn-outline-primary">Hourly</button>
 					</div>
-					<br /><br />
+
 					<div
-						class="weekly d-flex p-3 ms-lg-2 justify-content-evenly flex-column flex-md-row"
+						class="weekly d-flex justify-content-center flex-column flex-md-row"
 					>
-						<div class="mon daily m-2">
+						<div class="mon daily m-2 px-4">
 							<p>MON</p>
 							<img
 								src="/assets/light/cloudy-night.png"
@@ -145,7 +145,7 @@
 							<p class="pt-3">75°F</p>
 						</div>
 
-						<div class="tues daily m-2">
+						<div class="tues daily m-2 px-4">
 							<p>TUES</p>
 							<img
 								src="/assets/light/windy-day.png"
@@ -154,7 +154,7 @@
 							/>
 							<p class="pt-3">72°F</p>
 						</div>
-						<div class="wed daily m-2">
+						<div class="wed daily m-2 px-4">
 							<p>WED</p>
 							<img
 								src="/assets/light/sunny-rain.png"
@@ -163,30 +163,25 @@
 							/>
 							<p class="pt-3">70°F</p>
 						</div>
-						<div class="thurs daily m-2">
+						<div class="thurs daily m-2 px-4">
 							<p>THU</p>
 							<img src="/assets/light/sun.png" width="55px" height="55px" />
 							<p class="pt-3">80°F</p>
 						</div>
-						<div class="fri daily m-2">
+						<div class="fri daily m-2 px-4">
 							<p>FRI</p>
 							<img src="/assets/light/sun.png" width="55px" height="55px" />
 							<p class="pt-3">25°F</p>
 						</div>
-						<div class="sat daily m-2">
+						<div class="sat daily m-2 px-4">
 							<p>SAT</p>
 							<img src="/assets/light/sun.png" width="55px" height="55px" />
 							<p class="pt-3">72°F</p>
 						</div>
-						<div class="sun daily m-2">
-							<p>SUN</p>
-							<img src="/assets/light/sun.png" width="55px" height="55px" />
-							<p class="pt-3">29°F</p>
-						</div>
 					</div>
 					<br />
-					<h4 class="mt-2">Currently In</h4>
-					<div class="city-overview d-flex justify-content-evenly mx-md-5">
+
+					<div class="city-overview d-flex justify-content-evenly mx-md-5 mx-0">
 						<div class="city-temp">
 							<strong>Shanghai</strong><br />
 							<img
@@ -247,6 +242,14 @@
 				</section>
 			</div>
 		</div>
-		<footer class="mt-4">Designed & Coded by Aniqa</footer>
+		<footer class="mt-4">
+			Designed & Coded by
+			<strong><a href="https://aniqa.io" target="_blank">Aniqa</a></strong>
+			<br />
+			<a href="https://www.shecodes.io/graduates/60229-aniqa-chowdhury"
+				>SheCodes</a
+			>
+			Plus Project
+		</footer>
 	</body>
 </html>
