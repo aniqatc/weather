@@ -4,7 +4,9 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
-	background: #1b1a1d !important;
+	background-image: url(https://img.freepik.com/free-vector/evening-cloudy-sky-purple-background-with-group-cumulus-cirrus-clouds-flat-cartoon-illustration_1284-62768.jpg?w=1380&t=st=1668012307~exp=1668012907~hmac=d88407a9ed4747a65e4e88a4acdb525b2f552bc77168f7a35a0c20bab90e9497);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .overview-weather h2 {
@@ -41,7 +43,8 @@ ul i {
 .full-page {
 	border-radius: 20px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	background: #f0f5ff;
+	background: rgba(255, 255, 255, 0.3);
+	backdrop-filter: blur(10px);
 }
 .full-page h1 {
 	font-size: 30px;
@@ -49,14 +52,19 @@ ul i {
 
 .overview-container {
 	border-radius: 10px;
-	background: #bcd8ec;
+	background: rgba(255, 255, 255, 0.3);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(9.5px);
+	-webkit-backdrop-filter: blur(9.5px);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .overview-bg {
-	border-bottom: 1px solid rgb(4, 14, 57);
-	background: rgba(0, 0, 0, 0.2);
-	padding: 15px 15px 0px 15px;
+	padding: 15px 15px 10px 15px;
 	border-radius: 10px;
+	background: #e6e6e67c;
+	backdrop-filter: blur(10px);
 }
 
 .full-forecast {
@@ -64,26 +72,32 @@ ul i {
 }
 
 .temp-high {
-	background: rgba(153, 59, 59, 0.786);
-	padding: 15px 20px;
-	border-radius: 25px;
+	background: rgba(236, 149, 149, 0.4);
+	border-radius: 14px;
+	padding: 15px;
 }
 
 .temp-low {
-	background: rgba(28, 77, 155, 0.575);
-	padding: 15px 20px;
-	border-radius: 25px;
+	background: rgba(149, 205, 236, 0.4);
+	border-radius: 14px;
+	padding: 15px;
 }
 
 .current-temp {
 	padding: 20px;
 }
 
+.daily {
+	background: rgba(149, 205, 236, 0.4);
+	border-radius: 14px;
+	padding: 15px;
+}
+
 #date {
 	font-weight: bold;
-	margin: 0 0 10px 0;
-	padding: 10px 20px;
+
 	border-radius: 10px;
+	border: 1px solid #1b1a1d;
 }
 
 header i {
