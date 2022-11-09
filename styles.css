@@ -4,7 +4,7 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
-	background: linear-gradient(#f2fbff, #f2fbff);
+	background: #f2fbff;
 }
 
 h2 {
@@ -49,14 +49,22 @@ ul i {
 	font-size: 30px;
 }
 
+.full-page {
+	background: linear-gradient(rgba(149, 205, 236, 0.4), #f2fbff);
+	border-radius: 20px;
+	box-shadow: -1px -1px 9px rgba(0, 0, 0, 0.1);
+}
+
 .overview-container {
 	border-radius: 10px;
-	background: rgba(149, 205, 236, 0.4);
+	background: rgba(149, 205, 236, 0.163);
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
-	backdrop-filter: blur(9.5px);
-	-webkit-backdrop-filter: blur(9.5px);
 	border-radius: 10px;
 	border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.overview-bg {
+	padding: 10px 0 2px 8px;
 }
 
 .full-forecast {
