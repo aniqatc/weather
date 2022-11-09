@@ -4,7 +4,11 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
-	background: linear-gradient(45deg, #262b2b, #2b335c);
+	background: linear-gradient(
+		243deg,
+		rgba(0, 0, 0, 0.8) 0%,
+		rgba(0, 0, 45, 1) 100%
+	);
 }
 
 .overview-weather h2 {
@@ -19,7 +23,6 @@ body {
 i {
 	font-size: 60px;
 	margin-top: 10px;
-	color: #9cbcc3;
 }
 
 img {
@@ -40,33 +43,23 @@ ul i {
 	margin-left: 5px;
 }
 
-.container {
-	max-width: 1100px;
-}
-
 .full-page {
-	background: linear-gradient(
-		243deg,
-		rgba(0, 0, 0, 0.21) 0%,
-		rgba(43, 51, 92, 0.5) 35%,
-		rgba(15, 65, 83, 0.628) 66%,
-		rgba(22, 10, 45, 1) 100%
-	);
 	box-shadow: 2 4px 30px rgba(255, 255, 255, 0.4);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
 	border-radius: 16px;
+	border: 4px solid #d3d3d3;
 	color: white;
-	background-size: 500% 500%;
 }
 
 .overview-container {
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	border-radius: 10px;
-	padding: 30px;
-	transition: all 200ms ease-in;
-	backdrop-filter: blur(9px);
-	background: rgba(0, 0, 0, 0.21);
+	padding: 10px 10px;
+	background: linear-gradient(
+		243deg,
+		rgba(43, 51, 92, 0.5) 35%,
+		rgba(15, 65, 83, 0.628) 66%,
+		rgba(22, 10, 45, 1) 100%
+	);
 }
 
 .full-forecast {
@@ -85,12 +78,23 @@ ul i {
 	border-radius: 25px;
 }
 
+.current-temp {
+	border: 2px solid white;
+	padding: 20px;
+}
+
 #date {
 	font-weight: bold;
 	margin: 0 0 10px 0;
 	padding: 10px 20px;
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	border-radius: 10px;
+	background: linear-gradient(
+		243deg,
+		rgba(43, 51, 92, 0.5) 35%,
+		rgba(15, 65, 83, 0.628) 66%,
+		rgba(22, 10, 45, 1) 100%
+	);
 }
 
 header i {
@@ -98,16 +102,5 @@ header i {
 	color: rgba(31, 38, 135, 0.87);
 }
 
-/*
-@keyframes background {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+@media only screen and (max-width: 480px) {
 }
-*/
