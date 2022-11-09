@@ -23,29 +23,47 @@
 		/>
 	</head>
 	<body>
-		<div class="container full-page pe-lg-1 p-sm-5 p-0 mx-auto">
-			<header
-				class="d-flex align-items-center justify-content-center flex-wrap mb-3 pe-5"
-			>
-				<p id="date">November 9th, <span id="time">12:02PM</span></p>
-				<div class="ms-md-auto">
-					<button><i class="fa-solid fa-location-arrow"></i></button>
-					<input type="search" /><button type="submit">
-						<i class="fa-solid fa-magnifying-glass-location"></i>
-					</button>
-					<button id="theme-toggle"><i class="fa-solid fa-sun"></i></button>
+		<div class="container full-page p-5 mx-auto">
+			<header class="container mb-4 pe-sm-5 text-center text-md-start">
+				<div class="row">
+					<p id="date" class="col">
+						November 9th, <span id="time">12:02PM</span>
+					</p>
+					<div class="w-100 d-md-none d-block"></div>
+					<div class="ms-md-auto input-group col">
+						<button class="btn btn-outline-secondary">
+							<i class="fa-solid fa-location-arrow"></i>
+						</button>
+						<input
+							type="search"
+							placeholder=" Search City..."
+							class="form-control"
+						/><button
+							type="submit"
+							class="btn btn-outline-secondary"
+							value="Search"
+						>
+							<i class="fa-solid fa-magnifying-glass-location"></i>
+						</button>
+						<button id="theme-toggle" class="btn btn-outline-secondary">
+							<i class="fa-solid fa-sun"></i>
+						</button>
+					</div>
 				</div>
 			</header>
 			<div class="row">
-				<section class="overview-container col-xl-4 col-lg-5 mx-auto">
-					<h1 class="text-center">Today's Overview</h1>
-					<p class="location text-center">New York, NY</p>
+				<section class="overview-container col-xl-4 col-lg-5 mx-auto p-0">
+					<div class="overview-bg">
+						<h1>Today's Overview</h1>
+						<p class="location">New York, NY</p>
+					</div>
 					<div
 						class="current-temp d-flex align-items-center justify-content-center"
 					>
 						<img
 							src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
 							width="130px"
+							class="pe-3"
 						/>
 
 						<div class="overview-weather d-flex flex-column ps-3">
@@ -54,18 +72,6 @@
 								Partly Cloudy <br />
 								<span class="rain-chance">10% Chance of Rain</span>
 							</p>
-						</div>
-					</div>
-					<div class="temp-range d-flex justify-content-evenly">
-						<div class="temp-high text-center m-3">
-							<h3>80°F <span class="celcius">/ C</span></h3>
-							High Temp<br />
-							<i class="fa-solid fa-temperature-arrow-up"></i>
-						</div>
-						<div class="temp-low text-center m-3">
-							<h3>40°F <span class="celcius">/ C</span></h3>
-							Low Temp<br />
-							<i class="fa-solid fa-temperature-arrow-down"></i>
 						</div>
 					</div>
 					<div class="temp-details container text-center flex-wrap">
@@ -78,84 +84,108 @@
 								<i class="fa-solid fa-water"></i>
 								<p class="align-self">Precipiation 2%</p>
 							</li>
+
+							<li class="col">
+								<i class="fa-solid fa-sun"></i>
+								<p class="align-self">Sunrise</p>
+							</li>
 							<div class="w-100"></div>
+							<li class="col">
+								<i class="fa-solid fa-eye-slash"></i>
+								<p class="align-self">Visibility 10 Miles</p>
+							</li>
+
 							<li class="col">
 								<i class="fa-solid fa-wind"></i>
 								<p class="align-self">Wind 10 MPH</p>
 							</li>
 							<li class="col">
-								<i class="fa-solid fa-eye-slash"></i>
-								<p class="align-self">Visibility 10 Miles</p>
+								<i class="fa-solid fa-moon"></i>
+								<p class="align-self">Sundown</p>
 							</li>
 						</ul>
 					</div>
+					<div class="temp-range d-flex justify-content-evenly">
+						<div class="temp-high text-center mx-3 mb-3">
+							<h3>80°F <span class="celcius">/ C</span></h3>
+							High Temp<br />
+							<i class="fa-solid fa-temperature-arrow-up"></i>
+						</div>
+
+						<div class="temp-low text-center mx-3 mb-3">
+							<h3>40°F <span class="celcius">/ C</span></h3>
+							Low Temp<br />
+							<i class="fa-solid fa-temperature-arrow-down"></i>
+						</div>
+					</div>
 				</section>
 
-				<section class="full-forecast col-lg text-center m-lg-2 pt-5">
+				<section class="full-forecast col-lg text-sm-center m-lg-2 pt-5">
 					<h1>
 						Weather Forecast in <span class="location">New York, NY</span>
 					</h1>
 					<div id="forecast-toggle">
 						<button>Hourly/Weekly</button>
 					</div>
-					<div class="weekly container p-3 mx-auto ms-lg-2">
-						<div class="row">
-							<div id="mon" class="col">
-								<p>MON</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>75°F</p>
-							</div>
-							<div id="tues" class="col">
-								<p>TUES</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>72°F</p>
-							</div>
-							<div id="wed" class="col">
-								<p>WED</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>70°F</p>
-							</div>
-							<div id="thurs" class="col">
-								<p>THU</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>80°F</p>
-							</div>
-							<div id="fri" class="col">
-								<p>FRI</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>25°F</p>
-							</div>
-							<div id="sat" class="col">
-								<p>SAT</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>72°F</p>
-							</div>
-							<div id="sun" class="col">
-								<p>SUN</p>
-								<img
-									src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
-									width="55px"
-								/>
-								<p>29°F</p>
-							</div>
+					<div
+						class="weekly d-flex p-3 ms-lg-2 justify-content-evenly flex-column flex-sm-row"
+					>
+						<div id="mon">
+							<p>MON</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>75°F</p>
+						</div>
+
+						<div id="tues">
+							<p>TUES</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>72°F</p>
+						</div>
+						<div id="wed">
+							<p>WED</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>70°F</p>
+						</div>
+						<div id="thurs">
+							<p>THU</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>80°F</p>
+						</div>
+						<div id="fri">
+							<p>FRI</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>25°F</p>
+						</div>
+						<div id="sat">
+							<p>SAT</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>72°F</p>
+						</div>
+						<div id="sun">
+							<p>SUN</p>
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="55px"
+							/>
+							<p>29°F</p>
 						</div>
 					</div>
 
