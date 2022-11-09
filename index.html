@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Your Weather Dashboard</title>
+		<link href="styles.css" rel="stylesheet" type="text/css" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://kit.fontawesome.com/50cde61edc.js"
+			crossorigin="anonymous"
+		></script>
+		<link
+			href="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+			type="image/x-icon"
+			rel="icon"
+		/>
+	</head>
+	<body>
+		<div class="container full-page px-5">
+			<header
+				class="d-flex align-items-center justify-content-center flex-wrap mb-3"
+			>
+				<p id="date">November 9th, <span id="time">12:02PM</span></p>
+				<div class="ms-md-auto">
+					<button><i class="fa-solid fa-location-arrow"></i></button>
+					<input type="search" /><button type="submit">
+						<i class="fa-solid fa-magnifying-glass-location"></i>
+					</button>
+					<button id="theme-toggle"><i class="fa-solid fa-sun"></i></button>
+				</div>
+			</header>
+			<div class="row">
+				<section class="overview-container col-lg m-auto">
+					<h1 class="text-center">Today's Overview</h1>
+					<p class="location text-center">New York, NY</p>
+					<div class="d-flex align-items-center justify-content-evenly">
+						<img
+							src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+							alt="temp-icon"
+							width="220px"
+							class="overview-icon p-2"
+						/>
+
+						<div class="overview-weather d-flex flex-column">
+							<h2>56°F <span class="celcius">/ C</span></h2>
+							<p class="overview-desc">
+								Partly Cloudy <br />
+								<span class="rain-chance">10% Chance of Rain</span>
+							</p>
+						</div>
+					</div>
+					<div class="temp-range d-flex justify-content-evenly">
+						<div class="temp-high text-center m-3">
+							<h3>80°F <span class="celcius">/ C</span></h3>
+							High Temp<br />
+							<i class="fa-solid fa-temperature-arrow-up"></i>
+						</div>
+						<div class="temp-low text-center m-3">
+							<h3>40°F <span class="celcius">/ C</span></h3>
+							Low Temp<br />
+							<i class="fa-solid fa-temperature-arrow-down"></i>
+						</div>
+					</div>
+					<div class="temp-details container text-center">
+						<ul class="row">
+							<li class="col-md">
+								<i class="fa-solid fa-droplet"></i> Humidity 10%
+							</li>
+							<li class="col-md">
+								<i class="fa-solid fa-water"></i> Precipiation 2%
+							</li>
+							<div class="w-100"></div>
+							<li class="col-md">
+								<i class="fa-solid fa-wind"></i> Wind 10 MPH
+							</li>
+							<li class="col-md">
+								<i class="fa-solid fa-eye-slash"></i> Visibility 10 Miles
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="full-forecast col-lg text-center m-3 p-0 p-lg-1">
+					<h1>
+						Weather Forecast in <span class="location">New York, NY</span>
+					</h1>
+					<div id="forecast-toggle">
+						<button>Hourly/Weekly</button>
+					</div>
+					<div class="weekly container p-0 mx-auto">
+						<div class="row">
+							<div id="mon" class="col">
+								<p>MON</p>
+								<img />
+								<p>75°F</p>
+							</div>
+							<div id="tues" class="col">
+								<p>TUES</p>
+								<img />
+								<p>72°F</p>
+							</div>
+							<div id="wed" class="col">
+								<p>WED</p>
+								<img />
+								<p>70°F</p>
+							</div>
+							<div id="thurs" class="col">
+								<p>THURS</p>
+								<img />
+								<p>80°F</p>
+							</div>
+							<div id="fri" class="col">
+								<p>FRI</p>
+								<img />
+								<p>25°F</p>
+							</div>
+							<div id="sat" class="col">
+								<p>SAT</p>
+								<img />
+								<p>72°F</p>
+							</div>
+							<div id="sun" class="col">
+								<p>SUN</p>
+								<img />
+								<p>29°F</p>
+							</div>
+						</div>
+					</div>
+
+					<h4 class="mt-4">Currently</h4>
+					<div class="city-overview d-flex justify-content-evenly">
+						<div class="city-temp">
+							<strong>Shanghai</strong><br />
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="70px"
+							/>
+							<p>
+								High 75°F<br />
+								Low 75°F<br />
+								Sunny Forecast
+							</p>
+						</div>
+						<div class="city-temp">
+							<strong>Paris</strong><br />
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="70px"
+							/>
+							<p>
+								High 75°F<br />
+								Low 75°F<br />
+								Sunny Forecast
+							</p>
+						</div>
+						<div class="city-temp">
+							<strong>Morocco</strong><br />
+							<img
+								src="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+								width="70px"
+							/>
+							<p>
+								High 75°F<br />
+								Low 75°F<br />
+								Sunny Forecast
+							</p>
+						</div>
+					</div>
+				</section>
+				<footer class="mt-4">Designed & Coded by Aniqa</footer>
+			</div>
+		</div>
+	</body>
+</html>
