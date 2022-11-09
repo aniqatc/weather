@@ -51,7 +51,7 @@ ul i {
 
 .overview-container {
 	border-radius: 10px;
-	background: #d0dcff;
+	background: rgba(149, 205, 236, 0.4);
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(9.5px);
 	-webkit-backdrop-filter: blur(9.5px);
@@ -60,10 +60,7 @@ ul i {
 }
 
 .overview-bg {
-	padding: 15px 15px 10px 15px;
-	border-radius: 10px;
-	background: #e6e6e624;
-	backdrop-filter: blur(10px);
+	padding: 15px 15px 0px 15px;
 }
 
 .full-forecast {
