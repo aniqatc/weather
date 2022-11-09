@@ -4,6 +4,7 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	margin: 0 auto;
+	background: linear-gradient(#f2fbff, #f2fbff);
 }
 
 .overview-weather h2 {
@@ -37,19 +38,20 @@ ul i {
 	margin-left: 5px;
 }
 
-.full-page {
+/* .full-page {
+
 	border-radius: 20px;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	background: rgba(255, 255, 255, 0.3);
+	background: #f5f5f5;
 	backdrop-filter: blur(10px);
-}
+} */
 .full-page h1 {
 	font-size: 30px;
 }
 
 .overview-container {
 	border-radius: 10px;
-	background: rgba(255, 255, 255, 0.3);
+	background: #d0dcff;
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(9.5px);
 	-webkit-backdrop-filter: blur(9.5px);
@@ -60,7 +62,7 @@ ul i {
 .overview-bg {
 	padding: 15px 15px 10px 15px;
 	border-radius: 10px;
-	background: #e6e6e67c;
+	background: #e6e6e624;
 	backdrop-filter: blur(10px);
 }
 
@@ -72,12 +74,14 @@ ul i {
 	background: rgba(236, 149, 149, 0.4);
 	border-radius: 14px;
 	padding: 15px;
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .temp-low {
 	background: rgba(149, 205, 236, 0.4);
 	border-radius: 14px;
 	padding: 15px;
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .current-temp {
@@ -88,12 +92,14 @@ ul i {
 	background: rgba(149, 205, 236, 0.4);
 	border-radius: 14px;
 	padding: 15px;
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .city-overview {
-	background: #e6e6e67c;
+	background: #a3a3a361;
 	border-radius: 10px;
 	padding-top: 15px;
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #date {
