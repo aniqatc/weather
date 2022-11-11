@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Your Weather Dashboard</title>
+		<title>Weather Dashboard</title>
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 			rel="stylesheet"
@@ -15,6 +15,12 @@
 			src="https://kit.fontawesome.com/50cde61edc.js"
 			crossorigin="anonymous"
 		></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
 		<link
 			href="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
 			type="image/x-icon"
@@ -23,16 +29,12 @@
 		<link href="styles.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<div class="container full-page p-lg-4 p-5 mx-auto">
-			<header class="container text-center text-md-start mb-4">
+		<div class="container">
+			<header class="container text-md-start my-2 mt-3">
 				<div class="row">
-					<div class="heading col col-lg-4">
-						<span class="location">New York, NY</span>
-					</div>
-
-					<div class="w-100 d-md-none d-block mb-3"></div>
-
-					<div class="ms-md-auto input-group col me-lg-5">
+					<h1 class="col-md-6">Weather Dashboard</h1>
+					<div class="w-100 d-md-none d-block"></div>
+					<div class="input-group col p-1">
 						<button class="btn btn-outline-primary">
 							<i class="fa-solid fa-location-arrow"></i>
 						</button>
@@ -40,208 +42,189 @@
 							type="search"
 							placeholder=" Search City..."
 							class="form-control"
-						/><button
-							type="submit"
-							class="btn btn-outline-primary"
-							value="Search"
-						>
+						/><button type="submit" class="btn btn-outline-primary">
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
-						<button id="theme-toggle" class="btn btn-outline-primary">
-							<i class="fa-solid fa-sun"></i>
-						</button>
 					</div>
+
+					<button
+						id="theme-toggle"
+						class="btn btn-outline-primary col-2 col-sm-1"
+					>
+						<i class="fa-solid fa-sun"></i>
+					</button>
 				</div>
 			</header>
 			<div class="row">
-				<section
-					class="overview-container col-xl-4 col-lg-9 mx-auto p-lg-1 p-3"
-				>
-					<div
-						class="current-temp d-flex align-items-center justify-content-center"
-					>
-						<img
-							src="/assets/light/thunder-rainstorm.png"
-							width="130px"
-							class="pe-3"
-						/>
+				<div class="local-overview col m-lg-3 m-xl-4 mt-4">
+					<div class="mx-3 my-4">
+						<h2>Forecast in <span id="location">New York, NY</span></h2>
+						<h3 id="day">Monday, <span id="date">November 14th</span></h3>
+					</div>
+					<div class="container flex-md-row flex-column">
+						<div class="row">
+							<section class="temp-overview col-lg-5">
+								<div class="weather card">
+									<div class="card-body">
+										<div class="d-flex">
+											<h1 class="flex-grow-1">
+												45°F <span class="celcius">/ C</span>
+											</h1>
 
-						<div class="overview-weather d-flex flex-column ps-3">
-							<h2>56°F <span class="celcius">/ C</span></h2>
-							<p class="overview-desc">
-								Partly Cloudy <br />
-								<span class="rain-chance">10% Chance of Rain</span>
-							</p>
+											<h3>
+												<small>High</small> 50°F <br />
+
+												<small>Low </small> 30°F
+											</h3>
+										</div>
+										<br /><br />
+										<div class="d-flex">
+											<div class="flex-grow-1">
+												<p>
+													Mostly Sunny<br />
+													Feels like 30°F <br />
+													1% Chance of Rain
+												</p>
+											</div>
+											<div>
+												<img
+													src="assets/light/partly-sunny.png"
+													width="105px"
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+							<div class="w-100 d-lg-none d-block"></div>
+							<section
+								class="temp-details col-lg-4 col-md-5 mt-3 mt-md-2 mt-lg-0"
+							>
+								<div class="card p-1">
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item">
+											<i class="fas fa-wind fa-fw"></i
+											><strong>Dew Point </strong>30°F
+										</li>
+										<li class="list-group-item">
+											<i class="fas fa-wind fa-fw"></i
+											><strong>Visibility </strong>10mi
+										</li>
+										<li class="list-group-item">
+											<i class="fas fa-wind fa-fw"></i>
+											<strong>Wind </strong>10mph
+										</li>
+										<li class="list-group-item">
+											<i class="fas fa-wind fa-fw"></i
+											><strong>Humidity </strong>10%
+										</li>
+										<li class="list-group-item">
+											<i class="fas fa-wind fa-fw"></i
+											><strong>Precipitation </strong>10%
+										</li>
+									</ul>
+								</div>
+							</section>
+							<div class="w-100 d-md-none d-block"></div>
+							<section class="sun-time col-md mt-3 mt-md-2 mt-lg-0">
+								<div class="card">
+									<img src="/assets/day-landscape.png" class="card-img w-100" />
+									<div class="card-img-overlay">
+										<div class="d-flex">
+											<h3 class="flex-grow-1">Sunset</h3>
+
+											<h3>4:43AM</h3>
+										</div>
+										<br /><br /><br /><br /><br /><br />
+										<div class="d-flex">
+											<h3 class="flex-grow-1">Sunrise</h3>
+
+											<h3>4:43AM</h3>
+										</div>
+									</div>
+								</div>
+							</section>
 						</div>
 					</div>
-					<div class="temp-range d-flex justify-content-evenly mt-4">
-						<div class="temp-high text-center mx-3 mb-3">
-							<h3>80°F <span class="celcius">/ C</span></h3>
-							High<br />
-							<!--<i class="fa-solid fa-sun"></i> -->
-						</div>
-
-						<div class="temp-low text-center mx-3 mb-3">
-							<h3>40°F <span class="celcius">/ C</span></h3>
-							Low<br />
-							<!-- <i class="fa-solid fa-moon"></i> -->
-						</div>
-					</div>
-
-					<div class="temp-details container text-center flex-wrap mt-4">
-						<ul class="row p-0">
-							<li class="col">
-								<i class="fa-solid fa-droplet"></i>
-								<p class="align-self"><small>Humidity 10%</small></p>
-							</li>
-							<li class="col">
-								<i class="fa-solid fa-water"></i>
-								<p class="align-self"><small>Precipiation 2%</small></p>
-							</li>
-
-							<li class="col">
-								<i class="fa-solid fa-sun"></i>
-								<p class="align-self"><small>Sunrise</small></p>
-							</li>
-							<div class="w-100"></div>
-							<li class="col">
-								<i class="fa-solid fa-eye-slash"></i>
-								<p class="align-self"><small>Visibility 10 Miles</small></p>
-							</li>
-
-							<li class="col">
-								<i class="fa-solid fa-wind"></i>
-								<p class="align-self"><small>Wind 10 MPH</small></p>
-							</li>
-							<li class="col">
-								<i class="fa-solid fa-moon"></i>
-								<p class="align-self"><small>Sundown</small></p>
-							</li>
-						</ul>
-					</div>
-				</section>
-
-				<section class="full-forecast col-lg text-center pt-2">
-					<div id="forecast-toggle" class="btn-group" role="group">
-						<button class="btn btn-primary">Weekly</button>
-						<button class="btn btn-outline-primary">Hourly</button>
-					</div>
-
-					<div
-						class="weekly d-flex justify-content-center flex-column flex-md-row"
-					>
-						<div class="mon daily m-2 px-4">
+					<section class="full-forecast d-flex justify-content-md-around my-4">
+						<div class="daily m-4 m-md-0">
 							<p>MON</p>
 							<img
 								src="/assets/light/cloudy-night.png"
-								width="45px"
 								height="45px"
+								width="55px"
 							/>
-							<p class="pt-3">75°F</p>
+							<p>75°F</p>
 						</div>
-
-						<div class="tues daily m-2 px-4">
+						<div class="daily m-4 m-md-0">
 							<p>TUES</p>
 							<img
 								src="/assets/light/windy-day.png"
-								width="45px"
 								height="45px"
+								width="47px"
 							/>
-							<p class="pt-3">72°F</p>
+							<p>72°F</p>
 						</div>
-						<div class="wed daily m-2 px-4">
+						<div class="daily m-4 m-md-0">
 							<p>WED</p>
-							<img src="/assets/light/sunny-rain.png" width="45px"
-							height="45px"" />
-							<p class="pt-3">70°F</p>
+							<img
+								src="/assets/light/sunny-rain.png"
+								height="45px"
+								width="47px"
+							/>
+							<p>70°F</p>
 						</div>
-						<div class="thurs daily m-2 px-4">
+						<div class="daily m-4 m-md-0">
 							<p>THU</p>
-							<img src="/assets/light/sun.png" width="45px" height="45px" />
-							<p class="pt-3">80°F</p>
+							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<p>80°F</p>
 						</div>
-						<div class="fri daily m-2 px-4">
+						<div class="daily m-4 m-md-0">
 							<p>FRI</p>
-							<img src="/assets/light/sun.png" width="45px" height="45px" />
-							<p class="pt-3">25°F</p>
+							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<p>25°F</p>
 						</div>
-						<div class="sat daily m-2 px-4">
+						<div class="daily m-4 m-md-0">
 							<p>SAT</p>
-							<img src="/assets/light/sun.png" width="45px" height="45px" />
-							<p class="pt-3">72°F</p>
+							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<p>72°F</p>
 						</div>
-					</div>
-					<br />
-
-					<div class="city-overview d-flex justify-content-evenly mx-md-5 mx-0">
-						<div class="city-temp">
-							<strong>Shanghai</strong><br />
-							<img
-								src="/assets/light/sunny-rain.png"
-								width="55px"
-								height="55px"
-							/>
-							<p>
-								<small>
-									High 75°F<br />
-									Low 75°F<br />
-									Sunny Forecast
-								</small>
-							</p>
+						<div class="daily m-4 m-md-0">
+							<p>SUN</p>
+							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<p>72°F</p>
 						</div>
-						<div class="city-temp">
-							<strong>Paris</strong><br />
-							<img src="/assets/light/sun.png" width="55px" height="55px" />
-							<p>
-								<small>
-									High 75°F<br />
-									Low 75°F<br />
-									Sunny Forecast
-								</small>
-							</p>
-						</div>
-						<div class="city-temp">
-							<strong>Morocco</strong><br />
-							<img
-								src="/assets/light/sunny-rain.png"
-								width="55px"
-								height="55px"
-							/>
-							<p>
-								<small>
-									High 75°F<br />
-									Low 75°F<br />
-									Sunny Forecast
-								</small>
-							</p>
-						</div>
-						<div class="city-temp d-none d-md-block">
-							<strong>India</strong><br />
-							<img
-								src="/assets/light/sunny-rain.png"
-								width="55px"
-								height="55px"
-							/>
-							<p>
-								<small>
-									High 75°F<br />
-									Low 75°F<br />
-									Sunny Forecast
-								</small>
-							</p>
+					</section>
+				</div>
+				<div class="w-100 d-lg-none d-block mb-2"></div>
+				<section class="global-overview col-xl-3 ms-xl-3 mt-4">
+					<div class="p-1 mt-3">
+						<h2>Forecast Across the <strong>World</strong></h2>
+						<hr />
+						<div class="d-flex flex-column">
+							<p>Seattle<br />USA</p>
+							<img src="/assets/light/sunny-rain.png" width="40px" />
+							<p>45°F<br />Sunny Showers</p>
+							<hr />
+							<p>Paris<br />France</p>
+							<img src="/assets/light/sun.png" width="40px" />
+							<p>45°F<br />Sunny</p>
+							<hr />
 						</div>
 					</div>
 				</section>
 			</div>
+			<footer>
+				Designed & Coded by
+				<strong><a href="https://aniqa.io" target="_blank">Aniqa</a></strong>
+				<br />
+				<small>
+					<a href="https://www.shecodes.io/graduates/60229-aniqa-chowdhury"
+						>SheCodes</a
+					>
+					Plus Project</small
+				>
+			</footer>
 		</div>
-		<footer class="mt-4">
-			Designed & Coded by
-			<strong><a href="https://aniqa.io" target="_blank">Aniqa</a></strong>
-			<br />
-			<a href="https://www.shecodes.io/graduates/60229-aniqa-chowdhury"
-				>SheCodes</a
-			>
-			Plus Project
-		</footer>
 	</body>
 </html>
