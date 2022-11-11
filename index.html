@@ -328,14 +328,8 @@
 		<script>
 			function changeTheme() {
 				document
-					.querySelector('.global-overview')
-					.classList.toggle('dark-container');
-				document
-					.querySelector('.local-overview')
-					.classList.toggle('dark-container');
-				document
-					.querySelector('.search-btn')
-					.classList.toggle('dark-container');
+					.querySelectorAll('.local-overview, .global-overview, .search-btn')
+					.forEach((el) => el.classList.toggle('dark-container'));
 				document
 					.querySelectorAll('.daily')
 					.forEach((el) => el.classList.toggle('dark-hover'));
@@ -348,7 +342,6 @@
 				document
 					.querySelectorAll('.sun-time')
 					.forEach((el) => el.classList.toggle('dark-icon'));
-
 				document
 					.querySelectorAll('.list-group-item, footer')
 					.forEach((el) => el.classList.toggle('list-icon'));
