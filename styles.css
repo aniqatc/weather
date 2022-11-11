@@ -36,6 +36,55 @@ small {
 	font-size: 14px;
 }
 
+footer i {
+	font-size: 14px;
+	color: rgba(43, 47, 127, 0.8);
+}
+
+p {
+	margin: 5px 10px;
+}
+
+a {
+	text-decoration: none;
+	color: #0a95c0;
+	transition: all 150ms ease-in;
+}
+
+a:hover {
+	text-decoration: underline;
+	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
+	border-radius: 10px;
+	padding: 1px 4px;
+}
+
+button i {
+	color: #0a95c0;
+	text-shadow: 1px 1px 8px rgba(145, 145, 145, 0.15);
+}
+
+.input-group input {
+	font-size: 16px;
+	border-color: #0a95c0;
+}
+
+.input-group button {
+	background-color: #f0f7f8;
+	border-color: #0a95c0;
+	border-radius: 30px;
+	padding: 5px 14px;
+}
+
+.input-group button:hover {
+	background-color: #0a95c0;
+	border-color: #0a95c0;
+}
+
+.input-group button:hover i {
+	color: white;
+	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
 .celcius {
 	font-size: 14px;
 	vertical-align: super;
@@ -43,8 +92,8 @@ small {
 
 .local-overview,
 .global-overview {
-	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.25),
-		-2px -2px 6px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15),
+		-2px -2px 6px 1px rgba(0, 0, 0, 0.15);
 	border-radius: 20px;
 	background: #fcfcfc;
 }
@@ -54,6 +103,11 @@ small {
 	text-align: center;
 	background: rgba(149, 205, 236, 0.22);
 	padding: 8px 18px;
+}
+
+.daily,
+.card,
+.form-check-input {
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -64,7 +118,6 @@ small {
 .card {
 	min-height: 230px;
 	margin-top: 10px;
-	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .current-weather {
@@ -105,38 +158,41 @@ small {
 	font-size: 16px;
 }
 
-p {
-	margin: 5px 10px;
+.daily:hover {
+	background: linear-gradient(rgba(198, 241, 217, 0.4), #9acedd);
+	transform: scale(1.1);
+}
+
+.daily:hover .weather-icon {
+	transform: scale(1.1);
+	filter: drop-shadow(-2px 3px 16px rgba(53, 56, 108, 0.4));
 }
 
 .full-forecast {
 	overflow-x: scroll;
 	padding-bottom: 10px;
 	width: 100%;
-}
-
-footer {
-	text-align: center;
-}
-
-footer i {
-	font-size: 14px;
-	color: rgba(43, 47, 127, 0.8);
+	overflow-x: visible;
 }
 
 .weather-icon {
 	filter: drop-shadow(-2px 3px 16px rgba(43, 47, 127, 0.18)) contrast(0.9);
 }
 
-a {
-	text-decoration: none;
-	color: #0a95c0;
-	transition: all 150ms ease-in;
+#flexSwitchCheckChecked {
+	padding: 15px 24px;
 }
 
-a:hover {
-	text-decoration: underline;
-	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
-	border-radius: 10px;
-	padding: 1px 4px;
+.form-switch .form-check-input {
+	margin-left: 0;
+}
+
+.form-check-input:checked {
+	background-color: #0a95c0;
+	border-color: #0a95c0;
+}
+
+.form-check-input {
+	background-color: #f0f7f8;
+	border-color: #0a95c0;
 }

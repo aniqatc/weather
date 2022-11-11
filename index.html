@@ -31,7 +31,7 @@
 	<body>
 		<div class="container">
 			<header class="container text-md-start my-2 mt-3">
-				<div class="row">
+				<div class="row align-items-center">
 					<h1 class="col-md-6">Weather Dashboard</h1>
 					<div class="w-100 d-md-none d-block"></div>
 					<div class="input-group col p-1">
@@ -42,12 +42,20 @@
 							type="search"
 							placeholder=" Search City..."
 							class="form-control"
-						/><button type="submit" class="btn btn-outline-primary">
+						/><button type="submit" class="btn btn-outline-primary me-2">
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
 					</div>
-					<div class="form-check form-switch col-1">
-						<input class="form-check-input" type="checkbox" checked />
+					<div
+						class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1"
+					>
+						<input
+							class="form-check-input"
+							type="checkbox"
+							id="flexSwitchCheckChecked"
+							role="switch"
+							checked
+						/>
 					</div>
 				</div>
 			</header>
@@ -147,7 +155,7 @@
 							</section>
 						</div>
 					</div>
-					<section class="full-forecast d-flex justify-content-md-around my-3">
+					<section class="full-forecast d-flex justify-content-md-around my-4">
 						<div class="daily m-2 m-md-0">
 							<p>MON</p>
 							<img
@@ -238,7 +246,7 @@
 					</div>
 				</section>
 			</div>
-			<footer>
+			<footer class="text-center my-3">
 				<i class="fa-solid fa-code"></i>
 				Designed & Coded by
 				<strong><a href="https://aniqa.io" target="_blank">Aniqa</a> </strong>
