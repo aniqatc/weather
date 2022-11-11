@@ -3,8 +3,11 @@ function changeTheme() {
 		.querySelectorAll('.local-overview, .global-overview, .search-btn')
 		.forEach((el) => el.classList.toggle('dark-container'));
 	document
-		.querySelectorAll('.daily')
+		.querySelectorAll('.daily, button')
 		.forEach((el) => el.classList.toggle('dark-hover'));
+	document
+		.querySelectorAll('.input-group')
+		.forEach((el) => el.classList.toggle('dark-btn'));
 	document
 		.querySelectorAll('.global-item')
 		.forEach((el) => el.classList.toggle('light-hover'));

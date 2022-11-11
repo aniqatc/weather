@@ -120,7 +120,7 @@ button i {
 }
 
 .form-check-input {
-	background-color: #f0f7f8;
+	background-color: #e8e8e8;
 	border-color: #0a95c0;
 }
 
@@ -253,6 +253,16 @@ button i {
 .dark-icon i {
 	color: rgb(225, 255, 239);
 	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.dark-btn button {
+	background: #2e3540;
+	border: 1px solid #545555;
+}
+
+.dark-btn i {
+	color: #f6f7fa;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .dark-hover:hover {
