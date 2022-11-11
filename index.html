@@ -22,7 +22,7 @@
 			rel="stylesheet"
 		/>
 		<link
-			href="https://cdn-icons-png.flaticon.com/512/1146/1146856.png"
+			href="/assets/light/thunder-rainstorm.png"
 			type="image/x-icon"
 			rel="icon"
 		/>
@@ -233,9 +233,7 @@
 				<div class="w-100 d-lg-none d-block mb-2"></div>
 				<section class="global-overview mx-md-4 col-xl-3 mt-4">
 					<div class="p-1 mt-3">
-						<h2 class="mx-3 mb-2">
-							Forecast Across the <strong>World</strong>
-						</h2>
+						<h2 class="mx-3 mb-2">Forecast In Other <strong>Cities</strong></h2>
 						<hr />
 						<div class="d-flex flex-column">
 							<div class="container global-item">
@@ -340,11 +338,8 @@
 					.querySelectorAll('.card, .list-group-item, body')
 					.forEach((el) => el.classList.toggle('dark'));
 				document
-					.querySelectorAll('.sun-time')
+					.querySelectorAll('.list-group-item, footer, .sun-time')
 					.forEach((el) => el.classList.toggle('dark-icon'));
-				document
-					.querySelectorAll('.list-group-item, footer')
-					.forEach((el) => el.classList.toggle('list-icon'));
 			}
 
 			let themeToggle = document.querySelector('#flexSwitchCheckChecked');
