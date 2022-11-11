@@ -63,9 +63,14 @@ button i {
 	text-shadow: 1px 1px 8px rgba(145, 145, 145, 0.15);
 }
 
+.global-icon {
+	object-fit: contain;
+}
+
 .input-group input {
 	font-size: 16px;
 	border-color: #0a95c0;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .input-group button {
@@ -73,6 +78,7 @@ button i {
 	border-color: #0a95c0;
 	border-radius: 30px;
 	padding: 5px 14px;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .input-group button:hover {
@@ -159,7 +165,10 @@ button i {
 }
 
 .daily:hover {
-	background: linear-gradient(rgba(198, 241, 217, 0.4), #9acedd);
+	background: linear-gradient(
+		rgba(198, 241, 217, 0.4),
+		rgba(198, 241, 217, 0.973)
+	);
 	transform: scale(1.1);
 }
 
@@ -170,9 +179,9 @@ button i {
 
 .full-forecast {
 	overflow-x: scroll;
-	padding-bottom: 10px;
+	padding: 10px;
 	width: 100%;
-	overflow-x: visible;
+	overflow-y: visible;
 }
 
 .weather-icon {
@@ -195,4 +204,9 @@ button i {
 .form-check-input {
 	background-color: #f0f7f8;
 	border-color: #0a95c0;
+}
+
+.sun-time i {
+	font-size: 17px;
+	color: #00526beb;
 }
