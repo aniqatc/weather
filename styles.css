@@ -210,3 +210,16 @@ button i {
 	font-size: 17px;
 	color: #00526beb;
 }
+
+.global-item:hover {
+	background: #e7edfa;
+	border-radius: 4px;
+}
+
+.global-item {
+	padding: 12px 4px;
+}
+
+hr {
+	margin: 0;
+}
