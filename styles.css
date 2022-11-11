@@ -62,30 +62,34 @@ small {
 }
 
 .card {
-	min-height: 240px;
+	min-height: 230px;
 	margin-top: 10px;
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.weather {
+.current-weather {
 	background: #bfedfb;
 	border-radius: 10px;
 }
 
+.current-weather h1 {
+	font-size: 40px;
+}
+
 .card-img {
-	height: 240px;
+	height: 230px;
 	object-fit: cover;
 	opacity: 0.5;
 }
 
 .temp-details i {
-	font-size: 14px;
-	color: rgb(0, 82, 37);
-	padding-right: 10px;
+	font-size: 13px;
+	color: rgba(0, 82, 37, 0.798);
+	padding-left: 10px;
 }
 
 .card li {
-	font-size: 19px;
+	font-size: 18px;
 	background: rgba(198, 241, 217, 0.4);
 }
 
@@ -113,4 +117,26 @@ p {
 
 footer {
 	text-align: center;
+}
+
+footer i {
+	font-size: 14px;
+	color: rgba(43, 47, 127, 0.8);
+}
+
+.weather-icon {
+	filter: drop-shadow(-2px 3px 16px rgba(43, 47, 127, 0.18)) contrast(0.9);
+}
+
+a {
+	text-decoration: none;
+	color: #0a95c0;
+	transition: all 150ms ease-in;
+}
+
+a:hover {
+	text-decoration: underline;
+	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
+	border-radius: 10px;
+	padding: 1px 4px;
 }

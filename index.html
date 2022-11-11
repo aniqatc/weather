@@ -46,17 +46,13 @@
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
 					</div>
-
-					<button
-						id="theme-toggle"
-						class="btn btn-outline-primary col-2 col-sm-1"
-					>
-						<i class="fa-solid fa-sun"></i>
-					</button>
+					<div class="form-check form-switch col-1">
+						<input class="form-check-input" type="checkbox" checked />
+					</div>
 				</div>
 			</header>
 			<div class="row">
-				<div class="local-overview col m-lg-3 m-xl-4 mt-4">
+				<div class="local-overview col m-lg-2 m-xl-4 mt-4">
 					<div class="mx-3 my-4">
 						<h2>Forecast in <span id="location">New York, NY</span></h2>
 						<h3 id="day">Monday, <span id="date">November 14th</span></h3>
@@ -64,14 +60,14 @@
 					<div class="container flex-md-row flex-column">
 						<div class="row">
 							<section class="temp-overview col-lg-5">
-								<div class="weather card">
+								<div class="current-weather card">
 									<div class="card-body">
 										<div class="d-flex">
 											<h1 class="flex-grow-1">
 												45°F <span class="celcius">/ C</span>
 											</h1>
 
-											<h3>
+											<h3 class="text-end pt-2">
 												<small>High</small> 50°F <br />
 
 												<small>Low </small> 30°F
@@ -83,13 +79,17 @@
 												<p>
 													Mostly Sunny<br />
 													Feels like 30°F <br />
-													1% Chance of Rain
+													<small
+														><i class="fa-solid fa-umbrella"></i> 1% Chance of
+														Rain</small
+													>
 												</p>
 											</div>
 											<div>
 												<img
 													src="assets/light/partly-sunny.png"
-													width="105px"
+													width="100px"
+													class="weather-icon"
 												/>
 											</div>
 										</div>
@@ -102,25 +102,25 @@
 							>
 								<div class="card p-1">
 									<ul class="list-group list-group-flush">
-										<li class="list-group-item">
-											<i class="fas fa-wind fa-fw"></i
-											><strong>Dew Point </strong>30°F
+										<li class="list-group-item d-flex">
+											<strong class="flex-grow-1">Dew Point </strong>
+											30°F <i class="fa-solid fa-droplet align-self-center"></i>
 										</li>
-										<li class="list-group-item">
-											<i class="fas fa-wind fa-fw"></i
-											><strong>Visibility </strong>10mi
+										<li class="list-group-item d-flex">
+											<strong class="flex-grow-1">Visibility </strong> 10mi
+											<i class="fa-solid fa-eye-slash align-self-center"></i>
 										</li>
-										<li class="list-group-item">
-											<i class="fas fa-wind fa-fw"></i>
-											<strong>Wind </strong>10mph
+										<li class="list-group-item d-flex">
+											<strong class="flex-grow-1">Wind </strong>10mph
+											<i class="fas fa-wind fa-fw align-self-center"></i>
 										</li>
-										<li class="list-group-item">
-											<i class="fas fa-wind fa-fw"></i
-											><strong>Humidity </strong>10%
+										<li class="list-group-item d-flex">
+											<strong class="flex-grow-1">Humidity </strong>10%
+											<i class="fa-solid fa-water align-self-center"></i>
 										</li>
-										<li class="list-group-item">
-											<i class="fas fa-wind fa-fw"></i
-											><strong>Precipitation </strong>10%
+										<li class="list-group-item d-flex">
+											<strong class="flex-grow-1">Precipitation </strong>10%
+											<i class="fa-solid fa-cloud-rain align-self-center"></i>
 										</li>
 									</ul>
 								</div>
@@ -130,68 +130,91 @@
 								<div class="card">
 									<img src="/assets/day-landscape.png" class="card-img w-100" />
 									<div class="card-img-overlay">
-										<div class="d-flex">
+										<div class="d-flex flex-wrap mb-5 mt-3">
 											<h3 class="flex-grow-1">Sunset</h3>
 
-											<h3>4:43AM</h3>
+											<h2>4:43AM</h2>
 										</div>
-										<br /><br /><br /><br /><br /><br />
-										<div class="d-flex">
+
+										<div class="d-flex flex-wrap-reverse">
 											<h3 class="flex-grow-1">Sunrise</h3>
 
-											<h3>4:43AM</h3>
+											<h2>4:43AM</h2>
 										</div>
 									</div>
 								</div>
 							</section>
 						</div>
 					</div>
-					<section class="full-forecast d-flex justify-content-md-around my-4">
-						<div class="daily m-4 m-md-0">
+					<section class="full-forecast d-flex justify-content-md-around my-3">
+						<div class="daily m-2 m-md-0">
 							<p>MON</p>
 							<img
 								src="/assets/light/cloudy-night.png"
+								class="weather-icon"
 								height="45px"
 								width="55px"
 							/>
 							<p>75°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>TUES</p>
 							<img
 								src="/assets/light/windy-day.png"
+								class="weather-icon"
 								height="45px"
 								width="47px"
 							/>
 							<p>72°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>WED</p>
 							<img
 								src="/assets/light/sunny-rain.png"
+								class="weather-icon"
 								height="45px"
 								width="47px"
 							/>
 							<p>70°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>THU</p>
-							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<img
+								src="/assets/light/sun.png"
+								class="weather-icon"
+								height="45px"
+								width="47px"
+							/>
 							<p>80°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>FRI</p>
-							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<img
+								src="/assets/light/sun.png"
+								class="weather-icon"
+								height="45px"
+								width="47px"
+							/>
 							<p>25°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>SAT</p>
-							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<img
+								src="/assets/light/sun.png"
+								class="weather-icon"
+								height="45px"
+								width="47px"
+							/>
 							<p>72°F</p>
 						</div>
-						<div class="daily m-4 m-md-0">
+						<div class="daily m-2 m-md-0">
 							<p>SUN</p>
-							<img src="/assets/light/sun.png" height="45px" width="47px" />
+							<img
+								src="/assets/light/sun.png"
+								class="weather-icon"
+								height="45px"
+								width="47px"
+							/>
 							<p>72°F</p>
 						</div>
 					</section>
@@ -215,8 +238,9 @@
 				</section>
 			</div>
 			<footer>
+				<i class="fa-solid fa-code"></i>
 				Designed & Coded by
-				<strong><a href="https://aniqa.io" target="_blank">Aniqa</a></strong>
+				<strong><a href="https://aniqa.io" target="_blank">Aniqa</a> </strong>
 				<br />
 				<small>
 					<a href="https://www.shecodes.io/graduates/60229-aniqa-chowdhury"
