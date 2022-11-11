@@ -225,3 +225,34 @@ hr {
 }
 
 /* DARK STYLES */
+
+.dark {
+	background: #242230;
+	color: #f6f7fa;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.dark-container {
+	background: #2e3540;
+}
+
+.dark-hover:hover {
+	background: linear-gradient(
+		343deg,
+		rgba(36, 34, 48, 1) 0%,
+		rgba(39, 50, 88, 0.781524926686217) 100%
+	);
+}
+
+.light-hover:hover {
+	background: rgba(149, 205, 236, 0.22);
+}
+
+.dark-icon i {
+	color: #f6f7fa;
+}
+
+.list-icon i {
+	color: rgb(225, 255, 239);
+	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+}
