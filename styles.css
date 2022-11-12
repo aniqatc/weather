@@ -52,7 +52,7 @@ a:hover {
 	text-decoration: underline;
 	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
 	border-radius: 10px;
-	padding: 1px 4px;
+	padding: 2px 4px;
 }
 
 hr {
@@ -64,9 +64,15 @@ footer i {
 	color: rgba(43, 47, 127, 0.8);
 }
 
-.celcius {
+#celsius {
 	font-size: 14px;
 	vertical-align: super;
+}
+
+#celsius a:hover {
+	background: none;
+	padding: 0;
+	font-size: 16px;
 }
 
 #location {
