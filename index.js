@@ -74,7 +74,7 @@ function searchCity(event) {
 let searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
 
-// Change Temperature Type
+// Change Temperature Type & Formula to Toggle Between C & F Values
 let currentTemp = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
 let celsius = document.querySelector(".celsius");
@@ -84,11 +84,15 @@ function toggleTemp(event) {
 	if (celsius.textContent === "C") {
 		celsius.textContent = "F";
 		fahrenheit.forEach((el) => (el.textContent = "C"));
-		currentTemp.forEach((el) => (el.textContent = "11"));
+		currentTemp.forEach((el) =>
+			Number((el.textContent = Math.round(((el.textContent - 32) * 5) / 9)))
+		);
 	} else {
 		celsius.textContent = "C";
 		fahrenheit.forEach((el) => (el.textContent = "F"));
-		currentTemp.forEach((el) => (el.textContent = "38"));
+		currentTemp.forEach((el) =>
+			Number((el.textContent = Math.round((el.textContent * 9) / 5 + 32)))
+		);
 	}
 }
 
