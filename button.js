@@ -3,7 +3,7 @@ function changeTheme() {
 		.querySelectorAll(".local-overview, .global-overview, .search-btn")
 		.forEach((el) => el.classList.toggle("dark-container"));
 	document
-		.querySelectorAll(".daily, button")
+		.querySelectorAll(".daily")
 		.forEach((el) => el.classList.toggle("dark-hover"));
 	document
 		.querySelectorAll(".input-group")

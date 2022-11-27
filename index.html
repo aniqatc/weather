@@ -34,21 +34,24 @@
 				<div class="row align-items-center">
 					<h1 class="col-md-6">Weather Dashboard</h1>
 					<div class="w-100 d-md-none d-block"></div>
-					<div class="input-group col p-1">
-						<button class="btn btn-outline-primary search-btn">
+
+					<form class="input-group col p-1 search-form">
+						<button class="btn btn-outline-primary">
 							<i class="fa-solid fa-location-arrow"></i>
 						</button>
 						<input
 							type="search"
-							placeholder=" Search City..."
+							placeholder="Search City..."
 							class="form-control"
+							id="search-input"
 						/><button
 							type="submit"
 							class="btn btn-outline-primary me-2 search-btn"
 						>
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
-					</div>
+					</form>
+
 					<div
 						class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1"
 					>
@@ -57,7 +60,6 @@
 							type="checkbox"
 							id="flexSwitchCheckChecked"
 							role="switch"
-							checked
 						/>
 					</div>
 				</div>
@@ -66,7 +68,7 @@
 				<div class="local-overview col ms-lg-4 mt-4">
 					<div class="mx-3 my-4">
 						<h2>Forecast in <span id="location">New York, NY</span></h2>
-						<h3 id="day">Monday, <span id="date">November 14th</span></h3>
+						<h3 id="today">Monday, November 14th at 3:13 AM</h3>
 					</div>
 					<div class="container flex-md-row flex-column">
 						<div class="row">
@@ -75,14 +77,25 @@
 									<div class="card-body">
 										<div class="d-flex">
 											<h1 class="flex-grow-1">
-												45°<span id="fahrenheit">F </span>
-												<span id="celsius">/ <a href="#">C</a></span>
+												<span id="temp-now">45</span>°<span class="fahrenheit"
+													>F
+												</span>
+												<span class="toggle-temps"
+													>/ <a href="#" class="celsius">C</a></span
+												>
 											</h1>
 
 											<h3 class="text-end pt-2">
-												<small>High</small> 50°F <br />
+												<small>High</small> <span class="temps">50</span>°<span
+													class="fahrenheit"
+													>F</span
+												>
+												<br />
 
-												<small>Low </small> 30°F
+												<small>Low </small> <span class="temps">30</span>°<span
+													class="fahrenheit"
+													>F</span
+												>
 											</h3>
 										</div>
 										<br /><br />
@@ -90,7 +103,11 @@
 											<div class="flex-grow-1">
 												<p>
 													Mostly Sunny<br />
-													Feels like 30°F <br />
+													Feels like <span class="temps">33</span>°<span
+														class="fahrenheit"
+														>F</span
+													>
+													<br />
 													<small
 														><i class="fa-solid fa-umbrella"></i> 1% Chance of
 														Rain</small
@@ -116,7 +133,9 @@
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item d-flex">
 											<strong class="flex-grow-1">Dew Point </strong>
-											30°F
+											<span class="temps">24</span>°<span class="fahrenheit"
+												>F
+											</span>
 											<i class="fa-solid fa-droplet align-self-center"></i>
 										</li>
 										<li class="list-group-item d-flex">
@@ -167,7 +186,9 @@
 								height="45px"
 								width="55px"
 							/>
-							<p>75°F</p>
+							<p>
+								<span class="temps">54</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>TUES</p>
@@ -177,7 +198,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>72°F</p>
+							<p>
+								<span class="temps">42</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>WED</p>
@@ -187,7 +210,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>70°F</p>
+							<p>
+								<span class="temps">66</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>THU</p>
@@ -197,7 +222,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>80°F</p>
+							<p>
+								<span class="temps">35</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>FRI</p>
@@ -207,7 +234,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>25°F</p>
+							<p>
+								<span class="temps">57</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>SAT</p>
@@ -217,7 +246,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>72°F</p>
+							<p>
+								<span class="temps">50</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 						<div class="daily m-2 m-md-0">
 							<p>SUN</p>
@@ -227,7 +258,9 @@
 								height="45px"
 								width="47px"
 							/>
-							<p>72°F</p>
+							<p>
+								<span class="temps">54</span>°<span class="fahrenheit">F </span>
+							</p>
 						</div>
 					</section>
 				</div>
@@ -248,7 +281,11 @@
 										class="col-3 weather-icon global-icon"
 									/>
 									<p class="text-end col">
-										<strong>45°F</strong><br /><small>Sunny Showers</small>
+										<strong
+											><span class="temps">30</span>°<span class="fahrenheit"
+												>F
+											</span></strong
+										><br /><small>Sunny Showers</small>
 									</p>
 								</div>
 							</div>
@@ -262,7 +299,11 @@
 										class="col-3 weather-icon global-icon"
 									/>
 									<p class="text-end col">
-										<strong>45°F</strong><br /><small>Partly Sunny</small>
+										<strong
+											><span class="temps">50</span>°<span class="fahrenheit"
+												>F
+											</span></strong
+										><br /><small>Partly Sunny</small>
 									</p>
 								</div>
 							</div>
@@ -276,7 +317,11 @@
 										class="col-3 weather-icon global-icon"
 									/>
 									<p class="text-end col">
-										<strong>45°F</strong><br /><small>Thunder Storm</small>
+										<strong
+											><span class="temps">50</span>°<span class="fahrenheit"
+												>F
+											</span></strong
+										><br /><small>Thunder Storm</small>
 									</p>
 								</div>
 							</div>
@@ -290,7 +335,11 @@
 										class="col-3 weather-icon global-icon"
 									/>
 									<p class="text-end col">
-										<strong>45°F</strong><br /><small>Bright & Sunny</small>
+										<strong
+											><span class="temps">50</span>°<span class="fahrenheit"
+												>F
+											</span></strong
+										><br /><small>Bright & Sunny</small>
 									</p>
 								</div>
 							</div>
@@ -304,7 +353,11 @@
 										class="col-3 weather-icon global-icon"
 									/>
 									<p class="text-end col">
-										<strong>45°F</strong><br /><small>Cloudy Night</small>
+										<strong
+											><span class="temps">50</span>°<span class="fahrenheit"
+												>F
+											</span></strong
+										><br /><small>Cloudy Night</small>
 									</p>
 								</div>
 							</div>

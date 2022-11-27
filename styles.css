@@ -64,19 +64,22 @@ footer i {
 	color: rgba(43, 47, 127, 0.8);
 }
 
-#celsius {
+.toggle-temps {
 	font-size: 14px;
 	vertical-align: super;
 }
 
-#celsius a:hover {
-	background: none;
-	padding: 0;
+.toggle-temps a:hover {
 	font-size: 16px;
+}
+
+.celsius {
+	padding-left: 3px;
 }
 
 #location {
 	font-weight: bold;
+	text-transform: capitalize;
 }
 
 /* SEARCH BAR */
@@ -126,7 +129,7 @@ button i {
 }
 
 .form-check-input {
-	background-color: #e8e8e8;
+	background-color: #f0f7f8;
 	border-color: #0a95c0;
 }
 
@@ -217,10 +220,7 @@ button i {
 }
 
 .daily:hover {
-	background: linear-gradient(
-		rgba(198, 241, 217, 0.4),
-		rgba(198, 241, 217, 0.973)
-	);
+	background: rgba(73, 177, 234, 0.33);
 	transform: scale(1.1);
 }
 
