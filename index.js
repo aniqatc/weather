@@ -46,18 +46,18 @@ function renderTimeMarker(time) {
 }
 
 // Add Zero to Single Digit Minutes
-function addZero(minute) {
-	if (minute < 10) {
-		minute = `0${minute}`;
+function addZero(time) {
+	if (time < 10) {
+		time = `0${time}`;
 	}
-	return minute;
+	return time;
 }
 
 // Update Time in HTML Markup
 let todaysDate = document.querySelector("#today");
-todaysDate.textContent = `${day}, ${month} ${date} at ${hour}:${addZero(
-	minute
-)}${renderTimeMarker(hour)}`;
+todaysDate.textContent = `${day}, ${month} ${date} at ${addZero(
+	hour
+)}:${addZero(minute)}${renderTimeMarker(hour)}`;
 
 // Search Functionality
 function searchCity(event) {
