@@ -56,7 +56,6 @@
 				<div class="row align-items-center">
 					<h1 class="col-md-6">Weather Dashboard</h1>
 					<div class="w-100 d-md-none d-block"></div>
-
 					<form class="input-group col p-1 search-form">
 						<button class="btn btn-outline-primary">
 							<i class="fa-solid fa-location-arrow"></i>
@@ -66,6 +65,8 @@
 							placeholder="Search City..."
 							class="form-control"
 							id="search-input"
+							autocapitalize="on"
+							autocomplete="address-level2"
 						/><button
 							type="submit"
 							class="btn btn-outline-primary me-2 search-btn"
@@ -73,7 +74,6 @@
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
 					</form>
-
 					<div
 						class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1"
 					>
