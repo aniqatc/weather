@@ -35,15 +35,11 @@ let date = today.getDate();
 let hour = today.getHours();
 let minute = today.getMinutes();
 
+// Change Hours to 12-Hour Format
+hour = hour > 12 ? hour - 12 : hour;
+
 // Render AM or PM Marker
-function renderTimeMarker(time) {
-	if (time < 12) {
-		time = "AM";
-	} else {
-		time = "PM";
-	}
-	return time;
-}
+let timeMarker = today.getHours() > 12 ? "PM" : "AM";
 
 // Add Zero to Single Digit Minutes
 function addZero(time) {
@@ -55,9 +51,10 @@ function addZero(time) {
 
 // Update Time in HTML Markup
 let todaysDate = document.querySelector("#today");
-todaysDate.textContent = `${day}, ${month} ${date} at ${addZero(
-	hour
-)}:${addZero(minute)}${renderTimeMarker(hour)}`;
+let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
+	minute
+)}${timeMarker}`;
+todaysDate.textContent = `${dateStatement}`;
 
 // Search Functionality
 function searchCity(event) {
