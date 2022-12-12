@@ -56,6 +56,14 @@ let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
 )} ${timeMarker}`;
 todaysDate.textContent = `${dateStatement}`;
 
+// Change Landscape Image Based on Time
+let scenery = document.querySelector("#scenery");
+if (today.getHours() >= 12) {
+	scenery.src = "/assets/day-landscape.png";
+} else {
+	scenery.src = "/assets/night-landscape.png";
+}
+
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -95,7 +103,10 @@ geolocationButton.addEventListener("click", function () {
 function getLocation(position) {
 	let lon = position.coords.longitude;
 	let lat = position.coords.latitude;
-	console.log(lat, lon);
+
+	axios
+		.get(`${apiWeather}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
+		.then(displayCurrentTemperature);
 	axios
 		.get(`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}`)
 		.then((response) => {
