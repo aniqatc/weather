@@ -237,6 +237,7 @@ button i {
 .global-item:hover {
 	background: #e7edfa;
 	border-radius: 4px;
+	cursor: pointer;
 }
 
 .global-item {

@@ -181,6 +181,19 @@ function displayGlobalTemperature() {
 
 displayGlobalTemperature();
 
+// Click on "Other Cities" To Display Weather For That Region
+let globalContainers = document.querySelectorAll(".global-item");
+
+for (let i = 0; i < city.length; i++) {
+	globalContainers[i].addEventListener("click", () => {
+		for (let a = 0; a < city.length; a++) {
+			axios
+				.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
+				.then(displayCurrentTemperature);
+		}
+	});
+}
+
 // Display NYC Temperature (Default)
 function displayDefaultTemperature() {
 	axios
