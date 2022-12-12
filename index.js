@@ -56,14 +56,6 @@ let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
 )} ${timeMarker}`;
 todaysDate.textContent = `${dateStatement}`;
 
-// Change Landscape Image Based on Time
-let scenery = document.querySelector("#scenery");
-if (today.getHours() >= 12) {
-	scenery.src = "/assets/day-landscape.png";
-} else {
-	scenery.src = "/assets/night-landscape.png";
-}
-
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -122,9 +114,9 @@ function searchCity(event) {
 	if (searchInput) {
 		axios
 			.get(`${apiWeather}?q=${searchInput}&appid=${apiKey}&units=${units}`)
-			.then(displayCurrentTemperature);
-	} else {
-		alert(`Please provide a city name.`);
+			.then(displayCurrentTemperature, function () {
+				alert("Please enter a valid city!");
+			});
 	}
 }
 
@@ -139,6 +131,7 @@ let feelsLikeTemp = document.querySelector("#feels-like");
 let descriptionTemp = document.querySelector("#description-temp");
 let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
+let scenery = document.querySelector("#scenery");
 
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
@@ -160,8 +153,13 @@ function displayCurrentTemperature(response) {
 		);
 		sunrise.innerHTML = `${apiSunsrise}`;
 		sunset.innerHTML = `${apiSunset}`;
-	} else {
-		alert(`Please enter a valid city name.`);
+
+		// Change Landscape Image Based on Sunset / Sunrise
+		if (Date.now() >= dataTemp.sys.sunset) {
+			scenery.src = "/assets/day-landscape.png";
+		} else {
+			scenery.src = "/assets/night-landscape.png";
+		}
 	}
 }
 
