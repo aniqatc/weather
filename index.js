@@ -39,7 +39,7 @@ let minute = today.getMinutes();
 hour = hour > 12 ? hour - 12 : hour;
 
 // Render AM or PM Marker
-let timeMarker = today.getHours() > 12 ? "PM" : "AM";
+let timeMarker = today.getHours() >= 12 ? "PM" : "AM";
 
 // Add Zero to Single Digit Minutes
 function addZero(time) {
@@ -53,7 +53,7 @@ function addZero(time) {
 let todaysDate = document.querySelector("#today");
 let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
 	minute
-)}${timeMarker}`;
+)} ${timeMarker}`;
 todaysDate.textContent = `${dateStatement}`;
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
@@ -81,9 +81,11 @@ function toggleTemp(event) {
 celsius.addEventListener("click", toggleTemp);
 
 // Current Location via Geolocation
-let apiKey = "c547e666ba264994fad007fc08810597";
-let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
+let apiKey = "d1a86552de255334f6117b348c4519bd";
+let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
+let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
 let units = "imperial";
+let locationHeading = document.querySelector("#location");
 
 let geolocationButton = document.querySelector("#geolocation-btn");
 geolocationButton.addEventListener("click", function () {
@@ -92,23 +94,24 @@ geolocationButton.addEventListener("click", function () {
 
 function getLocation(position) {
 	let lon = position.coords.longitude;
-	let lat = position.coords.longitude;
-
+	let lat = position.coords.latitude;
+	console.log(lat, lon);
 	axios
-		.get(`${apiUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
-		.then(displayCurrentTemperature);
+		.get(`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}`)
+		.then((response) => {
+			console.log(response);
+			locationHeading.textContent = `${response.data[0].name}, ${response.data[0].country}`;
+		});
 }
 
 // Search Functionality
 function searchCity(event) {
 	event.preventDefault();
 	let searchInput = document.querySelector("#search-input").value;
-	let locationHeading = document.querySelector("#location");
 	if (searchInput) {
 		axios
-			.get(`${apiUrl}?q=${searchInput}&appid=${apiKey}&units=${units}`)
+			.get(`${apiWeather}?q=${searchInput}&appid=${apiKey}&units=${units}`)
 			.then(displayCurrentTemperature);
-		locationHeading.textContent = `${searchInput}`;
 	} else {
 		alert(`Please provide a city name.`);
 	}
@@ -128,18 +131,21 @@ let sunset = document.querySelector("#sunset-time");
 
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
-		let dataTemp = response.data;
 		console.log(response);
+		let dataTemp = response.data;
+		locationHeading.textContent = `${dataTemp.name}, ${dataTemp.sys.country}`;
 		currentTemp.innerHTML = `${Math.round(dataTemp.main.temp)}`;
 		highTemp.innerHTML = `${Math.round(dataTemp.main.temp_max)}`;
 		lowTemp.innerHTML = `${Math.round(dataTemp.main.temp_min)}`;
 		feelsLikeTemp.innerHTML = `${Math.round(dataTemp.main.feels_like)}`;
 		descriptionTemp.innerHTML = `${dataTemp.weather[0].description}`;
 		let apiSunsrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
-			"en-US"
+			[],
+			{ hour: "2-digit", minute: "2-digit", hour12: true }
 		);
 		let apiSunset = new Date(dataTemp.sys.sunset * 1000).toLocaleTimeString(
-			"en-US"
+			[],
+			{ hour: "2-digit", minute: "2-digit", hour12: true }
 		);
 		sunrise.innerHTML = `${apiSunsrise}`;
 		sunset.innerHTML = `${apiSunset}`;
@@ -156,7 +162,7 @@ let city = ["Seattle", "Rabat", "England", "Paris", "Delhi"];
 function displayGlobalTemperature() {
 	for (let i = 0; i < city.length; i++) {
 		axios
-			.get(`${apiUrl}?q=${city[i]}&appid=${apiKey}&units=${units}`)
+			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
 			.then(function (response) {
 				globalTemps[i].innerHTML = Math.round(response.data.main.temp);
 				globalDesc[i].innerHTML = `${response.data.weather[0].description}`;
@@ -169,7 +175,7 @@ displayGlobalTemperature();
 // Display NYC Temperature (Default)
 function displayDefaultTemperature() {
 	axios
-		.get(`${apiUrl}?q=New York&appid=${apiKey}&units=${units}`)
+		.get(`${apiWeather}?q=New York&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature);
 }
 
