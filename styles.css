@@ -243,6 +243,15 @@ button i {
 	padding: 12px 4px;
 }
 
+#description-temp,
+#seattle-description,
+#rabat-description,
+#england-description,
+#paris-description,
+#delhi-description {
+	text-transform: capitalize;
+}
+
 /* DARK STYLES */
 
 .dark {

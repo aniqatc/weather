@@ -49,6 +49,7 @@
 			src="https://kit.fontawesome.com/50cde61edc.js"
 			crossorigin="anonymous"
 		></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -57,7 +58,11 @@
 					<h1 class="col-md-6">Weather Dashboard</h1>
 					<div class="w-100 d-md-none d-block"></div>
 					<form class="input-group col p-1 search-form">
-						<button class="btn btn-outline-primary">
+						<button
+							class="btn btn-outline-primary"
+							id="geolocation-btn"
+							type="button"
+						>
 							<i class="fa-solid fa-location-arrow"></i>
 						</button>
 						<input
@@ -108,13 +113,15 @@
 											</h1>
 
 											<h3 class="text-end pt-2">
-												<small>High</small> <span class="temps">50</span>°<span
+												<small>High</small>
+												<span class="temps" id="high-temp">50</span>°<span
 													class="fahrenheit"
 													>F</span
 												>
 												<br />
 
-												<small>Low </small> <span class="temps">30</span>°<span
+												<small>Low </small>
+												<span class="temps" id="low-temp">30</span>°<span
 													class="fahrenheit"
 													>F</span
 												>
@@ -124,8 +131,9 @@
 										<div class="d-flex">
 											<div class="flex-grow-1">
 												<p>
-													Mostly Sunny<br />
-													Feels like <span class="temps">33</span>°<span
+													<span id="description-temp">Mostly Sunny</span><br />
+													Feels like
+													<span class="temps" id="feels-like">33</span>°<span
 														class="fahrenheit"
 														>F</span
 													>
@@ -304,10 +312,14 @@
 									/>
 									<p class="text-end col">
 										<strong
-											><span class="temps">30</span>°<span class="fahrenheit"
+											><span class="temps" id="seattle-temp">30</span>°<span
+												class="fahrenheit"
 												>F
 											</span></strong
-										><br /><small>Sunny Showers</small>
+										><br /><small
+											id="seattle-description"
+											class="global-descriptions"
+										></small>
 									</p>
 								</div>
 							</div>
@@ -322,10 +334,14 @@
 									/>
 									<p class="text-end col">
 										<strong
-											><span class="temps">50</span>°<span class="fahrenheit"
+											><span class="temps" id="rabat-temp">50</span>°<span
+												class="fahrenheit"
 												>F
 											</span></strong
-										><br /><small>Partly Sunny</small>
+										><br /><small
+											id="rabat-description"
+											class="global-descriptions"
+										></small>
 									</p>
 								</div>
 							</div>
@@ -340,10 +356,14 @@
 									/>
 									<p class="text-end col">
 										<strong
-											><span class="temps">50</span>°<span class="fahrenheit"
+											><span class="temps" id="england-temp">50</span>°<span
+												class="fahrenheit"
 												>F
 											</span></strong
-										><br /><small>Thunder Storm</small>
+										><br /><small
+											id="england-description"
+											class="global-descriptions"
+										></small>
 									</p>
 								</div>
 							</div>
@@ -358,10 +378,14 @@
 									/>
 									<p class="text-end col">
 										<strong
-											><span class="temps">50</span>°<span class="fahrenheit"
+											><span class="temps" id="paris-temp">50</span>°<span
+												class="fahrenheit"
 												>F
 											</span></strong
-										><br /><small>Bright & Sunny</small>
+										><br /><small
+											id="paris-description"
+											class="global-descriptions"
+										></small>
 									</p>
 								</div>
 							</div>
@@ -376,10 +400,14 @@
 									/>
 									<p class="text-end col">
 										<strong
-											><span class="temps">50</span>°<span class="fahrenheit"
+											><span class="temps" id="delhi-temp">50</span>°<span
+												class="fahrenheit"
 												>F
 											</span></strong
-										><br /><small>Cloudy Night</small>
+										><br /><small
+											id="delhi-description"
+											class="global-descriptions"
+										></small>
 									</p>
 								</div>
 							</div>
