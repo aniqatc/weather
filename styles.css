@@ -244,11 +244,7 @@ button i {
 }
 
 #description-temp,
-#seattle-description,
-#rabat-description,
-#england-description,
-#paris-description,
-#delhi-description {
+.global-descriptions {
 	text-transform: capitalize;
 }
 
