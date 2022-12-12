@@ -129,6 +129,9 @@ let highTemp = document.querySelector("#high-temp");
 let lowTemp = document.querySelector("#low-temp");
 let feelsLikeTemp = document.querySelector("#feels-like");
 let descriptionTemp = document.querySelector("#description-temp");
+let wind = document.querySelector("#wind");
+let humidity = document.querySelector("#humidity");
+let visibility = document.querySelector("#visibility");
 let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
 let scenery = document.querySelector("#scenery");
@@ -143,6 +146,9 @@ function displayCurrentTemperature(response) {
 		lowTemp.innerHTML = `${Math.round(dataTemp.main.temp_min)}`;
 		feelsLikeTemp.innerHTML = `${Math.round(dataTemp.main.feels_like)}`;
 		descriptionTemp.innerHTML = `${dataTemp.weather[0].description}`;
+		wind.innerHTML = `${Math.round(dataTemp.wind.speed)}`;
+		humidity.innerHTML = `${dataTemp.main.humidity}`;
+		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
 		let apiSunsrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
 			[],
 			{ hour: "2-digit", minute: "2-digit", hour12: true }
