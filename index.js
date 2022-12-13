@@ -137,6 +137,7 @@ let scenery = document.querySelector("#scenery");
 // Display Temperature
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
+		console.log(response);
 		let dataTemp = response.data;
 		locationHeading.innerHTML = `${dataTemp.name}, ${dataTemp.sys.country}`;
 		currentTemp.innerHTML = `${Math.round(dataTemp.main.temp)}`;
@@ -159,10 +160,10 @@ function displayCurrentTemperature(response) {
 		sunrise.innerHTML = `${apiSunsrise}`;
 		sunset.innerHTML = `${apiSunset}`;
 
-		// Change Landscape Image (Temporarily Set to: 6am to 6pm Daytime)
-		if (today.getHours() >= 6 && today.getHours() <= 18) {
+		// Change Landscape Image Based on Sunset / Sunrise
+		if (Date.now() < dataTemp.sys.sunset * 1000) {
 			scenery.src = "/assets/day-landscape.png";
-		} else {
+		} else if (Date.now() > dataTemp.sys.sunrise * 1000) {
 			scenery.src = "/assets/night-landscape.png";
 		}
 	}
