@@ -29,11 +29,8 @@ let months = [
 let day = days[today.getDay()];
 let month = months[today.getMonth()];
 let date = today.getDate();
-let hour = today.getHours();
+let hour = today.getHours() % 12 || 12;
 let minute = today.getMinutes();
-
-// Change Hours to 12-Hour Format
-hour = hour > 12 ? hour - 12 : hour;
 
 // Render AM or PM Marker
 let timeMarker = today.getHours() >= 12 ? "PM" : "AM";
