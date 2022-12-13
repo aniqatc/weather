@@ -21,3 +21,6 @@ function changeTheme() {
 
 let themeToggle = document.querySelector("#flexSwitchCheckChecked");
 themeToggle.addEventListener("click", changeTheme);
+
+// Hover Function for Mobile
+document.addEventListener("touchstart", function () {}, true);

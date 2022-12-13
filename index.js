@@ -1,6 +1,3 @@
-// Hover Function for Mobile
-document.addEventListener("touchstart", function () {}, true);
-
 // Date & Time Declarations
 let today = new Date();
 
@@ -54,7 +51,7 @@ let todaysDate = document.querySelector("#today");
 let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
 	minute
 )} ${timeMarker}`;
-todaysDate.textContent = `${dateStatement}`;
+todaysDate.innerHTML = `${dateStatement}`;
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
@@ -63,34 +60,36 @@ let celsius = document.querySelector(".celsius");
 
 function toggleTemp(event) {
 	event.preventDefault();
-	if (celsius.textContent === "C") {
-		celsius.textContent = "F";
-		fahrenheit.forEach((el) => (el.textContent = "C"));
+	if (celsius.innerHTML === "C") {
+		celsius.innerHTML = "F";
+		fahrenheit.forEach((el) => (el.innerHTML = "C"));
 		allTemps.forEach((el) =>
-			Number((el.textContent = Math.round(((el.textContent - 32) * 5) / 9)))
+			Number((el.innerHTML = Math.round(((el.innerHTML - 32) * 5) / 9)))
 		);
 	} else {
-		celsius.textContent = "C";
-		fahrenheit.forEach((el) => (el.textContent = "F"));
+		celsius.innerHTML = "C";
+		fahrenheit.forEach((el) => (el.innerHTML = "F"));
 		allTemps.forEach((el) =>
-			Number((el.textContent = Math.round((el.textContent * 9) / 5 + 32)))
+			Number((el.innerHTML = Math.round((el.innerHTML * 9) / 5 + 32)))
 		);
 	}
 }
 
 celsius.addEventListener("click", toggleTemp);
 
-// Current Location via Geolocation
+// Variables for API & Heading
 let apiKey = "d1a86552de255334f6117b348c4519bd";
 let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
 let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
 let units = "imperial";
 let locationHeading = document.querySelector("#location");
 
-let geolocationButton = document.querySelector("#geolocation-btn");
-geolocationButton.addEventListener("click", function () {
-	navigator.geolocation.getCurrentPosition(getLocation);
-});
+// Location via Geolocation
+document
+	.querySelector("#geolocation-btn")
+	.addEventListener("click", function () {
+		navigator.geolocation.getCurrentPosition(getLocation);
+	});
 
 function getLocation(position) {
 	let lon = position.coords.longitude;
@@ -102,12 +101,11 @@ function getLocation(position) {
 	axios
 		.get(`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}`)
 		.then((response) => {
-			console.log(response);
-			locationHeading.textContent = `${response.data[0].name}, ${response.data[0].country}`;
+			locationHeading.innerHTML = `${response.data[0].name}, ${response.data[0].country}`;
 		});
 }
 
-// Search Functionality
+// Location via Search Functionality
 function searchCity(event) {
 	event.preventDefault();
 	let searchInput = document.querySelector("#search-input").value;
@@ -123,7 +121,7 @@ function searchCity(event) {
 let searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
 
-// Display Temperature
+// Variables for Elements Representing Data
 let currentTemp = document.querySelector("#temp-now");
 let highTemp = document.querySelector("#high-temp");
 let lowTemp = document.querySelector("#low-temp");
@@ -136,11 +134,11 @@ let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
 let scenery = document.querySelector("#scenery");
 
+// Display Temperature
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
-		console.log(response);
 		let dataTemp = response.data;
-		locationHeading.textContent = `${dataTemp.name}, ${dataTemp.sys.country}`;
+		locationHeading.innerHTML = `${dataTemp.name}, ${dataTemp.sys.country}`;
 		currentTemp.innerHTML = `${Math.round(dataTemp.main.temp)}`;
 		highTemp.innerHTML = `${Math.round(dataTemp.main.temp_max)}`;
 		lowTemp.innerHTML = `${Math.round(dataTemp.main.temp_min)}`;
@@ -149,6 +147,7 @@ function displayCurrentTemperature(response) {
 		wind.innerHTML = `${Math.round(dataTemp.wind.speed)}`;
 		humidity.innerHTML = `${dataTemp.main.humidity}`;
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
+		// Sunset & Sunrise Times
 		let apiSunsrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
 			[],
 			{ hour: "2-digit", minute: "2-digit", hour12: true }
