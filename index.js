@@ -159,10 +159,10 @@ function displayCurrentTemperature(response) {
 		sunrise.innerHTML = `${apiSunsrise}`;
 		sunset.innerHTML = `${apiSunset}`;
 
-		// Change Landscape Image Based on Sunset / Sunrise
-		if (Date.now() < dataTemp.sys.sunset * 1000) {
+		// Change Landscape Image (Temporarily Set to: 6am to 6pm Daytime)
+		if (today.getHours() >= 6 && today.getHours() <= 18) {
 			scenery.src = "/assets/day-landscape.png";
-		} else if (Date.now() > dataTemp.sys.sunrise * 1000) {
+		} else {
 			scenery.src = "/assets/night-landscape.png";
 		}
 	}
