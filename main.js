@@ -148,7 +148,7 @@ function displayCurrentTemperature(response) {
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
 		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
-		let apiSunsrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
+		let apiSunrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
 			[],
 			{ hour: "2-digit", minute: "2-digit", hour12: true }
 		);
@@ -156,7 +156,7 @@ function displayCurrentTemperature(response) {
 			[],
 			{ hour: "2-digit", minute: "2-digit", hour12: true }
 		);
-		sunrise.innerHTML = `${apiSunsrise}`;
+		sunrise.innerHTML = `${apiSunrise}`;
 		sunset.innerHTML = `${apiSunset}`;
 
 		// Change Landscape Image Based on Sunset / Sunrise
