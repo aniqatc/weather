@@ -86,7 +86,6 @@ let geolocationButton = document.querySelector("#geolocation-btn");
 geolocationButton.addEventListener("click", function () {
 	navigator.geolocation.getCurrentPosition(getLocation);
 });
-geolocationButton.addEventListener("click", toggleTemp);
 
 function getLocation(position) {
 	let lon = position.coords.longitude;
@@ -119,7 +118,6 @@ function searchCity(event) {
 
 let searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
-searchBtn.addEventListener("submit", toggleTemp);
 
 // Variables for Elements Representing Data
 let currentTemp = document.querySelector("#temp-now");
@@ -244,7 +242,6 @@ for (let i = 0; i < 5; i++) {
 				.then(displayCurrentTemperature);
 		}
 	});
-	globalContainers[i].addEventListener("click", toggleTemp);
 }
 
 function displayDefaultTemperature() {
