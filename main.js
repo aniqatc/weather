@@ -60,14 +60,14 @@ function toggleTemp(event) {
 	if (celsius.innerHTML === "C") {
 		celsius.innerHTML = "F";
 		fahrenheit.forEach((el) => (el.innerHTML = "C"));
-		allTemps.forEach((el) =>
-			Number((el.innerHTML = Math.round(((el.innerHTML - 32) * 5) / 9)))
+		allTemps.forEach(
+			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
 		);
-	} else {
+	} else if (celsius.innerHTML === "F") {
 		celsius.innerHTML = "C";
 		fahrenheit.forEach((el) => (el.innerHTML = "F"));
-		allTemps.forEach((el) =>
-			Number((el.innerHTML = Math.round((el.innerHTML * 9) / 5 + 32)))
+		allTemps.forEach(
+			(el) => (el.textContent = Math.round((el.innerHTML * 9) / 5 + 32))
 		);
 	}
 }
@@ -80,13 +80,13 @@ let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
 let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
 let units = "imperial";
 let locationHeading = document.querySelector("#location");
+let geolocationButton = document.querySelector("#geolocation-btn");
 
 // Location via Geolocation
-document
-	.querySelector("#geolocation-btn")
-	.addEventListener("click", function () {
-		navigator.geolocation.getCurrentPosition(getLocation);
-	});
+geolocationButton.addEventListener("click", function () {
+	navigator.geolocation.getCurrentPosition(getLocation);
+});
+geolocationButton.addEventListener("click", toggleTemp);
 
 function getLocation(position) {
 	let lon = position.coords.longitude;
@@ -96,7 +96,9 @@ function getLocation(position) {
 		.get(`${apiWeather}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature);
 	axios
-		.get(`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}`)
+		.get(
+			`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}&units=${units}`
+		)
 		.then((response) => {
 			locationHeading.innerHTML = `${response.data[0].name}, ${response.data[0].country}`;
 		});
@@ -117,6 +119,7 @@ function searchCity(event) {
 
 let searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
+searchBtn.addEventListener("submit", toggleTemp);
 
 // Variables for Elements Representing Data
 let currentTemp = document.querySelector("#temp-now");
@@ -175,6 +178,7 @@ function displayCurrentTemperature(response) {
 				) {
 					let mainWeatherIcon = document.querySelector(".default-main-icon");
 					mainWeatherIcon.setAttribute("src", icon.data[i].src);
+					mainWeatherIcon.setAttribute("alt", icon.data[i].alt);
 				}
 			}
 		});
@@ -219,6 +223,7 @@ function displayGlobalTemperature() {
 						if (response.data.weather[0].id == icon.data[k].id) {
 							let globalWeatherIcon = document.querySelectorAll(".global-icon");
 							globalWeatherIcon[i].setAttribute("src", icon.data[k].src);
+							globalWeatherIcon[i].setAttribute("alt", icon.data[k].alt);
 						}
 					}
 				});
@@ -239,6 +244,7 @@ for (let i = 0; i < 5; i++) {
 				.then(displayCurrentTemperature);
 		}
 	});
+	globalContainers[i].addEventListener("click", toggleTemp);
 }
 
 function displayDefaultTemperature() {
