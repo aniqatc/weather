@@ -167,7 +167,10 @@ function displayCurrentTemperature(response) {
 		//
 		axios.get("icons.json").then((icon) => {
 			for (let i = 0; i < icon.data.length; i++) {
-				if (dataTemp.weather[0].icon == icon.data[i].icon) {
+				if (
+					dataTemp.weather[0].icon == icon.data[i].icon &&
+					dataTemp.weather[0].id == icon.data[i].id
+				) {
 					let mainWeatherIcon = document.querySelector(".default-main-icon");
 					mainWeatherIcon.setAttribute("src", icon.data[i].src);
 				}
@@ -177,29 +180,40 @@ function displayCurrentTemperature(response) {
 }
 
 // Display Temperatures for Global Forecast (Default)
+
 let globalTemps = document.querySelectorAll(".global-temps");
 let globalDesc = document.querySelectorAll(".global-descriptions");
-let city = ["Seattle", "Rabat", "London", "Paris", "Delhi"];
+let cityNames = document.querySelectorAll(".global-name");
+let countryNames = document.querySelectorAll(".country-name");
+let city = [
+	"Seattle",
+	"Rabat",
+	"London",
+	"Paris",
+	"Delhi",
+	"Jakarta",
+	"Manila",
+	"Shanghai",
+	"Mexico City",
+	"Cairo",
+	"New York",
+];
+
+// Shuffle Array for Randomized Cities
+city.sort(() => Math.random() - 0.5);
 
 function displayGlobalTemperature() {
-	for (let i = 0; i < city.length; i++) {
+	for (let i = 0; i < 5; i++) {
 		axios
 			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
 			.then((response) => {
+				cityNames[i].innerHTML = `${response.data.name}`;
+				countryNames[i].innerHTML = `${response.data.sys.country}`;
 				globalTemps[i].innerHTML = Math.round(response.data.main.temp);
 				globalDesc[i].innerHTML = `${response.data.weather[0].description}`;
 				axios.get("icons.json").then((icon) => {
 					for (let k = 0; k < icon.data.length; k++) {
-						if (
-							response.data.weather[0].icon == icon.data[k].icon ||
-							response.data.weather[0].id == icon.data[k].id
-						) {
-							console.log(
-								response.data.weather[0].id,
-								icon.data[i].id,
-								response.data.weather[0].icon,
-								icon.data[i].icon
-							);
+						if (response.data.weather[0].id == icon.data[k].id) {
 							let globalWeatherIcon = document.querySelectorAll(".global-icon");
 							globalWeatherIcon[i].setAttribute("src", icon.data[k].src);
 						}
@@ -214,7 +228,7 @@ displayGlobalTemperature();
 // Click on "Other Cities" To Display Weather For That Region
 let globalContainers = document.querySelectorAll(".global-item");
 
-for (let i = 0; i < city.length; i++) {
+for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
 		for (let a = 0; a < city.length; a++) {
 			axios

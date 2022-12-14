@@ -752,8 +752,8 @@
 		"type": "clouds",
 		"icon": "04n",
 		"id": 803,
-		"src": "/",
-		"alt": "/assets/icons/overcast-night.svg"
+		"src": "/assets/icons/overcast-night.svg",
+		"alt": "broken clouds night"
 	},
 	{
 		"type": "clouds",
