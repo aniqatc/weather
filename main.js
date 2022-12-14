@@ -163,21 +163,45 @@ function displayCurrentTemperature(response) {
 		} else if (Date.now() > dataTemp.sys.sunrise * 1000) {
 			scenery.src = "/assets/night-landscape.png";
 		}
+
+		//
+		axios.get("icons.json").then((icon) => {
+			for (let i = 0; i < icon.data.length; i++) {
+				if (
+					(dataTemp.weather[0].id == icon.data[i].iconId) |
+					(dataTemp.weather[0].icon == icon.data[i].id)
+				) {
+					let mainWeatherIcon = document.querySelector(".default-main-icon");
+					mainWeatherIcon.setAttribute("src", icon.data[i].src);
+				}
+			}
+		});
 	}
 }
 
 // Display Temperatures for Global Forecast (Default)
 let globalTemps = document.querySelectorAll(".global-temps");
 let globalDesc = document.querySelectorAll(".global-descriptions");
-let city = ["Seattle", "Rabat", "England", "Paris", "Delhi"];
+let city = ["Seattle", "Rabat", "London", "Paris", "Delhi"];
 
 function displayGlobalTemperature() {
 	for (let i = 0; i < city.length; i++) {
 		axios
 			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
-			.then(function (response) {
+			.then((response) => {
 				globalTemps[i].innerHTML = Math.round(response.data.main.temp);
 				globalDesc[i].innerHTML = `${response.data.weather[0].description}`;
+				axios.get("icons.json").then((icon) => {
+					for (let k = 0; k < icon.data.length; k++) {
+						if (
+							(response.data.weather[0].id == icon.data[k].iconId) |
+							(response.data.weather[0].icon == icon.data[k].id)
+						) {
+							let globalWeatherIcon = document.querySelectorAll(".global-icon");
+							globalWeatherIcon[i].setAttribute("src", icon.data[k].src);
+						}
+					}
+				});
 			});
 	}
 }
@@ -197,7 +221,6 @@ for (let i = 0; i < city.length; i++) {
 	});
 }
 
-// Display NYC Temperature (Default)
 function displayDefaultTemperature() {
 	axios
 		.get(`${apiWeather}?q=New York&appid=${apiKey}&units=${units}`)

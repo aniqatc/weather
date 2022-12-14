@@ -229,6 +229,9 @@ button i {
 }
 
 /* GLOBAL FORECAST STYLES */
+.global-overview h2 {
+	font-size: 22px;
+}
 
 .global-icon {
 	object-fit: contain;

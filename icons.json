@@ -1,7 +1,261 @@
 [
 	{
-		"id": 1,
-		"icon": 2,
-		"src": "/assets/light/sunny.png"
+		"type": "light",
+		"icon": "04d",
+		"iconId": 803,
+		"src": "/assets/light/partly-sunny.png",
+		"alt": "partly sunny"
+	},
+	{
+		"type": "light",
+		"icon": "01d",
+		"iconId": 800,
+		"src": "/assets/light/sunny.png",
+		"alt": "sunny"
+	},
+	{
+		"type": "light",
+		"icon": "50d",
+		"iconId": 781,
+		"src": "/assets/light/windstorm.png",
+		"alt": "windstorm or tornado"
+	},
+	{
+		"type": "light",
+		"icon": "10d",
+		"iconId": 503,
+		"src": "/assets/light/rainstorm.png",
+		"alt": "rainstorm"
+	},
+	{
+		"type": "light",
+		"icon": "10d",
+		"iconId": 502,
+		"src": "/assets/light/windy-rain.png",
+		"alt": "windy and rain"
+	},
+	{
+		"type": "light",
+		"icon": "13d",
+		"iconId": 600,
+		"src": "/assets/light/light-snow.png",
+		"alt": "light snow"
+	},
+	{
+		"type": "light",
+		"icon": "04d",
+		"iconId": 804,
+		"src": "/assets/light/cloudy.png",
+		"alt": "cloudy"
+	},
+	{
+		"type": "light",
+		"icon": "09d",
+		"iconId": 301,
+		"src": "/assets/light/sunny-rain.png",
+		"alt": "sunny rain"
+	},
+	{
+		"type": "light",
+		"icon": "50d",
+		"iconId": 741,
+		"src": "/assets/light/windy-day.png",
+		"alt": "windy-day"
+	},
+	{
+		"type": "light",
+		"icon": "13d",
+		"iconId": 602,
+		"src": "/assets/light/snow-night.png",
+		"alt": "snowy night"
+	},
+	{
+		"type": "light",
+		"icon": "01n",
+		"iconId": 800,
+		"src": "/assets/light/clear-night.png",
+		"alt": "clear night sky"
+	},
+	{
+		"type": "light",
+		"icon": "11d",
+		"iconId": 211,
+		"src": "/assets/light/lightning.png",
+		"alt": "lightning"
+	},
+	{
+		"type": "light",
+		"icon": "04n",
+		"iconId": 804,
+		"src": "/assets/light/cloudy-night.png",
+		"alt": "cloudy night"
+	},
+	{
+		"type": "light",
+		"icon": "11d",
+		"iconId": 212,
+		"src": "/assets/light/lightning-showers.png",
+		"alt": "lightning showers"
+	},
+	{
+		"type": "light",
+		"icon": "50d",
+		"iconId": 701,
+		"src": "/assets/light/wind.png",
+		"alt": "heavy winds"
+	},
+	{
+		"type": "light",
+		"icon": "10d",
+		"iconId": 500,
+		"src": "/assets/light/light-rain.png",
+		"alt": "light rain"
+	},
+	{
+		"type": "light",
+		"icon": "11d",
+		"iconId": 212,
+		"src": "/assets/light/thunderstorm.png",
+		"alt": "thunderstorm"
+	},
+	{
+		"type": "light",
+		"icon": "13d",
+		"iconId": 602,
+		"src": "/assets/light/snow-day.png",
+		"alt": "snowy day"
+	},
+	{
+		"type": "dark",
+		"icon": "04d",
+		"iconId": 803,
+		"src": "/assets/dark/partly-sunny.png",
+		"alt": "partly sunny"
+	},
+	{
+		"type": "dark",
+		"icon": "01d",
+		"iconId": 800,
+		"src": "/assets/dark/sunny.png",
+		"alt": "sunny"
+	},
+	{
+		"type": "dark",
+		"icon": "50d",
+		"iconId": 781,
+		"src": "/assets/dark/windstorm.png",
+		"alt": "windstorm or tornado"
+	},
+	{
+		"type": "dark",
+		"icon": "10d",
+		"iconId": 503,
+		"src": "/assets/dark/rainstorm.png",
+		"alt": "rainstorm"
+	},
+	{
+		"type": "dark",
+		"icon": "10d",
+		"iconId": 502,
+		"src": "/assets/dark/windy-rain.png",
+		"alt": "windy and rain"
+	},
+	{
+		"type": "dark",
+		"icon": "13d",
+		"iconId": 600,
+		"src": "/assets/dark/light-snow.png",
+		"alt": "dark snow"
+	},
+	{
+		"type": "dark",
+		"icon": "04d",
+		"iconId": 804,
+		"src": "/assets/dark/cloudy.png",
+		"alt": "cloudy"
+	},
+	{
+		"type": "dark",
+		"icon": "09d",
+		"iconId": 301,
+		"src": "/assets/dark/sunny-rain.png",
+		"alt": "sunny rain"
+	},
+	{
+		"type": "dark",
+		"icon": "50d",
+		"iconId": 741,
+		"src": "/assets/dark/windy-day.png",
+		"alt": "windy-day"
+	},
+	{
+		"type": "dark",
+		"icon": "13n",
+		"iconId": 600,
+		"src": "/assets/dark/snow-night.png",
+		"alt": "snowy night"
+	},
+	{
+		"type": "dark",
+		"icon": "01n",
+		"iconId": 800,
+		"src": "/assets/dark/clear-night.png",
+		"alt": "clear night sky"
+	},
+	{
+		"type": "dark",
+		"icon": "11d",
+		"iconId": 211,
+		"src": "/assets/dark/lightning.png",
+		"alt": "darkning"
+	},
+	{
+		"type": "dark",
+		"icon": "04n",
+		"iconId": 804,
+		"src": "/assets/dark/cloudy-night.png",
+		"alt": "cloudy night"
+	},
+	{
+		"type": "dark",
+		"icon": "11d",
+		"iconId": 212,
+		"src": "/assets/dark/lightning-showers.png",
+		"alt": "darkning showers"
+	},
+	{
+		"type": "dark",
+		"icon": "50d",
+		"iconId": 701,
+		"src": "/assets/dark/wind.png",
+		"alt": "heavy winds"
+	},
+	{
+		"type": "dark",
+		"icon": "10d",
+		"iconId": 500,
+		"src": "/assets/dark/light-rain.png",
+		"alt": "dark rain"
+	},
+	{
+		"type": "dark",
+		"icon": "10n",
+		"iconId": 500,
+		"src": "/assets/dark/light-rain.png",
+		"alt": "dark rain"
+	},
+	{
+		"type": "dark",
+		"icon": "11d",
+		"iconId": 212,
+		"src": "/assets/dark/thunderstorm.png",
+		"alt": "thunderstorm"
+	},
+	{
+		"type": "dark",
+		"icon": "13d",
+		"iconId": 602,
+		"src": "/assets/dark/snow-day.png",
+		"alt": "snowy day"
 	}
 ]
