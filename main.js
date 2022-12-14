@@ -127,6 +127,7 @@ let descriptionTemp = document.querySelector("#description-temp");
 let wind = document.querySelector("#wind");
 let humidity = document.querySelector("#humidity");
 let visibility = document.querySelector("#visibility");
+let clouds = document.querySelector("#clouds");
 let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
 let scenery = document.querySelector("#scenery");
@@ -145,6 +146,7 @@ function displayCurrentTemperature(response) {
 		wind.innerHTML = `${Math.round(dataTemp.wind.speed)}`;
 		humidity.innerHTML = `${dataTemp.main.humidity}`;
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
+		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
 		let apiSunsrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
 			[],
@@ -180,7 +182,6 @@ function displayCurrentTemperature(response) {
 }
 
 // Display Temperatures for Global Forecast (Default)
-
 let globalTemps = document.querySelectorAll(".global-temps");
 let globalDesc = document.querySelectorAll(".global-descriptions");
 let cityNames = document.querySelectorAll(".global-name");
@@ -194,9 +195,11 @@ let city = [
 	"Jakarta",
 	"Manila",
 	"Shanghai",
-	"Mexico City",
+	"Tokyo",
 	"Cairo",
+	"Dhaka",
 	"New York",
+	"Istanbul",
 ];
 
 // Shuffle Array for Randomized Cities
