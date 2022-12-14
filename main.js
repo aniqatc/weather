@@ -167,10 +167,7 @@ function displayCurrentTemperature(response) {
 		//
 		axios.get("icons.json").then((icon) => {
 			for (let i = 0; i < icon.data.length; i++) {
-				if (
-					(dataTemp.weather[0].id == icon.data[i].iconId) |
-					(dataTemp.weather[0].icon == icon.data[i].id)
-				) {
+				if (dataTemp.weather[0].icon == icon.data[i].icon) {
 					let mainWeatherIcon = document.querySelector(".default-main-icon");
 					mainWeatherIcon.setAttribute("src", icon.data[i].src);
 				}
@@ -194,9 +191,15 @@ function displayGlobalTemperature() {
 				axios.get("icons.json").then((icon) => {
 					for (let k = 0; k < icon.data.length; k++) {
 						if (
-							(response.data.weather[0].id == icon.data[k].iconId) |
-							(response.data.weather[0].icon == icon.data[k].id)
+							response.data.weather[0].icon == icon.data[k].icon ||
+							response.data.weather[0].id == icon.data[k].id
 						) {
+							console.log(
+								response.data.weather[0].id,
+								icon.data[i].id,
+								response.data.weather[0].icon,
+								icon.data[i].icon
+							);
 							let globalWeatherIcon = document.querySelectorAll(".global-icon");
 							globalWeatherIcon[i].setAttribute("src", icon.data[k].src);
 						}
