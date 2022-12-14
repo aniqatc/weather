@@ -24,3 +24,10 @@ themeToggle.addEventListener("click", changeTheme);
 
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
+
+// Checkbox checked if night time
+let currentHour = new Date().getHours();
+
+if (currentHour >= 16 || currentHour < 7) {
+	themeToggle.click();
+}
