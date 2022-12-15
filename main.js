@@ -99,13 +99,7 @@ function displayCurrentTemperature(response) {
 		sunrise.innerHTML = localTime(dataTemp.sys.sunrise * 1000);
 		sunset.innerHTML = localTime(dataTemp.sys.sunset * 1000);
 
-		// let d = new Date();
-		// let localTime = d.getTime();
-		// let localOffset = d.getTimezoneOffset() * 60000;
-		// let utc = localTime + localOffset;
-		// let nDate = new Date(utc + 1000 * response.data.timezone);
-
-		// Get Local Time for Searched Cities
+		// Get Local Time & Date for Searched Cities
 		function localTime(unix) {
 			let d = new Date();
 			let local = unix;
@@ -139,10 +133,13 @@ function displayCurrentTemperature(response) {
 		let dateStatement = `${localDate(localToday)} at ${localTime(localToday)}`;
 		todaysDate.innerHTML = `${dateStatement}`;
 
+		console.log(localToday);
+		console.log(dataTemp.sys.sunset * 1000);
+
 		// Change Landscape Image Based on Sunset / Sunrise
-		if (localToday < dataTemp.sys.sunset * 1000) {
+		if (localToday > dataTemp.sys.sunset) {
 			scenery.src = "/assets/day-landscape.png";
-		} else if (localToday > dataTemp.sys.sunrise * 1000) {
+		} else if (localToday < dataTemp.sys.sunrise * 1000) {
 			scenery.src = "/assets/night-landscape.png";
 		}
 
