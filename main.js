@@ -1,3 +1,30 @@
+function changeTheme() {
+	document
+		.querySelectorAll(".local-overview, .global-overview, .search-btn")
+		.forEach((el) => el.classList.toggle("dark-container"));
+	document
+		.querySelectorAll(".daily")
+		.forEach((el) => el.classList.toggle("dark-hover"));
+	document
+		.querySelectorAll(".input-group")
+		.forEach((el) => el.classList.toggle("dark-btn"));
+	document
+		.querySelectorAll(".global-item")
+		.forEach((el) => el.classList.toggle("light-hover"));
+	document
+		.querySelectorAll(".card, .list-group-item, body")
+		.forEach((el) => el.classList.toggle("dark"));
+	document
+		.querySelectorAll(".list-group-item, footer, .sun-time")
+		.forEach((el) => el.classList.toggle("dark-icon"));
+}
+
+let themeToggle = document.querySelector("#flexSwitchCheckChecked");
+themeToggle.addEventListener("click", changeTheme);
+
+// Hover Function for Mobile
+document.addEventListener("touchstart", function () {}, true);
+
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -79,7 +106,6 @@ let visibility = document.querySelector("#visibility");
 let clouds = document.querySelector("#clouds");
 let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
-let scenery = document.querySelector("#scenery");
 
 // Display Temperature
 function displayCurrentTemperature(response) {
@@ -96,8 +122,15 @@ function displayCurrentTemperature(response) {
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
 		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
-		sunrise.innerHTML = localTime(dataTemp.sys.sunrise * 1000);
-		sunset.innerHTML = localTime(dataTemp.sys.sunset * 1000);
+		let options = {
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: true,
+		};
+		let apiSunrise = dataTemp.sys.sunrise * 1000;
+		let apiSunset = dataTemp.sys.sunset * 1000;
+		sunrise.innerHTML = localTime(apiSunrise).toLocaleString([], options);
+		sunset.innerHTML = localTime(apiSunset).toLocaleString([], options);
 
 		// Get Local Time & Date for Searched Cities
 		function localTime(unix) {
@@ -106,11 +139,7 @@ function displayCurrentTemperature(response) {
 			let localOffset = d.getTimezoneOffset() * 60000;
 			let utc = local + localOffset;
 			let nTime = new Date(utc + 1000 * response.data.timezone);
-			return nTime.toLocaleString([], {
-				hour: "2-digit",
-				minute: "2-digit",
-				hour12: true,
-			});
+			return nTime;
 		}
 
 		function localDate(unix) {
@@ -130,20 +159,26 @@ function displayCurrentTemperature(response) {
 		let today = new Date();
 		let localToday = today.getTime();
 		let todaysDate = document.querySelector("#today");
-		let dateStatement = `${localDate(localToday)} at ${localTime(localToday)}`;
+		let dateStatement = `${localDate(localToday)} at ${localTime(
+			localToday
+		).toLocaleString([], options)}`;
 		todaysDate.innerHTML = `${dateStatement}`;
 
-		console.log(localToday);
-		console.log(dataTemp.sys.sunset * 1000);
+		// Change Landscape Image Based on Sunset / Sunrises
+		let scenery = document.querySelector("#scenery");
+		let sunriseHour = localTime(apiSunrise).getHours();
+		let sunsetHour = localTime(apiSunset).getHours();
 
-		// Change Landscape Image Based on Sunset / Sunrise
-		if (localToday > dataTemp.sys.sunset) {
-			scenery.src = "/assets/day-landscape.png";
-		} else if (localToday < dataTemp.sys.sunrise * 1000) {
+		if (
+			localTime(localToday).getHours() < sunriseHour ||
+			localTime(localToday).getHours() >= sunsetHour
+		) {
 			scenery.src = "/assets/night-landscape.png";
+		} else {
+			scenery.src = "/assets/day-landscape.png";
 		}
 
-		//
+		// Change Icon for Main Overview
 		axios.get("icons.json").then((icon) => {
 			for (let i = 0; i < icon.data.length; i++) {
 				if (
