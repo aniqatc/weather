@@ -44,15 +44,11 @@ p {
 
 a {
 	text-decoration: none;
-	color: #0a95c0;
-	transition: all 150ms ease-in;
+	color: inherit;
 }
 
 a:hover {
-	text-decoration: underline;
-	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
-	border-radius: 10px;
-	padding: 2px 4px;
+	color: inherit;
 }
 
 hr {
@@ -261,6 +257,18 @@ button i {
 #description-temp,
 .global-descriptions {
 	text-transform: capitalize;
+}
+
+/* FOOTER LINK */
+#credits {
+	color: rgb(66, 111, 182);
+	transition: all 150ms ease-in;
+}
+
+#credits:hover {
+	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
+	border-radius: 10px;
+	padding: 2px 4px;
 }
 
 /* DARK STYLES */

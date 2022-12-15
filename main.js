@@ -22,6 +22,11 @@ function changeTheme() {
 let themeToggle = document.querySelector("#flexSwitchCheckChecked");
 themeToggle.addEventListener("click", changeTheme);
 
+let currentHour = new Date().getHours();
+if (currentHour >= 17 || currentHour < 7) {
+	themeToggle.click();
+}
+
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
@@ -38,7 +43,8 @@ function toggleTemp(event) {
 		allTemps.forEach(
 			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
 		);
-	} else if (celsius.innerHTML === "F") {
+	}
+	if (celsius.innerHTML === "F") {
 		celsius.innerHTML = "C";
 		fahrenheit.forEach((el) => (el.innerHTML = "F"));
 		allTemps.forEach(
@@ -106,6 +112,8 @@ let visibility = document.querySelector("#visibility");
 let clouds = document.querySelector("#clouds");
 let sunrise = document.querySelector("#sunrise-time");
 let sunset = document.querySelector("#sunset-time");
+let scenery = document.querySelector("#scenery");
+let rain = document.querySelector("#rain");
 
 // Display Temperature
 function displayCurrentTemperature(response) {
@@ -119,7 +127,7 @@ function displayCurrentTemperature(response) {
 		descriptionTemp.innerHTML = `${dataTemp.weather[0].description}`;
 		wind.innerHTML = `${Math.round(dataTemp.wind.speed)}`;
 		humidity.innerHTML = `${dataTemp.main.humidity}`;
-		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
+		visibility.innerHTML = `${Math.round(dataTemp.visibility / 1000)}`;
 		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
 		let options = {
@@ -165,12 +173,11 @@ function displayCurrentTemperature(response) {
 		todaysDate.innerHTML = `${dateStatement}`;
 
 		// Change Landscape Image Based on Sunset / Sunrises
-		let scenery = document.querySelector("#scenery");
 		let sunriseHour = localTime(apiSunrise).getHours();
 		let sunsetHour = localTime(apiSunset).getHours();
 
 		localTime(localToday).getHours() < sunriseHour ||
-		localTime(localToday).getHours() > sunsetHour
+		localTime(localToday).getHours() >= sunsetHour
 			? (scenery.src = "/assets/night-landscape.png")
 			: (scenery.src = "/assets/day-landscape.png");
 
@@ -189,22 +196,28 @@ function displayCurrentTemperature(response) {
 		});
 
 		// Rain Indicator
-		let rain = document.querySelector("#rain");
+		// TEMPORARY VALUES FOR PRECIPITATION BASED ON CATEGORY
 		let weatherType = dataTemp.weather[0].main;
+		let precipitation = document.querySelector("#precipitation");
 		if (
 			weatherType === "Rain" ||
 			weatherType === "Drizzle" ||
 			weatherType === "Clouds"
 		) {
 			rain.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
+			precipitation.innerHTML = `100`;
 		} else if (weatherType === "Thunderstorm" || weatherType === "Tornado") {
 			rain.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
+			precipitation.innerHTML = `N/A`;
 		} else if (weatherType === "Snow") {
 			rain.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
+			precipitation.innerHTML = `N/A`;
 		} else if (weatherType === "Clear") {
 			rain.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Weather Conditions`;
+			precipitation.innerHTML = `0`;
 		} else {
-			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air`;
+			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
+			precipitation.innerHTML = `N/A`;
 		}
 	}
 }
@@ -266,7 +279,13 @@ for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
 		axios
 			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
-			.then(displayCurrentTemperature);
+			.then(displayCurrentTemperature)
+			.then(
+				window.scrollTo({
+					top: 0,
+					behavior: "smooth",
+				})
+			);
 	});
 }
 
