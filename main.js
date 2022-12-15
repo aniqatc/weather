@@ -170,7 +170,7 @@ function displayCurrentTemperature(response) {
 		let sunsetHour = localTime(apiSunset).getHours();
 
 		localTime(localToday).getHours() < sunriseHour ||
-		localTime(localToday).getHours() >= sunsetHour
+		localTime(localToday).getHours() > sunsetHour
 			? (scenery.src = "/assets/night-landscape.png")
 			: (scenery.src = "/assets/day-landscape.png");
 
@@ -187,6 +187,25 @@ function displayCurrentTemperature(response) {
 				}
 			}
 		});
+
+		// Rain Indicator
+		let rain = document.querySelector("#rain");
+		let weatherType = dataTemp.weather[0].main;
+		if (
+			weatherType === "Rain" ||
+			weatherType === "Drizzle" ||
+			weatherType === "Clouds"
+		) {
+			rain.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
+		} else if (weatherType === "Thunderstorm" || weatherType === "Tornado") {
+			rain.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
+		} else if (weatherType === "Snow") {
+			rain.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
+		} else if (weatherType === "Clear") {
+			rain.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Weather Conditions`;
+		} else {
+			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air`;
+		}
 	}
 }
 
@@ -209,6 +228,8 @@ let city = [
 	"Dhaka",
 	"New York",
 	"Istanbul",
+	"Los Angeles",
+	"Munich",
 ];
 
 // Shuffle Array for Randomized Cities
