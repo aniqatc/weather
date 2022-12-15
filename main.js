@@ -169,14 +169,10 @@ function displayCurrentTemperature(response) {
 		let sunriseHour = localTime(apiSunrise).getHours();
 		let sunsetHour = localTime(apiSunset).getHours();
 
-		if (
-			localTime(localToday).getHours() < sunriseHour ||
-			localTime(localToday).getHours() >= sunsetHour
-		) {
-			scenery.src = "/assets/night-landscape.png";
-		} else {
-			scenery.src = "/assets/day-landscape.png";
-		}
+		localTime(localToday).getHours() < sunriseHour ||
+		localTime(localToday).getHours() >= sunsetHour
+			? (scenery.src = "/assets/night-landscape.png")
+			: (scenery.src = "/assets/day-landscape.png");
 
 		// Change Icon for Main Overview
 		axios.get("icons.json").then((icon) => {
