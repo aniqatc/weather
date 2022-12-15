@@ -75,12 +75,6 @@ footer i {
 .celsius {
 	padding-left: 3px;
 }
-
-.daily-low {
-	color: rgb(101, 101, 101);
-	font-size: 14px;
-}
-
 #location {
 	font-weight: bold;
 }
@@ -217,15 +211,12 @@ button i {
 	border-radius: 10px;
 	text-align: center;
 	background: rgba(149, 205, 236, 0.22);
-	padding: 8px 18px;
+	padding: 8px 20px;
 }
 
-.daily p:first-of-type {
-	font-weight: bold;
-}
-
-.daily p {
-	font-size: 16px;
+.daily-low {
+	color: rgb(101, 101, 101);
+	font-size: 14px;
 }
 
 .daily:hover {
