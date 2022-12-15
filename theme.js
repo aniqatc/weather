@@ -26,7 +26,6 @@ themeToggle.addEventListener("click", changeTheme);
 document.addEventListener("touchstart", function () {}, true);
 
 // Checkbox checked if night time
-
 let currentHour = new Date().getHours();
 
 if (currentHour >= 16 || currentHour < 7) {

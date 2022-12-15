@@ -1,48 +1,3 @@
-// Date & Time Declarations
-let today = new Date();
-
-let days = [
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
-];
-
-let months = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
-];
-
-let day = days[today.getDay()];
-let month = months[today.getMonth()];
-let date = today.getDate();
-let hour = today.getHours() % 12 || 12;
-let minute = today.getMinutes();
-
-// Render AM or PM Marker
-let timeMarker = today.getHours() >= 12 ? "PM" : "AM";
-
-// Add Zero to Single Digit Minutes
-function addZero(time) {
-	if (time < 10) {
-		time = `0${time}`;
-	}
-	return time;
-}
-
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -141,8 +96,8 @@ function displayCurrentTemperature(response) {
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
 		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
-		sunrise.innerHTML = localTime(dataTemp.sys.sunrise);
-		sunset.innerHTML = localTime(dataTemp.sys.sunset);
+		sunrise.innerHTML = localTime(dataTemp.sys.sunrise * 1000);
+		sunset.innerHTML = localTime(dataTemp.sys.sunset * 1000);
 
 		// let d = new Date();
 		// let localTime = d.getTime();
@@ -153,28 +108,41 @@ function displayCurrentTemperature(response) {
 		// Get Local Time for Searched Cities
 		function localTime(unix) {
 			let d = new Date();
-			let local = unix * 1000;
+			let local = unix;
 			let localOffset = d.getTimezoneOffset() * 60000;
 			let utc = local + localOffset;
-			let nDate = new Date(utc + 1000 * response.data.timezone);
-			return nDate.toLocaleString([], {
+			let nTime = new Date(utc + 1000 * response.data.timezone);
+			return nTime.toLocaleString([], {
 				hour: "2-digit",
 				minute: "2-digit",
 				hour12: true,
 			});
 		}
 
+		function localDate(unix) {
+			let d = new Date();
+			let local = unix;
+			let localOffset = d.getTimezoneOffset() * 60000;
+			let utc = local + localOffset;
+			let nDate = new Date(utc + 1000 * response.data.timezone);
+			return nDate.toLocaleDateString([], {
+				weekday: "long",
+				month: "long",
+				day: "numeric",
+			});
+		}
+
 		// Change Current Time/Date to Location
+		let today = new Date();
+		let localToday = today.getTime();
 		let todaysDate = document.querySelector("#today");
-		let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
-			minute
-		)} ${timeMarker}`;
-		todaysDate.innerHTML = localTime(today.getTime());
+		let dateStatement = `${localDate(localToday)} at ${localTime(localToday)}`;
+		todaysDate.innerHTML = `${dateStatement}`;
 
 		// Change Landscape Image Based on Sunset / Sunrise
-		if (Date.now() < dataTemp.sys.sunset * 1000) {
+		if (localToday < dataTemp.sys.sunset * 1000) {
 			scenery.src = "/assets/day-landscape.png";
-		} else if (Date.now() > dataTemp.sys.sunrise * 1000) {
+		} else if (localToday > dataTemp.sys.sunrise * 1000) {
 			scenery.src = "/assets/night-landscape.png";
 		}
 
