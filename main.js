@@ -43,13 +43,6 @@ function addZero(time) {
 	return time;
 }
 
-// Update Time in HTML Markup
-let todaysDate = document.querySelector("#today");
-let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
-	minute
-)} ${timeMarker}`;
-todaysDate.innerHTML = `${dateStatement}`;
-
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -136,7 +129,6 @@ let scenery = document.querySelector("#scenery");
 // Display Temperature
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
-		console.log(response);
 		let dataTemp = response.data;
 		locationHeading.innerHTML = `${dataTemp.name}, ${dataTemp.sys.country}`;
 		currentTemp.innerHTML = `${Math.round(dataTemp.main.temp)}`;
@@ -149,16 +141,35 @@ function displayCurrentTemperature(response) {
 		visibility.innerHTML = `${dataTemp.visibility / 1000}`;
 		clouds.innerHTML = `${dataTemp.clouds.all}`;
 		// Sunset & Sunrise Times
-		let apiSunrise = new Date(dataTemp.sys.sunrise * 1000).toLocaleTimeString(
-			[],
-			{ hour: "2-digit", minute: "2-digit", hour12: true }
-		);
-		let apiSunset = new Date(dataTemp.sys.sunset * 1000).toLocaleTimeString(
-			[],
-			{ hour: "2-digit", minute: "2-digit", hour12: true }
-		);
-		sunrise.innerHTML = `${apiSunrise}`;
-		sunset.innerHTML = `${apiSunset}`;
+		sunrise.innerHTML = localTime(dataTemp.sys.sunrise);
+		sunset.innerHTML = localTime(dataTemp.sys.sunset);
+
+		// let d = new Date();
+		// let localTime = d.getTime();
+		// let localOffset = d.getTimezoneOffset() * 60000;
+		// let utc = localTime + localOffset;
+		// let nDate = new Date(utc + 1000 * response.data.timezone);
+
+		// Get Local Time for Searched Cities
+		function localTime(unix) {
+			let d = new Date();
+			let local = unix * 1000;
+			let localOffset = d.getTimezoneOffset() * 60000;
+			let utc = local + localOffset;
+			let nDate = new Date(utc + 1000 * response.data.timezone);
+			return nDate.toLocaleString([], {
+				hour: "2-digit",
+				minute: "2-digit",
+				hour12: true,
+			});
+		}
+
+		// Change Current Time/Date to Location
+		let todaysDate = document.querySelector("#today");
+		let dateStatement = `${day}, ${month} ${date} at ${addZero(hour)}:${addZero(
+			minute
+		)} ${timeMarker}`;
+		todaysDate.innerHTML = localTime(today.getTime());
 
 		// Change Landscape Image Based on Sunset / Sunrise
 		if (Date.now() < dataTemp.sys.sunset * 1000) {
@@ -236,11 +247,9 @@ let globalContainers = document.querySelectorAll(".global-item");
 
 for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
-		for (let a = 0; a < city.length; a++) {
-			axios
-				.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
-				.then(displayCurrentTemperature);
-		}
+		axios
+			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
+			.then(displayCurrentTemperature);
 	});
 }
 
