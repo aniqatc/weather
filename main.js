@@ -17,6 +17,9 @@ function changeTheme() {
 	document
 		.querySelectorAll(".list-group-item, footer, .sun-time")
 		.forEach((el) => el.classList.toggle("dark-icon"));
+	document
+		.querySelectorAll(".daily-low")
+		.forEach((el) => el.classList.toggle("dark-text"));
 }
 
 let themeToggle = document.querySelector("#flexSwitchCheckChecked");
@@ -31,7 +34,7 @@ if (currentHour >= 17 || currentHour < 7) {
 document.addEventListener("touchstart", function () {}, true);
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
-let allTemps = document.querySelectorAll("#temp-now, .temps");
+let allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
 let celsius = document.querySelector(".celsius");
 
@@ -43,8 +46,7 @@ function toggleTemp(event) {
 		allTemps.forEach(
 			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
 		);
-	}
-	if (celsius.innerHTML === "F") {
+	} else if (celsius.innerHTML === "F") {
 		celsius.innerHTML = "C";
 		fahrenheit.forEach((el) => (el.innerHTML = "F"));
 		allTemps.forEach(
@@ -215,6 +217,12 @@ function displayCurrentTemperature(response) {
 		} else if (weatherType === "Clear") {
 			rain.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Weather Conditions`;
 			precipitation.innerHTML = `0`;
+		} else if (
+			weatherType === "Mist" ||
+			weatherType === "Fog" ||
+			weatherType === "Haze"
+		) {
+			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
 		} else {
 			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
 			precipitation.innerHTML = `N/A`;

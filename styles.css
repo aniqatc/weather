@@ -43,12 +43,15 @@ p {
 }
 
 a {
+	color: rgb(66, 111, 182);
+	transition: all 150ms ease-in;
 	text-decoration: none;
-	color: inherit;
 }
 
 a:hover {
-	color: inherit;
+	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
+	border-radius: 10px;
+	padding: 2px 4px;
 }
 
 hr {
@@ -71,6 +74,11 @@ footer i {
 
 .celsius {
 	padding-left: 3px;
+}
+
+.daily-low {
+	color: rgb(101, 101, 101);
+	font-size: 14px;
 }
 
 #location {
@@ -259,24 +267,16 @@ button i {
 	text-transform: capitalize;
 }
 
-/* FOOTER LINK */
-#credits {
-	color: rgb(66, 111, 182);
-	transition: all 150ms ease-in;
-}
-
-#credits:hover {
-	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
-	border-radius: 10px;
-	padding: 2px 4px;
-}
-
 /* DARK STYLES */
 
 .dark {
 	background: #242230;
 	color: #f6f7fa;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.dark-text {
+	color: #c2c2c2;
 }
 
 .dark-container {
