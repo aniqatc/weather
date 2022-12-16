@@ -1,35 +1,3 @@
-function changeTheme() {
-	document
-		.querySelectorAll(".local-overview, .global-overview, .search-btn")
-		.forEach((el) => el.classList.toggle("dark-container"));
-	document
-		.querySelectorAll(".daily")
-		.forEach((el) => el.classList.toggle("dark-hover"));
-	document
-		.querySelectorAll(".input-group")
-		.forEach((el) => el.classList.toggle("dark-btn"));
-	document
-		.querySelectorAll(".global-item")
-		.forEach((el) => el.classList.toggle("light-hover"));
-	document
-		.querySelectorAll(".card, .list-group-item, body")
-		.forEach((el) => el.classList.toggle("dark"));
-	document
-		.querySelectorAll(".list-group-item, footer, .sun-time")
-		.forEach((el) => el.classList.toggle("dark-icon"));
-	document
-		.querySelectorAll(".daily-low")
-		.forEach((el) => el.classList.toggle("dark-text"));
-}
-
-let themeToggle = document.querySelector("#flexSwitchCheckChecked");
-themeToggle.addEventListener("click", changeTheme);
-
-let currentHour = new Date().getHours();
-if (currentHour >= 17 || currentHour < 7) {
-	themeToggle.click();
-}
-
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
@@ -198,25 +166,19 @@ function displayCurrentTemperature(response) {
 		});
 
 		// Rain Indicator
-		// TEMPORARY VALUES FOR PRECIPITATION BASED ON CATEGORY
 		let weatherType = dataTemp.weather[0].main;
-		let precipitation = document.querySelector("#precipitation");
 		if (
 			weatherType === "Rain" ||
 			weatherType === "Drizzle" ||
 			weatherType === "Clouds"
 		) {
 			rain.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
-			precipitation.innerHTML = `100`;
 		} else if (weatherType === "Thunderstorm" || weatherType === "Tornado") {
 			rain.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
-			precipitation.innerHTML = `N/A`;
 		} else if (weatherType === "Snow") {
 			rain.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
-			precipitation.innerHTML = `N/A`;
 		} else if (weatherType === "Clear") {
 			rain.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Weather Conditions`;
-			precipitation.innerHTML = `0`;
 		} else if (
 			weatherType === "Mist" ||
 			weatherType === "Fog" ||
@@ -225,9 +187,16 @@ function displayCurrentTemperature(response) {
 			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
 		} else {
 			rain.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
-			precipitation.innerHTML = `N/A`;
 		}
+
+		getForecast(response.data.coord);
 	}
+}
+
+function getForecast(coordinates) {
+	console.log(coordinates);
+	let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`;
+	axios.get(apiUrl).then(displayForecast);
 }
 
 // Display Temperatures for Global Forecast (Default)
@@ -304,3 +273,70 @@ function displayDefaultTemperature() {
 }
 
 displayDefaultTemperature();
+
+////////////////////////
+///////////////////////
+function displayForecast(response) {
+	console.log(response.data.daily);
+	let dewPoint = document.querySelector("#dew-point");
+	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
+	let forecastContainer = document.querySelector(".full-forecast");
+	let forecastHTML = "";
+	let days = ["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	days.forEach(function (day) {
+		forecastHTML += `<div class="daily m-2 m-md-0">
+							<p>${day}</p>
+							<img
+								src="/assets/icons/overcast.svg"
+								class="weather-icon forecast-icon"
+								height="45px"
+								width="50px"
+							/>
+							<p>
+								<span class="temps">42</span>°<span class="fahrenheit">F </span
+								><br />
+								<span class="daily-low dark-text">
+									<span class="forecast-low temps">33</span>°<span class="fahrenheit"
+										>F
+									</span>
+								</span>
+							</p>
+						</div>
+						`;
+	});
+	forecastContainer.innerHTML += forecastHTML;
+}
+
+///////////
+
+function changeTheme() {
+	document
+		.querySelectorAll(".local-overview, .global-overview, .search-btn")
+		.forEach((el) => el.classList.toggle("dark-container"));
+	document
+		.querySelectorAll(".daily")
+		.forEach((el) => el.classList.toggle("dark-hover"));
+	document
+		.querySelectorAll(".input-group")
+		.forEach((el) => el.classList.toggle("dark-btn"));
+	document
+		.querySelectorAll(".global-item")
+		.forEach((el) => el.classList.toggle("light-hover"));
+	document
+		.querySelectorAll(".card, .list-group-item, body")
+		.forEach((el) => el.classList.toggle("dark"));
+	document
+		.querySelectorAll(".list-group-item, footer, .sun-time")
+		.forEach((el) => el.classList.toggle("dark-icon"));
+	document
+		.querySelectorAll(".daily-low")
+		.forEach((el) => el.classList.toggle("dark-text"));
+}
+
+let themeToggle = document.querySelector("#flexSwitchCheckChecked");
+themeToggle.addEventListener("click", changeTheme);
+
+let currentHour = new Date().getHours();
+if (currentHour >= 17 || currentHour < 7) {
+	themeToggle.click();
+}
