@@ -7,9 +7,6 @@ function changeTheme() {
 		.querySelectorAll(".local-overview, .global-overview, .search-btn")
 		.forEach((el) => el.classList.toggle("dark-container"));
 	document
-		.querySelectorAll(".daily")
-		.forEach((el) => el.classList.toggle("dark-hover"));
-	document
 		.querySelectorAll(".input-group")
 		.forEach((el) => el.classList.toggle("dark-btn"));
 	document
@@ -34,6 +31,14 @@ if (currentHour >= 17 || currentHour < 7) {
 	themeToggle.click();
 }
 
+// Variables for API & Heading
+let apiKey = "d1a86552de255334f6117b348c4519bd";
+let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
+let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
+let units = "imperial";
+let locationHeading = document.querySelector("#location");
+let geolocationButton = document.querySelector("#geolocation-btn");
+
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -47,24 +52,23 @@ function toggleTemp(event) {
 		allTemps.forEach(
 			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
 		);
+		units = "metric";
 	} else if (celsius.innerHTML === "F") {
 		celsius.innerHTML = "C";
 		fahrenheit.forEach((el) => (el.innerHTML = "F"));
 		allTemps.forEach(
 			(el) => (el.textContent = Math.round((el.innerHTML * 9) / 5 + 32))
 		);
+		units = "imperial";
 	}
+	axios
+		.get(
+			`${apiWeather}?q=${locationHeading.textContent}&appid=${apiKey}&units=${units}`
+		)
+		.then(displayCurrentTemperature);
 }
 
 celsius.addEventListener("click", toggleTemp);
-
-// Variables for API & Heading
-let apiKey = "d1a86552de255334f6117b348c4519bd";
-let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
-let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
-let units = "imperial";
-let locationHeading = document.querySelector("#location");
-let geolocationButton = document.querySelector("#geolocation-btn");
 
 // Location via Geolocation
 geolocationButton.addEventListener("click", function () {
@@ -301,14 +305,6 @@ for (let i = 0; i < 5; i++) {
 	});
 }
 
-function displayDefaultTemperature() {
-	axios
-		.get(`${apiWeather}?q=New York&appid=${apiKey}&units=${units}`)
-		.then(displayCurrentTemperature);
-}
-
-displayDefaultTemperature();
-
 ////////////////////////
 
 function displayForecast(response) {
@@ -321,24 +317,27 @@ function displayForecast(response) {
 	let forecastHTML = "";
 	forecastData.forEach(function (day, index) {
 		if (index < 7) {
+			let maxTemp = day.temp.max;
+			let minTemp = day.temp.min;
+
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
 								src="/assets/icons/thermometer.svg"
-								class="weather-icon forecast-icon"
+								class="weather-icon forecast-icon mb-2"
 								height="45px"
 								width="50px"
 							/>
 							<p>
-								<span class="temps">${Math.round(
-									day.temp.max
-								)}</span>°<span class="fahrenheit">F </span
+								<span class="temps">${Math.round(maxTemp)}</span>°<span class="fahrenheit">${
+				units === "metric" ? "C" : "F"
+			} </span
 								><br />
 								<span class="daily-low dark-text">
 									<span class="forecast-low temps">${Math.round(
-										day.temp.min
+										minTemp
 									)}</span>°<span class="fahrenheit"
-										>F
+										>${units === "metric" ? "C" : "F"}
 									</span>
 								</span>
 							</p>
@@ -365,3 +364,11 @@ function formatDay(unix) {
 	let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	return days[day];
 }
+
+function displayDefaultTemperature() {
+	axios
+		.get(`${apiWeather}?q=New York&appid=${apiKey}&units=${units}`)
+		.then(displayCurrentTemperature);
+}
+
+displayDefaultTemperature();

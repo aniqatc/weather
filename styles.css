@@ -245,6 +245,7 @@ button i {
 
 .daily:hover .weather-icon {
 	filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4));
+	transform: scale(1.9);
 }
 
 /* GLOBAL FORECAST STYLES */
@@ -306,14 +307,6 @@ button i {
 .dark-btn i {
 	color: #f6f7fa;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.dark-hover:hover {
-	background: linear-gradient(
-		343deg,
-		rgba(36, 34, 48, 1) 0%,
-		rgba(39, 50, 88, 0.781524926686217) 100%
-	);
 }
 
 .light-hover:hover {
