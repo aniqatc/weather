@@ -227,9 +227,11 @@ function displayCurrentTemperature(response) {
 }
 
 function getForecast(coordinates) {
-	console.log(coordinates);
-	let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`;
-	axios.get(apiUrl).then(displayForecast);
+	axios
+		.get(
+			`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
+		)
+		.then(displayForecast);
 }
 
 // Display Temperatures for Global Forecast (Default)
@@ -308,12 +310,13 @@ function displayDefaultTemperature() {
 displayDefaultTemperature();
 
 ////////////////////////
-///////////////////////
+
 function displayForecast(response) {
-	let forecastData = response.data.daily;
-	console.log(response.data.daily);
+	// Added Dew Point, Original API Call Does Not Support
 	let dewPoint = document.querySelector("#dew-point");
 	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
+	// Daily Forecase
+	let forecastData = response.data.daily;
 	let forecastContainer = document.querySelector(".full-forecast");
 	let forecastHTML = "";
 	forecastData.forEach(function (day, index) {
@@ -321,7 +324,7 @@ function displayForecast(response) {
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
-								src="/assets/icons/overcast.svg"
+								src="/assets/icons/thermometer.svg"
 								class="weather-icon forecast-icon"
 								height="45px"
 								width="50px"
@@ -341,9 +344,19 @@ function displayForecast(response) {
 							</p>
 						</div>
 						`;
+			axios.get("icons.json").then((icon) => {
+				for (let i = 0; i < icon.data.length; i++) {
+					if (day.weather[0].id == icon.data[i].id) {
+						forecastHTML = forecastHTML.replace(
+							'src="/assets/icons/thermometer.svg"',
+							`src="${icon.data[i].src}"`
+						);
+					}
+				}
+				forecastContainer.innerHTML = forecastHTML;
+			});
 		}
 	});
-	forecastContainer.innerHTML = forecastHTML;
 }
 
 function formatDay(unix) {
