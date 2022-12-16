@@ -203,14 +203,14 @@ button i {
 .full-forecast {
 	overflow-x: scroll;
 	overflow-y: visible;
-	padding: 10px;
+	padding: 10px 10px 15px 10px;
 	width: 100%;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
 .full-forecast::-webkit-scrollbar {
-	display: none;
+	background-color: transparent;
 }
 
 .daily {
@@ -311,13 +311,15 @@ button i {
 	background: rgba(149, 205, 236, 0.22);
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 768px) {
 	.full-forecast {
 		-ms-overflow-style: unset;
 		scrollbar-width: unset;
 	}
 
-	.full-forecast::-webkit-scrollbar {
-		display: unset;
+	.full-forecast::-webkit-scrollbar,
+	.full-forecast::-webkit-scrollbar-thumb {
+		background-color: rgba(149, 205, 236, 0.127);
+		border-radius: 10px;
 	}
 }
