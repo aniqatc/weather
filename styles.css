@@ -310,3 +310,14 @@ button i {
 .light-hover:hover {
 	background: rgba(149, 205, 236, 0.22);
 }
+
+@media only screen and (max-width: 576px) {
+	.full-forecast {
+		-ms-overflow-style: unset;
+		scrollbar-width: unset;
+	}
+
+	.full-forecast::-webkit-scrollbar {
+		display: unset;
+	}
+}
