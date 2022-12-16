@@ -1,6 +1,39 @@
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
+// Dark Mode
+function changeTheme() {
+	document
+		.querySelectorAll(".local-overview, .global-overview, .search-btn")
+		.forEach((el) => el.classList.toggle("dark-container"));
+	document
+		.querySelectorAll(".daily")
+		.forEach((el) => el.classList.toggle("dark-hover"));
+	document
+		.querySelectorAll(".input-group")
+		.forEach((el) => el.classList.toggle("dark-btn"));
+	document
+		.querySelectorAll(".global-item")
+		.forEach((el) => el.classList.toggle("light-hover"));
+	document
+		.querySelectorAll(".card, .list-group-item, body")
+		.forEach((el) => el.classList.toggle("dark"));
+	document
+		.querySelectorAll(".list-group-item, footer, .sun-time")
+		.forEach((el) => el.classList.toggle("dark-icon"));
+	document
+		.querySelectorAll(".daily-low")
+		.forEach((el) => el.classList.toggle("dark-text"));
+}
+
+let themeToggle = document.querySelector("#flexSwitchCheckChecked");
+themeToggle.addEventListener("click", changeTheme);
+
+let currentHour = new Date().getHours();
+if (currentHour >= 17 || currentHour < 7) {
+	themeToggle.click();
+}
+
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
 let fahrenheit = document.querySelectorAll(".fahrenheit");
@@ -277,15 +310,16 @@ displayDefaultTemperature();
 ////////////////////////
 ///////////////////////
 function displayForecast(response) {
+	let forecastData = response.data.daily;
 	console.log(response.data.daily);
 	let dewPoint = document.querySelector("#dew-point");
 	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
 	let forecastContainer = document.querySelector(".full-forecast");
 	let forecastHTML = "";
-	let days = ["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
-	days.forEach(function (day) {
-		forecastHTML += `<div class="daily m-2 m-md-0">
-							<p>${day}</p>
+	forecastData.forEach(function (day, index) {
+		if (index < 7) {
+			forecastHTML += `<div class="daily m-2 m-md-0">
+							<p>${formatDay(day.dt)}</p>
 							<img
 								src="/assets/icons/overcast.svg"
 								class="weather-icon forecast-icon"
@@ -293,50 +327,28 @@ function displayForecast(response) {
 								width="50px"
 							/>
 							<p>
-								<span class="temps">42</span>°<span class="fahrenheit">F </span
+								<span class="temps">${Math.round(
+									day.temp.max
+								)}</span>°<span class="fahrenheit">F </span
 								><br />
 								<span class="daily-low dark-text">
-									<span class="forecast-low temps">33</span>°<span class="fahrenheit"
+									<span class="forecast-low temps">${Math.round(
+										day.temp.min
+									)}</span>°<span class="fahrenheit"
 										>F
 									</span>
 								</span>
 							</p>
 						</div>
 						`;
+		}
 	});
-	forecastContainer.innerHTML += forecastHTML;
+	forecastContainer.innerHTML = forecastHTML;
 }
 
-///////////
-
-function changeTheme() {
-	document
-		.querySelectorAll(".local-overview, .global-overview, .search-btn")
-		.forEach((el) => el.classList.toggle("dark-container"));
-	document
-		.querySelectorAll(".daily")
-		.forEach((el) => el.classList.toggle("dark-hover"));
-	document
-		.querySelectorAll(".input-group")
-		.forEach((el) => el.classList.toggle("dark-btn"));
-	document
-		.querySelectorAll(".global-item")
-		.forEach((el) => el.classList.toggle("light-hover"));
-	document
-		.querySelectorAll(".card, .list-group-item, body")
-		.forEach((el) => el.classList.toggle("dark"));
-	document
-		.querySelectorAll(".list-group-item, footer, .sun-time")
-		.forEach((el) => el.classList.toggle("dark-icon"));
-	document
-		.querySelectorAll(".daily-low")
-		.forEach((el) => el.classList.toggle("dark-text"));
-}
-
-let themeToggle = document.querySelector("#flexSwitchCheckChecked");
-themeToggle.addEventListener("click", changeTheme);
-
-let currentHour = new Date().getHours();
-if (currentHour >= 17 || currentHour < 7) {
-	themeToggle.click();
+function formatDay(unix) {
+	let date = new Date(unix * 1000);
+	let day = date.getDay();
+	let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	return days[day];
 }
