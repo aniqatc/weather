@@ -202,9 +202,15 @@ button i {
 
 .full-forecast {
 	overflow-x: scroll;
+	overflow-y: visible;
 	padding: 10px;
 	width: 100%;
-	overflow-y: visible;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.full-forecast::-webkit-scrollbar {
+	display: none;
 }
 
 .daily {
