@@ -214,6 +214,10 @@ button i {
 	padding: 8px 20px;
 }
 
+.daily p:first-child {
+	font-weight: bold;
+}
+
 .daily-low {
 	color: rgb(101, 101, 101);
 	font-size: 14px;
