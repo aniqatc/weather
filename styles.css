@@ -5,16 +5,14 @@ body {
 	flex-direction: column;
 	background: #e7edfa;
 	font-family: "DM Sans", sans-serif;
+	scroll-behavior: smooth;
 }
 
-body::-webkit-scrollbar {
-	background-color: rgba(149, 205, 236, 0.127);
-	border-radius: 10px;
-}
-
+body::-webkit-scrollbar,
 body::-webkit-scrollbar-thumb {
-	background-color: rgba(149, 205, 236, 0.35);
+	background-color: rgba(149, 205, 236, 0.1);
 	border-radius: 10px;
+	width: 10px;
 }
 
 /* ELEMENT & TEXT STYLES */
@@ -220,7 +218,7 @@ button i {
 }
 
 .full-forecast::-webkit-scrollbar {
-	background-color: transparent;
+	display: none;
 }
 
 .daily {
@@ -329,7 +327,9 @@ button i {
 
 	.full-forecast::-webkit-scrollbar,
 	.full-forecast::-webkit-scrollbar-thumb {
-		background-color: rgba(149, 205, 236, 0.127);
+		background-color: rgba(149, 205, 236, 0.1);
 		border-radius: 10px;
+		height: 10px;
+		display: unset;
 	}
 }
