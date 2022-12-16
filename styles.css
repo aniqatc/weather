@@ -7,6 +7,16 @@ body {
 	font-family: "DM Sans", sans-serif;
 }
 
+body::-webkit-scrollbar {
+	background-color: rgba(149, 205, 236, 0.127);
+	border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: rgba(149, 205, 236, 0.35);
+	border-radius: 10px;
+}
+
 /* ELEMENT & TEXT STYLES */
 
 h1 {
