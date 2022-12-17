@@ -21,24 +21,24 @@ function changeTheme() {
 	document
 		.querySelectorAll(".daily-low")
 		.forEach((el) => el.classList.toggle("dark-text"));
-	// In order to update new content to match theme
+	// In order to update API content to match theme
 	updateLocationDataByName(locationHeading.textContent);
 }
 
 // Dark Mode Triggered by Click
-let themeToggle = document.querySelector("#flexSwitchCheckChecked");
+const themeToggle = document.querySelector("#flexSwitchCheckChecked");
 themeToggle.addEventListener("click", changeTheme);
 
 // Dark Mode Theme Triggered Between 5pm - 7am
-let currentHour = new Date().getHours();
+const currentHour = new Date().getHours();
 if (currentHour >= 17 || currentHour < 7) {
 	themeToggle.click();
 }
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
-let allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
-let fahrenheit = document.querySelectorAll(".fahrenheit");
-let celsius = document.querySelector(".celsius");
+const allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
+const fahrenheit = document.querySelectorAll(".fahrenheit");
+const celsius = document.querySelector(".celsius");
 
 function toggleTemp(event) {
 	event.preventDefault();
@@ -64,17 +64,21 @@ function toggleTemp(event) {
 celsius.addEventListener("click", toggleTemp);
 
 // Variables for API & Location Heading
-let apiKey = "d1a86552de255334f6117b348c4519bd";
-let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
+const apiKey = "d1a86552de255334f6117b348c4519bd";
+const apiWeather = "https://api.openweathermap.org/data/2.5/weather";
 let units = "imperial";
-let locationHeading = document.querySelector("#location");
-let geolocationButton = document.querySelector("#geolocation-btn");
+const locationHeading = document.querySelector("#location");
+const geolocationButton = document.querySelector("#geolocation-btn");
 
 // Call API by City Name
 function updateLocationDataByName(location) {
 	axios
 		.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`)
-		.then(displayCurrentTemperature);
+		.then(displayCurrentTemperature, function () {
+			alert(
+				"Hey! I can take up to over 200,000 locations so stop writing gibberish and enter a valid city. ☀️"
+			);
+		});
 }
 
 // Call API by Geolocation
@@ -83,67 +87,63 @@ geolocationButton.addEventListener("click", function () {
 });
 
 function getLocation(position) {
-	let lon = position.coords.longitude;
-	let lat = position.coords.latitude;
+	const lon = position.coords.longitude;
+	const lat = position.coords.latitude;
 
 	axios
 		.get(`${apiWeather}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature);
 }
 
-// Location via Search Functionality
+// Call API by Search Functionality
 function searchCity(event) {
 	event.preventDefault();
-	let searchInput = document.querySelector("#search-input").value;
+	const searchInput = document.querySelector("#search-input").value;
 	if (searchInput) {
-		axios
-			.get(`${apiWeather}?q=${searchInput}&appid=${apiKey}&units=${units}`)
-			.then(displayCurrentTemperature, function () {
-				alert("Please enter a valid city!");
-			});
+		updateLocationDataByName(searchInput);
 	}
 }
 
-let searchBtn = document.querySelector(".search-form");
+const searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
 
 // Variables for Elements Representing Data
-let currentTemp = document.querySelector("#temp-now");
-let highTemp = document.querySelector("#high-temp");
-let lowTemp = document.querySelector("#low-temp");
-let feelsLikeTemp = document.querySelector("#feels-like");
-let descriptionTemp = document.querySelector("#description-temp");
-let wind = document.querySelector("#wind");
-let humidity = document.querySelector("#humidity");
-let visibility = document.querySelector("#visibility");
-let clouds = document.querySelector("#clouds");
-let sunrise = document.querySelector("#sunrise-time");
-let sunset = document.querySelector("#sunset-time");
-let scenery = document.querySelector("#scenery");
-let rain = document.querySelector("#rain");
+const currentTemp = document.querySelector("#temp-now");
+const highTemp = document.querySelector("#high-temp");
+const lowTemp = document.querySelector("#low-temp");
+const feelsLikeTemp = document.querySelector("#feels-like");
+const descriptionTemp = document.querySelector("#description-temp");
+const wind = document.querySelector("#wind");
+const humidity = document.querySelector("#humidity");
+const visibility = document.querySelector("#visibility");
+const clouds = document.querySelector("#clouds");
+const sunrise = document.querySelector("#sunrise-time");
+const sunset = document.querySelector("#sunset-time");
+const scenery = document.querySelector("#scenery");
+const rain = document.querySelector("#rain");
 
 // Display Temperature
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
-		let dataTemp = response.data;
-		locationHeading.innerHTML = `${dataTemp.name}, ${dataTemp.sys.country}`;
-		currentTemp.innerHTML = `${Math.round(dataTemp.main.temp)}`;
-		highTemp.innerHTML = `${Math.round(dataTemp.main.temp_max)}`;
-		lowTemp.innerHTML = `${Math.round(dataTemp.main.temp_min)}`;
-		feelsLikeTemp.innerHTML = `${Math.round(dataTemp.main.feels_like)}`;
-		descriptionTemp.innerHTML = `${dataTemp.weather[0].description}`;
-		wind.innerHTML = `${Math.round(dataTemp.wind.speed)}`;
-		humidity.innerHTML = `${dataTemp.main.humidity}`;
-		visibility.innerHTML = `${Math.round(dataTemp.visibility / 1000)}`;
-		clouds.innerHTML = `${dataTemp.clouds.all}`;
+		const data = response.data;
+		locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
+		currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
+		highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
+		lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
+		feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
+		descriptionTemp.innerHTML = `${data.weather[0].description}`;
+		wind.innerHTML = `${Math.round(data.wind.speed)}`;
+		humidity.innerHTML = `${data.main.humidity}`;
+		visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
+		clouds.innerHTML = `${data.clouds.all}`;
 		// Sunset & Sunrise Times
 		let options = {
 			hour: "2-digit",
 			minute: "2-digit",
 			hour12: true,
 		};
-		let apiSunrise = dataTemp.sys.sunrise * 1000;
-		let apiSunset = dataTemp.sys.sunset * 1000;
+		let apiSunrise = data.sys.sunrise * 1000;
+		let apiSunset = data.sys.sunset * 1000;
 		sunrise.innerHTML = localTime(apiSunrise).toLocaleString([], options);
 		sunset.innerHTML = localTime(apiSunset).toLocaleString([], options);
 
@@ -192,8 +192,8 @@ function displayCurrentTemperature(response) {
 		axios.get("icons.json").then((icon) => {
 			for (let i = 0; i < icon.data.length; i++) {
 				if (
-					dataTemp.weather[0].icon == icon.data[i].icon &&
-					dataTemp.weather[0].id == icon.data[i].id
+					data.weather[0].icon == icon.data[i].icon &&
+					data.weather[0].id == icon.data[i].id
 				) {
 					let mainWeatherIcon = document.querySelector(".default-main-icon");
 					mainWeatherIcon.setAttribute("src", icon.data[i].src);
@@ -203,7 +203,7 @@ function displayCurrentTemperature(response) {
 		});
 
 		// Rain Indicator
-		let weatherType = dataTemp.weather[0].main;
+		let weatherType = data.weather[0].main;
 		if (
 			weatherType === "Rain" ||
 			weatherType === "Drizzle" ||
@@ -319,7 +319,7 @@ function displayForecast(response) {
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
-								src="#"
+								src="/assets/loading.svg"
 								class="weather-icon forecast-icon mb-2"
 								height="45px"
 								width="50px"
@@ -343,7 +343,7 @@ function displayForecast(response) {
 				for (let i = 0; i < icon.data.length; i++) {
 					if (day.weather[0].id == icon.data[i].id) {
 						forecastHTML = forecastHTML.replace(
-							'src="#"',
+							'src="/assets/loading.svg"',
 							`src="${icon.data[i].src}"`
 						);
 					}
