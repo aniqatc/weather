@@ -294,6 +294,10 @@ let globalContainers = document.querySelectorAll(".global-item");
 for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
 		updateLocationDataByName(city[i]);
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
 	});
 }
 
@@ -315,7 +319,7 @@ function displayForecast(response) {
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
-								src="#"
+								src="/assets/icons/clear-day.svg"
 								class="weather-icon forecast-icon mb-2"
 								height="45px"
 								width="50px"
@@ -339,7 +343,7 @@ function displayForecast(response) {
 				for (let i = 0; i < icon.data.length; i++) {
 					if (day.weather[0].id == icon.data[i].id) {
 						forecastHTML = forecastHTML.replace(
-							'src="#"',
+							'src="/assets/icons/clear-day.svg"',
 							`src="${icon.data[i].src}"`
 						);
 					}
