@@ -1,7 +1,7 @@
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
-// Dark Mode
+// Dark Mode Theme Classes
 function changeTheme() {
 	document
 		.querySelectorAll(".local-overview, .global-overview, .search-btn")
@@ -21,28 +21,19 @@ function changeTheme() {
 	document
 		.querySelectorAll(".daily-low")
 		.forEach((el) => el.classList.toggle("dark-text"));
-	axios
-		.get(
-			`${apiWeather}?q=${locationHeading.textContent}&appid=${apiKey}&units=${units}`
-		)
-		.then(displayCurrentTemperature);
+	// In order to update new content to match theme
+	updateLocationDataByName(locationHeading.textContent);
 }
 
+// Dark Mode Triggered by Click
 let themeToggle = document.querySelector("#flexSwitchCheckChecked");
 themeToggle.addEventListener("click", changeTheme);
 
+// Dark Mode Theme Triggered Between 5pm - 7am
 let currentHour = new Date().getHours();
 if (currentHour >= 17 || currentHour < 7) {
 	themeToggle.click();
 }
-
-// Variables for API & Heading
-let apiKey = "d1a86552de255334f6117b348c4519bd";
-let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
-let apiLocation = "https://api.openweathermap.org/geo/1.0/reverse";
-let units = "imperial";
-let locationHeading = document.querySelector("#location");
-let geolocationButton = document.querySelector("#geolocation-btn");
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
 let allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
@@ -66,16 +57,27 @@ function toggleTemp(event) {
 		);
 		units = "imperial";
 	}
-	axios
-		.get(
-			`${apiWeather}?q=${locationHeading.textContent}&appid=${apiKey}&units=${units}`
-		)
-		.then(displayCurrentTemperature);
+	// Update Data to Reflect Celsius or Fahrenheit Change
+	updateLocationDataByName(locationHeading.textContent);
 }
 
 celsius.addEventListener("click", toggleTemp);
 
-// Location via Geolocation
+// Variables for API & Location Heading
+let apiKey = "d1a86552de255334f6117b348c4519bd";
+let apiWeather = "https://api.openweathermap.org/data/2.5/weather";
+let units = "imperial";
+let locationHeading = document.querySelector("#location");
+let geolocationButton = document.querySelector("#geolocation-btn");
+
+// Call API by City Name
+function updateLocationDataByName(location) {
+	axios
+		.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`)
+		.then(displayCurrentTemperature);
+}
+
+// Call API by Geolocation
 geolocationButton.addEventListener("click", function () {
 	navigator.geolocation.getCurrentPosition(getLocation);
 });
@@ -87,13 +89,6 @@ function getLocation(position) {
 	axios
 		.get(`${apiWeather}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature);
-	axios
-		.get(
-			`${apiLocation}?lat=${lat}&lon=${lon}&limit=5&appid=${apiKey}&units=${units}`
-		)
-		.then((response) => {
-			locationHeading.innerHTML = `${response.data[0].name}, ${response.data[0].country}`;
-		});
 }
 
 // Location via Search Functionality
@@ -298,22 +293,14 @@ let globalContainers = document.querySelectorAll(".global-item");
 
 for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
-		axios
-			.get(`${apiWeather}?q=${city[i]}&appid=${apiKey}&units=${units}`)
-			.then(displayCurrentTemperature)
-			.then(
-				window.scrollTo({
-					top: 0,
-					behavior: "smooth",
-				})
-			);
+		updateLocationDataByName(city[i]);
 	});
 }
 
-////////////////////////
+// Daily Forecast
 
 function displayForecast(response) {
-	// Added Dew Point, Original API Call Does Not Support
+	// Added Dew Point // Original API Call Does Not Support
 	let dewPoint = document.querySelector("#dew-point");
 	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
 	// Daily Forecase
@@ -362,7 +349,7 @@ function displayForecast(response) {
 		}
 	});
 }
-
+// Format Daily Forecast Unix Timestamps
 function formatDay(unix) {
 	let date = new Date(unix * 1000);
 	let day = date.getDay();
@@ -370,10 +357,5 @@ function formatDay(unix) {
 	return days[day];
 }
 
-function displayDefaultTemperature() {
-	axios
-		.get(`${apiWeather}?q=New York&appid=${apiKey}&units=${units}`)
-		.then(displayCurrentTemperature);
-}
-
-displayDefaultTemperature();
+// Default Location to Show
+updateLocationDataByName("New York");
