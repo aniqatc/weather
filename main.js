@@ -91,7 +91,7 @@ function toggleTemp(event) {
 		celsius.innerHTML = "F";
 		fahrenheit.forEach((el) => (el.innerHTML = "C"));
 		allTemps.forEach(
-			(el) => (el.textContent = Math.round(el.innerHTML - 32) * (5 / 9))
+			(el) => (el.textContent = Math.round((el.innerHTML - 32) * (5 / 9)))
 		);
 		units = "metric";
 	} else if (celsius.innerHTML === "F") {
