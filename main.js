@@ -1,68 +1,6 @@
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
-// Dark Mode Theme Classes
-function changeTheme() {
-	document
-		.querySelectorAll(".local-overview, .global-overview, .search-btn")
-		.forEach((el) => el.classList.toggle("dark-container"));
-	document
-		.querySelectorAll(".input-group")
-		.forEach((el) => el.classList.toggle("dark-btn"));
-	document
-		.querySelectorAll(".global-item")
-		.forEach((el) => el.classList.toggle("light-hover"));
-	document
-		.querySelectorAll(".card, .list-group-item, body")
-		.forEach((el) => el.classList.toggle("dark"));
-	document
-		.querySelectorAll(".list-group-item, footer, .sun-time")
-		.forEach((el) => el.classList.toggle("dark-icon"));
-	document
-		.querySelectorAll(".daily-low")
-		.forEach((el) => el.classList.toggle("dark-text"));
-	// In order to update API content to match theme
-	updateLocationDataByName(locationHeading.textContent);
-}
-
-// Dark Mode Triggered by Click
-const themeToggle = document.querySelector("#flexSwitchCheckChecked");
-themeToggle.addEventListener("click", changeTheme);
-
-// TEMP: Dark Mode Theme Triggered Between 5pm - 7am
-const currentHour = new Date().getHours();
-if (currentHour >= 17 || currentHour < 7) {
-	themeToggle.click();
-}
-
-// Change Temperature Type & Formula to Toggle Between C & F Values
-const allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
-const fahrenheit = document.querySelectorAll(".fahrenheit");
-const celsius = document.querySelector(".celsius");
-
-function toggleTemp(event) {
-	event.preventDefault();
-	if (celsius.innerHTML === "C") {
-		celsius.innerHTML = "F";
-		fahrenheit.forEach((el) => (el.innerHTML = "C"));
-		allTemps.forEach(
-			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
-		);
-		units = "metric";
-	} else if (celsius.innerHTML === "F") {
-		celsius.innerHTML = "C";
-		fahrenheit.forEach((el) => (el.innerHTML = "F"));
-		allTemps.forEach(
-			(el) => (el.textContent = Math.round((el.innerHTML * 9) / 5 + 32))
-		);
-		units = "imperial";
-	}
-	// Update Data to Reflect Celsius or Fahrenheit Change
-	updateLocationDataByName(locationHeading.textContent);
-}
-
-celsius.addEventListener("click", toggleTemp);
-
 // Variables for API & Location Heading
 const apiKey = "d1a86552de255334f6117b348c4519bd";
 const apiWeather = "https://api.openweathermap.org/data/2.5/weather";
@@ -108,6 +46,59 @@ function searchCity(event) {
 const searchBtn = document.querySelector(".search-form");
 searchBtn.addEventListener("submit", searchCity);
 
+// Dark Mode Theme Classes
+function changeTheme() {
+	document
+		.querySelectorAll(".local-overview, .global-overview, .search-btn")
+		.forEach((el) => el.classList.toggle("dark-container"));
+	document
+		.querySelectorAll(".input-group")
+		.forEach((el) => el.classList.toggle("dark-btn"));
+	document
+		.querySelectorAll(".global-item")
+		.forEach((el) => el.classList.toggle("light-hover"));
+	document
+		.querySelectorAll(".card, .list-group-item, body")
+		.forEach((el) => el.classList.toggle("dark"));
+	document
+		.querySelectorAll(".list-group-item, footer, .sun-time")
+		.forEach((el) => el.classList.toggle("dark-icon"));
+	// In order to update API content to match theme
+	updateLocationDataByName(locationHeading.textContent);
+}
+
+// Dark Mode Triggered by Click
+const themeToggle = document.querySelector("#flexSwitchCheckChecked");
+themeToggle.addEventListener("click", changeTheme);
+
+// Change Temperature Type & Formula to Toggle Between C & F Values
+const allTemps = document.querySelectorAll("#temp-now, .temps, .faded-temp");
+const fahrenheit = document.querySelectorAll(".fahrenheit");
+const celsius = document.querySelector(".celsius");
+
+function toggleTemp(event) {
+	event.preventDefault();
+	if (celsius.innerHTML === "C") {
+		celsius.innerHTML = "F";
+		fahrenheit.forEach((el) => (el.innerHTML = "C"));
+		allTemps.forEach(
+			(el) => (el.textContent = Math.round(((el.innerHTML - 32) * 5) / 9))
+		);
+		units = "metric";
+	} else if (celsius.innerHTML === "F") {
+		celsius.innerHTML = "C";
+		fahrenheit.forEach((el) => (el.innerHTML = "F"));
+		allTemps.forEach(
+			(el) => (el.textContent = Math.round((el.innerHTML * 9) / 5 + 32))
+		);
+		units = "imperial";
+	}
+	// Update Data to Reflect Celsius or Fahrenheit Change
+	updateLocationDataByName(locationHeading.textContent);
+}
+
+celsius.addEventListener("click", toggleTemp);
+
 // Variables for Elements Representing Data
 const currentTemp = document.querySelector("#temp-now");
 const highTemp = document.querySelector("#high-temp");
@@ -140,9 +131,9 @@ function displayCurrentTemperature(response) {
 		clouds.innerHTML = `${data.clouds.all}`;
 
 		// Sunset & Sunrise Times
-		let apiSunrise = data.sys.sunrise * 1000;
-		let apiSunset = data.sys.sunset * 1000;
-		let options = {
+		const apiSunrise = data.sys.sunrise * 1000;
+		const apiSunset = data.sys.sunset * 1000;
+		const options = {
 			hour: "2-digit",
 			minute: "2-digit",
 			hour12: true,
