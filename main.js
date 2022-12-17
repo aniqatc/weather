@@ -1,3 +1,5 @@
+// Note: You may see a file called "icons.json", I wrote the whole file so that I could use custom icons. Each icon is matched to a day and night version of the weather condition code that it matches!
+
 // Hover Function for Mobile
 document.addEventListener("touchstart", function () {}, true);
 
@@ -260,6 +262,7 @@ function displayForecast(response) {
 							</p>
 						</div>
 						`;
+			// Icon Matching for Each Daily Forecast
 			axios.get("icons.json").then((icon) => {
 				for (let i = 0; i < icon.data.length; i++) {
 					if (

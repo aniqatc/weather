@@ -8,6 +8,7 @@ body {
 	scroll-behavior: smooth;
 }
 
+/* CUSTOM SCROLLBAR */
 body::-webkit-scrollbar,
 body::-webkit-scrollbar-thumb {
 	background-color: rgba(149, 205, 236, 0.25);
@@ -314,6 +315,7 @@ button i {
 	background: rgba(149, 205, 236, 0.22);
 }
 
+/* Apply Custom Scrollbar Styling for Smaller Devices */
 @media only screen and (max-width: 768px) {
 	.full-forecast {
 		-ms-overflow-style: unset;
