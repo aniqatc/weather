@@ -319,7 +319,7 @@ function displayForecast(response) {
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
-								src="/assets/icons/clear-day.svg"
+								src="#"
 								class="weather-icon forecast-icon mb-2"
 								height="45px"
 								width="50px"
@@ -343,7 +343,7 @@ function displayForecast(response) {
 				for (let i = 0; i < icon.data.length; i++) {
 					if (day.weather[0].id == icon.data[i].id) {
 						forecastHTML = forecastHTML.replace(
-							'src="/assets/icons/clear-day.svg"',
+							'src="#"',
 							`src="${icon.data[i].src}"`
 						);
 					}
