@@ -18,6 +18,9 @@ function changeTheme() {
 	document
 		.querySelectorAll(".list-group-item, footer, .sun-time")
 		.forEach((el) => el.classList.toggle("dark-icon"));
+	document
+		.querySelectorAll(".daily-low")
+		.forEach((el) => el.classList.toggle("dark-text"));
 	axios
 		.get(
 			`${apiWeather}?q=${locationHeading.textContent}&appid=${apiKey}&units=${units}`
@@ -325,7 +328,7 @@ function displayForecast(response) {
 			forecastHTML += `<div class="daily m-2 m-md-0">
 							<p>${formatDay(day.dt)}</p>
 							<img
-								src="/assets/icons/thermometer.svg"
+								src="#"
 								class="weather-icon forecast-icon mb-2"
 								height="45px"
 								width="50px"
@@ -349,7 +352,7 @@ function displayForecast(response) {
 				for (let i = 0; i < icon.data.length; i++) {
 					if (day.weather[0].id == icon.data[i].id) {
 						forecastHTML = forecastHTML.replace(
-							'src="/assets/icons/thermometer.svg"',
+							'src="#"',
 							`src="${icon.data[i].src}"`
 						);
 					}
