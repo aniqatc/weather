@@ -118,6 +118,7 @@ const todaysDate = document.querySelector("#today");
 // Display Temperature
 function displayCurrentTemperature(response) {
 	if (response.status == 200) {
+		console.log(response);
 		const data = response.data;
 		locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
 		currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
@@ -174,8 +175,8 @@ function displayCurrentTemperature(response) {
 		axios.get("icons.json").then((icon) => {
 			for (let i = 0; i < icon.data.length; i++) {
 				if (
-					data.weather[0].icon == icon.data[i].icon &&
-					data.weather[0].id == icon.data[i].id
+					data.weather[0].icon === icon.data[i].icon &&
+					data.weather[0].id === icon.data[i].id
 				) {
 					let mainWeatherIcon = document.querySelector(".default-main-icon");
 					mainWeatherIcon.setAttribute("src", icon.data[i].src);
@@ -318,7 +319,10 @@ function displayGlobalTemperature() {
 				globalDesc[i].innerHTML = `${response.data.weather[0].description}`;
 				axios.get("icons.json").then((icon) => {
 					for (let k = 0; k < icon.data.length; k++) {
-						if (response.data.weather[0].id == icon.data[k].id) {
+						if (
+							response.data.weather[0].id === icon.data[k].id &&
+							response.data.weather[0].icon === icon.data[k].icon
+						) {
 							let globalWeatherIcon = document.querySelectorAll(".global-icon");
 							globalWeatherIcon[i].setAttribute("src", icon.data[k].src);
 							globalWeatherIcon[i].setAttribute("alt", icon.data[k].alt);
