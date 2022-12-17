@@ -12,7 +12,7 @@ const locationHeading = document.querySelector("#location");
 const geolocationButton = document.querySelector("#geolocation-btn");
 
 // Call API by City Name
-function updateLocationDataByName(location) {
+function updateWeatherByName(location) {
 	axios
 		.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature, function () {
@@ -41,7 +41,7 @@ function searchCity(event) {
 	event.preventDefault();
 	const searchInput = document.querySelector("#search-input").value;
 	if (searchInput) {
-		updateLocationDataByName(searchInput);
+		updateWeatherByName(searchInput);
 	}
 }
 
@@ -75,7 +75,7 @@ function changeTheme() {
 		.querySelectorAll(".list-group-item, footer, .sun-time")
 		.forEach((el) => el.classList.toggle("dark-icon"));
 	// In order to update API content to match theme
-	updateLocationDataByName(locationHeading.textContent);
+	updateWeatherByName(locationHeading.textContent);
 }
 
 // Dark Mode Triggered by Click
@@ -105,7 +105,7 @@ function toggleTemp(event) {
 		units = "imperial";
 	}
 	// Update Data to Reflect Celsius or Fahrenheit Change
-	updateLocationDataByName(locationHeading.textContent);
+	updateWeatherByName(locationHeading.textContent);
 }
 
 celsius.addEventListener("click", toggleTemp);
@@ -347,7 +347,7 @@ let globalContainers = document.querySelectorAll(".global-item");
 
 for (let i = 0; i < 5; i++) {
 	globalContainers[i].addEventListener("click", () => {
-		updateLocationDataByName(cities[i]);
+		updateWeatherByName(cities[i]);
 		window.scrollTo({
 			top: 0,
 			behavior: "smooth",
@@ -356,5 +356,5 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Default Location to Show
-updateLocationDataByName("New York");
+updateWeatherByName("New York");
 displayGlobalTemperature();
