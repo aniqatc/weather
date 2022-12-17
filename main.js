@@ -18,9 +18,11 @@ function changeTheme() {
 	document
 		.querySelectorAll(".list-group-item, footer, .sun-time")
 		.forEach((el) => el.classList.toggle("dark-icon"));
-	document
-		.querySelectorAll(".daily-low")
-		.forEach((el) => el.classList.toggle("dark-text"));
+	axios
+		.get(
+			`${apiWeather}?q=${locationHeading.textContent}&appid=${apiKey}&units=${units}`
+		)
+		.then(displayCurrentTemperature);
 }
 
 let themeToggle = document.querySelector("#flexSwitchCheckChecked");
@@ -333,7 +335,7 @@ function displayForecast(response) {
 				units === "metric" ? "C" : "F"
 			} </span
 								><br />
-								<span class="daily-low dark-text">
+								<span class="${themeToggle.checked === true ? "dark-text" : "daily-low"}">
 									<span class="forecast-low temps">${Math.round(
 										minTemp
 									)}</span>°<span class="fahrenheit"

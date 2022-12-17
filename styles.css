@@ -234,7 +234,7 @@ button i {
 }
 
 .daily-low {
-	color: rgb(101, 101, 101);
+	color: #5a5a5a;
 	font-size: 14px;
 }
 
@@ -287,7 +287,8 @@ button i {
 }
 
 .dark-text {
-	color: #c2c2c2;
+	color: #a8a8a8;
+	font-size: 14px;
 }
 
 .dark-container {
