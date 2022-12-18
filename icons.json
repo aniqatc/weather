@@ -415,14 +415,14 @@
 		"type": "snow",
 		"icon": "13d",
 		"id": 600,
-		"src": "/assets/icons/snow/snowflake.svg",
+		"src": "/assets/icons/snow/snow.svg",
 		"alt": "light snow"
 	},
 	{
 		"type": "snow",
 		"icon": "13n",
 		"id": 600,
-		"src": "/assets/icons/snow/snowflake.svg",
+		"src": "/assets/icons/snow/snow.svg",
 		"alt": "light snow"
 	},
 	{
