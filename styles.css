@@ -235,7 +235,6 @@ button i {
 }
 
 .daily-low {
-	color: #5a5a5a;
 	font-size: 14px;
 }
 
@@ -287,10 +286,10 @@ button i {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.dark-text {
+/* .dark-text {
 	color: #a8a8a8;
 	font-size: 14px;
-}
+} */
 
 .dark-container {
 	background: #2e3540;

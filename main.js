@@ -74,8 +74,6 @@ function changeTheme() {
 	document
 		.querySelectorAll(".list-group-item, footer, .sun-time")
 		.forEach((el) => el.classList.toggle("dark-icon"));
-	// In order to update API content to match theme
-	updateWeatherByName(locationHeading.textContent);
 }
 
 // Dark Mode Triggered by Click

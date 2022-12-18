@@ -18,14 +18,16 @@
 		"icon": "11d",
 		"id": 201,
 		"src": "/assets/icons/thunder-day/thunderstorms-day-rain.svg",
-		"alt": "thunderstorm with rain"
+		"alt": "thunderstorm with rain",
+		"shecodes": "thunderstorm-day"
 	},
 	{
 		"type": "thunderstorm",
 		"icon": "11n",
 		"id": 201,
 		"src": "/assets/icons/thunder-night/thunderstorms-night-rain.svg",
-		"alt": "thunderstorm with rain"
+		"alt": "thunderstorm with rain",
+		"shecodes": "thunderstorm-night"
 	},
 	{
 		"type": "thunderstorm",
@@ -242,14 +244,16 @@
 		"icon": "09d",
 		"id": 314,
 		"src": "/assets/icons/rain/overcast-day-rain.svg",
-		"alt": "heavy shower rain and drizzle"
+		"alt": "heavy shower rain and drizzle",
+		"shecodes": "shower-rain-day"
 	},
 	{
 		"type": "drizzle",
 		"icon": "09n",
 		"id": 314,
 		"src": "/assets/icons/rain/overcast-night-rain.svg",
-		"alt": "heavy shower rain and drizzle"
+		"alt": "heavy shower rain and drizzle",
+		"shecodes": "shower-rain-night"
 	},
 	{
 		"type": "drizzle",
@@ -298,14 +302,16 @@
 		"icon": "10d",
 		"id": 502,
 		"src": "/assets/icons/rain/overcast-day-rain.svg",
-		"alt": "heavy intensity rain"
+		"alt": "heavy intensity rain",
+		"shecodes": "rain-day"
 	},
 	{
 		"type": "rain",
 		"icon": "10n",
 		"id": 502,
 		"src": "/assets/icons/rain/overcast-night-rain.svg",
-		"alt": "heavy intensity rain"
+		"alt": "heavy intensity rain",
+		"shecodes": "rain-night"
 	},
 	{
 		"type": "rain",
@@ -438,14 +444,16 @@
 		"icon": "13d",
 		"id": 602,
 		"src": "/assets/icons/snow/overcast-day-snow.svg",
-		"alt": "heavy snow"
+		"alt": "heavy snow",
+		"shecodes": "snow-day"
 	},
 	{
 		"type": "snow",
 		"icon": "13n",
 		"id": 602,
 		"src": "/assets/icons/snow/overcast-night-snow.svg",
-		"alt": "heavy snow"
+		"alt": "heavy snow",
+		"shecodes": "snow-night"
 	},
 	{
 		"type": "snow",
@@ -564,14 +572,16 @@
 		"icon": "50d",
 		"id": 701,
 		"src": "/assets/icons/atmosphere/mist.svg",
-		"alt": "mist"
+		"alt": "mist",
+		"shecodes": "mist-day"
 	},
 	{
 		"type": "atmosphere",
 		"icon": "50n",
 		"id": 701,
 		"src": "/assets/icons/atmosphere/mist.svg",
-		"alt": "mist"
+		"alt": "mist",
+		"shecodes": "mist-night"
 	},
 	{
 		"type": "atmosphere",
@@ -704,56 +714,64 @@
 		"icon": "01d",
 		"id": 800,
 		"src": "/assets/icons/clear-day.svg",
-		"alt": "clear sky day"
+		"alt": "clear sky day",
+		"shecodes": "clear-sky-day"
 	},
 	{
 		"type": "clear",
 		"icon": "01n",
 		"id": 800,
 		"src": "/assets/icons/starry-night.svg",
-		"alt": "clear sky night"
+		"alt": "clear sky night",
+		"shecodes": "clear-sky-night"
 	},
 	{
 		"type": "clouds",
 		"icon": "02d",
 		"id": 801,
 		"src": "/assets/icons/partly-cloudy-day.svg",
-		"alt": "few clouds day"
+		"alt": "few clouds day",
+		"shecodes": "few-clouds-day"
 	},
 	{
 		"type": "clouds",
 		"icon": "02n",
 		"id": 801,
 		"src": "/assets/icons/partly-cloudy-night.svg",
-		"alt": "few clouds night"
+		"alt": "few clouds night",
+		"shecodes": "few-clouds-night"
 	},
 	{
 		"type": "clouds",
 		"icon": "03d",
 		"id": 802,
 		"src": "/assets/icons/partly-cloudy-day.svg",
-		"alt": "scattered clouds day"
+		"alt": "scattered clouds day",
+		"shecodes": "scattered-clouds-day"
 	},
 	{
 		"type": "clouds",
 		"icon": "03n",
 		"id": 802,
 		"src": "/assets/icons/partly-cloudy-night.svg",
-		"alt": "scattered clouds night"
+		"alt": "scattered clouds night",
+		"shecodes": "scattered-clouds-night"
 	},
 	{
 		"type": "clouds",
 		"icon": "04d",
 		"id": 803,
 		"src": "/assets/icons/overcast-day.svg",
-		"alt": "broken clouds day"
+		"alt": "broken clouds day",
+		"shecodes": "broken-clouds-day"
 	},
 	{
 		"type": "clouds",
 		"icon": "04n",
 		"id": 803,
 		"src": "/assets/icons/overcast-night.svg",
-		"alt": "broken clouds night"
+		"alt": "broken clouds night",
+		"shecodes": "broken-clouds-night"
 	},
 	{
 		"type": "clouds",
