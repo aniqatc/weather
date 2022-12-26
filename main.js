@@ -84,6 +84,7 @@ themeToggle.addEventListener('click', changeTheme);
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
 const fahrenheit = document.querySelectorAll('.fahrenheit');
 const celsius = document.querySelector('.celsius');
+const windUnit = document.querySelector('#wind-unit');
 
 function toggleTemp(event) {
 	event.preventDefault();
@@ -93,6 +94,7 @@ function toggleTemp(event) {
 		allTemps.forEach(
 			el => (el.textContent = Math.round((el.innerHTML - 32) * (5 / 9)))
 		);
+		windUnit.innerHTML = `km/h`;
 		units = 'metric';
 	} else if (celsius.innerHTML === 'F') {
 		celsius.innerHTML = 'C';
@@ -100,6 +102,7 @@ function toggleTemp(event) {
 		allTemps.forEach(
 			el => (el.textContent = Math.round(el.innerHTML * (9 / 5) + 32))
 		);
+		windUnit.innerHTML = `mph`;
 		units = 'imperial';
 	}
 	// Update Data to Reflect Celsius or Fahrenheit Change
