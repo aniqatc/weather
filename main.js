@@ -1,4 +1,22 @@
-// Note: You may see a file called "icons.json", I wrote the whole file so that I could use custom icons. Each icon is matched to a day and night version of the weather condition code that it matches!
+// Dark Mode Triggered by Click
+const themeToggle = document.querySelector('#flexSwitchCheckChecked');
+themeToggle.addEventListener('click', changeTheme);
+
+// User Theme Preference
+const userTheme = localStorage.getItem('theme');
+if (userTheme === 'dark') {
+	themeToggle.click();
+}
+
+// Dark Mode Theme Change
+function changeTheme() {
+	document.querySelector('body').classList.toggle('dark');
+	if (document.querySelector('body').classList.contains('dark')) {
+		localStorage.setItem('theme', 'dark');
+	} else {
+		localStorage.setItem('theme', 'light');
+	}
+}
 
 // Hover Function for Mobile
 document.addEventListener('touchstart', function () {}, true);
@@ -10,6 +28,14 @@ const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
 let units = 'imperial';
 const locationHeading = document.querySelector('#location');
 const geolocationButton = document.querySelector('#geolocation-btn');
+
+// User Location Preference
+const userLocation = localStorage.getItem('location');
+if (userLocation) {
+	updateWeatherByName(userLocation);
+} else {
+	updateWeatherByName('New York');
+}
 
 // Call API by City Name
 function updateWeatherByName(location) {
@@ -56,29 +82,6 @@ function getForecast(coordinates) {
 		)
 		.then(displayForecast);
 }
-
-// Dark Mode Theme Change
-function changeTheme() {
-	document
-		.querySelectorAll('.local-overview, .global-overview, .search-btn')
-		.forEach(el => el.classList.toggle('dark-container'));
-	document
-		.querySelectorAll('.input-group')
-		.forEach(el => el.classList.toggle('dark-btn'));
-	document
-		.querySelectorAll('.global-item')
-		.forEach(el => el.classList.toggle('light-hover'));
-	document
-		.querySelectorAll('.card, .list-group-item, body')
-		.forEach(el => el.classList.toggle('dark'));
-	document
-		.querySelectorAll('.list-group-item, footer, .sun-time')
-		.forEach(el => el.classList.toggle('dark-icon'));
-}
-
-// Dark Mode Triggered by Click
-const themeToggle = document.querySelector('#flexSwitchCheckChecked');
-themeToggle.addEventListener('click', changeTheme);
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
@@ -224,6 +227,9 @@ function displayCurrentTemperature(response) {
 
 		// Call Daily Forecast Function Based on Current Location Data
 		getForecast(response.data.coord);
+
+		// Local Storage
+		localStorage.setItem('location', `${data.name}`);
 	}
 }
 
@@ -253,7 +259,7 @@ function displayForecast(response) {
 				units === 'metric' ? 'C' : 'F'
 			} </span
 								><br />
-								<span class="${themeToggle.checked === true ? 'dark-text' : 'daily-low'}">
+								<span class="daily-low">
 									<span class="forecast-low temps">${Math.round(
 										day.temp.min
 									)}</span>°<span class="fahrenheit"
@@ -357,5 +363,4 @@ for (let i = 0; i < 5; i++) {
 }
 
 // Default Location to Show
-updateWeatherByName('New York');
 displayGlobalTemperature();

@@ -1,10 +1,40 @@
+:root {
+	--main-bg: #e7edfa;
+	--main-text: #000;
+	--container-bg: #fcfcfc;
+	--global-hover: #e7edfa;
+	--forecast-text: initial;
+	--icon-color: #00526beb;
+	--icon-shadow: none;
+	--icon-btn-shadow: 1px 1px 8px rgba(145, 145, 145, 0.15);
+	--icon-btn-color: #0a95c0;
+	--btn-bg: #f0f7f8;
+	--btn-border: 1px solid #0a95c0;
+}
+
+.dark {
+	--main-bg: #242230;
+	--main-text: #f6f7fa;
+	--text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+	--container-bg: #2e3540;
+	--global-hover: rgba(149, 205, 236, 0.22);
+	--forecast-text: #bdbdbd;
+	--icon-color: rgb(225, 255, 239);
+	--icon-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+	--icon-btn-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+	--icon-btn-color: #f6f7fa;
+	--btn-bg: #2e3540;
+	--btn-border: 1px solid #545555;
+}
+
 body {
 	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	background: #e7edfa;
-	font-family: "DM Sans", sans-serif;
+	background: var(--main-bg);
+	color: var(--main-text);
+	font-family: 'DM Sans', sans-serif;
 	scroll-behavior: smooth;
 }
 
@@ -69,7 +99,8 @@ hr {
 
 footer i {
 	font-size: 14px;
-	color: rgba(43, 47, 127, 0.8);
+	color: var(--icon-color);
+	text-shadow: var(--icon-shadow);
 }
 
 .toggle-temps {
@@ -91,8 +122,9 @@ footer i {
 /* SEARCH BAR */
 
 button i {
-	color: #0a95c0;
-	text-shadow: 1px 1px 8px rgba(145, 145, 145, 0.15);
+	color: var(--icon-btn-color);
+	text-shadow: var(--icon-btn-shadow);
+	border: none;
 }
 
 .input-group input {
@@ -102,8 +134,8 @@ button i {
 }
 
 .input-group button {
-	background-color: #f0f7f8;
-	border-color: #0a95c0;
+	background-color: var(--btn-bg);
+	border: var(--btn-border);
 	border-radius: 30px;
 	padding: 5px 14px;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
@@ -146,7 +178,7 @@ button i {
 	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15),
 		-2px -2px 6px 1px rgba(0, 0, 0, 0.15);
 	border-radius: 20px;
-	background: #fcfcfc;
+	background: var(--container-bg);
 }
 
 .weather-icon {
@@ -204,7 +236,8 @@ button i {
 
 .sun-time i {
 	font-size: 17px;
-	color: #00526beb;
+	color: var(--icon-color);
+	text-shadow: var(--icon-shadow);
 }
 
 /* DAILY FORECAST STYLES */
@@ -236,6 +269,7 @@ button i {
 
 .daily-low {
 	font-size: 14px;
+	color: var(--forecast-text);
 }
 
 .daily:hover {
@@ -258,7 +292,7 @@ button i {
 }
 
 .global-item:hover {
-	background: #e7edfa;
+	background: var(--global-hover);
 	border-radius: 4px;
 	cursor: pointer;
 }
@@ -278,40 +312,22 @@ button i {
 	text-transform: capitalize;
 }
 
-/* DARK STYLES */
-
-.dark {
-	background: #242230;
-	color: #f6f7fa;
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+/* Additional DARK STYLES */
+.dark .card:not(.initial),
+.list-group-item {
+	background-color: var(--main-bg);
+	color: var(--main-text);
+	text-shadow: var(--text-shadow);
 }
 
-/* .dark-text {
-	color: #a8a8a8;
-	font-size: 14px;
-} */
-
-.dark-container {
-	background: #2e3540;
+.dark .list-group-item i {
+	color: var(--icon-color);
+	text-shadow: var(--icon-shadow);
 }
 
-.dark-icon i {
-	color: rgb(225, 255, 239);
+.dark .list-group-item {
+	color: rgb(246, 255, 250);
 	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
-}
-
-.dark-btn button {
-	background: #2e3540;
-	border: 1px solid #545555;
-}
-
-.dark-btn i {
-	color: #f6f7fa;
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.light-hover:hover {
-	background: rgba(149, 205, 236, 0.22);
 }
 
 /* Apply Custom Scrollbar Styling for Smaller Devices */
