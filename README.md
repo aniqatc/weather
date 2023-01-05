@@ -24,4 +24,4 @@ Designing and building the Weather Dashboard taught me a lot since it was my fir
 <a href="https://weather.aniqa.dev" target="_blank"><img src="https://github.com/aniqatc/weather/blob/main/assets/og-img.png?raw=true" style="max-width: 100%;"></a>
 
 # Dark Mode
-<a href="https://weather.aniqa.dev" target="_blank"><img src="https://raw.githubusercontent.com/aniqatc/weather/main/assets/screenshot-dark.png?token=GHSAT0AAAAAABZVTQWQGXHDLKP7CAPBUL36Y5HYIKQ" style="max-width: 100%;"></a>
+<a href="https://weather.aniqa.dev" target="_blank"><img src="/assets/screenshot-dark.png" style="max-width: 100%;"></a>
