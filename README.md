@@ -7,6 +7,9 @@ The Weather Dashboard provides an overview of weather conditions in the specifie
 Designing and building the Weather Dashboard taught me a lot since it was my first JavaScript-heavy website, my first time using an API to pull live data and my first time relying mostly on Bootstrap to create a responsive layout. Here's an overview of the features I created and the *some* of the key topics I tackled:
 - Responsive application using Bootstrap and no explicit media queries
 - Light/dark mode toggling
+- CSS variables used to keep track of light and dark mode styles
+- Save user's last searched city to localStorage
+- Save user's theme preference to localStorage
 - Custom animated icons added through JSON file (that I wrote to connect with OpenWeather data)
 - Advanced usage of flexbox & grid containers
 - Custom scrollbar wherever required
