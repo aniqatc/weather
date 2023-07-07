@@ -22,7 +22,7 @@ function changeTheme() {
 document.addEventListener('touchstart', function () {}, true);
 
 // Variables for API & Location Heading
-const apiKey = 'd292e39289ef2bcac439515c3f57630a';
+const apiKey = 'bd4eff6fb29552a53362dc9fe58a1100';
 const apiWeather = 'https://api.openweathermap.org/data/2.5/weather';
 const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
 let units = 'imperial';
@@ -43,7 +43,7 @@ function updateWeatherByName(location) {
 		.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`)
 		.then(displayCurrentTemperature, function () {
 			alert(
-				"I can take up to over 200,000 locations so there's no reason why you should see this message but if you do, try entering a valid city name! 🌃"
+				'There was a problem with your request! Try again or check back later.'
 			);
 		});
 }
