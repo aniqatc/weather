@@ -22,7 +22,7 @@ function changeTheme() {
 document.addEventListener('touchstart', function () {}, true);
 
 // Variables for API & Location Heading
-const apiKey = 'bd4eff6fb29552a53362dc9fe58a1100';
+const apiKey = '';
 const apiWeather = 'https://api.openweathermap.org/data/2.5/weather';
 const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
 let units = 'imperial';
