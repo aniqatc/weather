@@ -22,7 +22,7 @@ function changeTheme() {
 document.addEventListener('touchstart', function () {}, true);
 
 // Variables for API & Location Heading
-const apiKey = 'ADD OPENWEATHER API KEY HERE';
+const apiKey = 'OPENWEATHER API KEY HERE';
 const apiWeather = 'https://api.openweathermap.org/data/2.5/weather';
 const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
 let units = 'imperial';
@@ -170,10 +170,16 @@ function displayCurrentTemperature(response) {
 		const sunriseHour = localDate(apiSunrise).getHours();
 		const sunsetHour = localDate(apiSunset).getHours();
 
-		localDate(localToday).getHours() < sunriseHour ||
-		localDate(localToday).getHours() >= sunsetHour
-			? (scenery.src = '/assets/night-landscape.png')
-			: (scenery.src = '/assets/day-landscape.png');
+		if (
+			localDate(localToday).getHours() < sunriseHour ||
+			localDate(localToday).getHours() >= sunsetHour
+		) {
+			scenery.src = '/assets/night-landscape.png';
+			scenery.alt = 'Night landscape';
+		} else {
+			scenery.src = '/assets/day-landscape.png';
+			scenery.alt = 'Day landscape';
+		}
 
 		// Update Weather Details
 		locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
@@ -249,8 +255,9 @@ function displayForecast(response) {
 							<img
 								src="/assets/loading.svg"
 								class="weather-icon forecast-icon mb-2"
-								height="45px"
-								width="50px"
+								height="45"
+								width="50"
+								alt="Loading icon"
 							/>
 							<p>
 								<span class="temps">${Math.round(
@@ -279,6 +286,10 @@ function displayForecast(response) {
 						forecastHTML = forecastHTML.replace(
 							'src="/assets/loading.svg"',
 							`src="${icon.data[i].src}"`
+						);
+						forecastHTML = forecastHTML.replace(
+							'alt="Loading icon"',
+							`alt="${icon.data[i].alt}"`
 						);
 					}
 				}
