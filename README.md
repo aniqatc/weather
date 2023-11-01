@@ -27,7 +27,7 @@
 - Layout and responsive achieved using Bootstrap
 - Styling done through custom CSS
 - Light and dark mode themes using CSS variables
-- Custom animated icons (from ___)
+- Custom animated icons ([https://bas.dev/work/meteocons](https://bas.dev/work/meteocons))
 - Custom loading spinner animation that will appear until all data has been downloaded
 - Minimalistic and cohesive design
 - Subtle shadow usage to increase contrast between certain text elements and icons
