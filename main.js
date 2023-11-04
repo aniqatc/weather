@@ -10,16 +10,16 @@ if (userTheme === 'dark') {
 
 // Dark Mode Theme Change
 function changeTheme() {
-	document.querySelector('body').classList.toggle('dark');
-	if (document.querySelector('body').classList.contains('dark')) {
+	const body = document.querySelector('body');
+
+	body.classList.toggle('dark');
+
+	if (body.classList.contains('dark')) {
 		localStorage.setItem('theme', 'dark');
 	} else {
 		localStorage.setItem('theme', 'light');
 	}
 }
-
-// Hover Function for Mobile
-document.addEventListener('touchstart', function () {}, true);
 
 // Variables for API & Location Heading
 const apiKey = 'OPENWEATHER API KEY HERE';
@@ -48,6 +48,15 @@ function updateWeatherByName(location) {
 		});
 }
 
+// Call API for Daily Forecast
+function getForecast(coordinates) {
+	axios
+		.get(
+			`${apiOneCall}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
+		)
+		.then(displayForecast);
+}
+
 // Call API by Geolocation
 geolocationButton.addEventListener('click', function () {
 	navigator.geolocation.getCurrentPosition(getLocation);
@@ -73,15 +82,6 @@ function searchCity(event) {
 
 const searchBtn = document.querySelector('.search-form');
 searchBtn.addEventListener('submit', searchCity);
-
-// Call API for Daily Forecast
-function getForecast(coordinates) {
-	axios
-		.get(
-			`${apiOneCall}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
-		)
-		.then(displayForecast);
-}
 
 // Change Temperature Type & Formula to Toggle Between C & F Values
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
@@ -135,6 +135,16 @@ function displayCurrentTemperature(response) {
 	if (response.status == 200) {
 		const data = response.data;
 
+		// Get Local Date Object for Searched Cities
+		function localDate(unix) {
+			const date = new Date();
+			const timestamp = unix;
+			const offset = date.getTimezoneOffset() * 60000;
+			const utc = timestamp + offset;
+			const updatedDate = new Date(utc + 1000 * data.timezone);
+			return updatedDate;
+		}
+
 		// Sunset & Sunrise Times
 		const apiSunrise = data.sys.sunrise * 1000;
 		const apiSunset = data.sys.sunset * 1000;
@@ -145,16 +155,6 @@ function displayCurrentTemperature(response) {
 		};
 		sunrise.innerHTML = localDate(apiSunrise).toLocaleString([], options);
 		sunset.innerHTML = localDate(apiSunset).toLocaleString([], options);
-
-		// Get Local Date Object for Searched Cities
-		function localDate(unix) {
-			const date = new Date();
-			const timestamp = unix;
-			const offset = date.getTimezoneOffset() * 60000;
-			const utc = timestamp + offset;
-			const updatedDate = new Date(utc + 1000 * data.timezone);
-			return updatedDate;
-		}
 
 		// Change Current Time/Date to Location
 		const today = new Date();
@@ -328,6 +328,9 @@ const cities = [
 	'Los Angeles',
 	'Munich',
 	'Dubai',
+	'Chile',
+	'Florida',
+	'Sydney',
 ];
 
 // Shuffle Array for Randomized Cities
@@ -360,18 +363,17 @@ function displayGlobalTemperature() {
 	}
 }
 
+displayGlobalTemperature();
+
 // Click on "Other Cities" To Display Weather For That Region
 let globalContainers = document.querySelectorAll('.global-item');
 
-for (let i = 0; i < 5; i++) {
-	globalContainers[i].addEventListener('click', () => {
+globalContainers.forEach((item, i) =>
+	item.addEventListener('click', () => {
 		updateWeatherByName(cities[i]);
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth',
 		});
-	});
-}
-
-// Default Location to Show
-displayGlobalTemperature();
+	})
+);
