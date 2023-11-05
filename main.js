@@ -365,15 +365,13 @@ function displayGlobalTemperature() {
 
 displayGlobalTemperature();
 
-// Click on "Other Cities" To Display Weather For That Region
-let globalContainers = document.querySelectorAll('.global-item');
-
-globalContainers.forEach((item, i) =>
-	item.addEventListener('click', () => {
-		updateWeatherByName(cities[i]);
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth',
-		});
-	})
-);
+const globalContainer = document.querySelector('.global-items-wrapper');
+globalContainer.addEventListener('click', event => {
+	const clickedEl = event.target.closest('.global-item');
+	const clickedCountry = clickedEl.querySelector('.global-name').textContent;
+	updateWeatherByName(clickedCountry);
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth',
+	});
+});
