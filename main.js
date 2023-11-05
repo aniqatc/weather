@@ -337,33 +337,38 @@ const cities = [
 cities.sort(() => Math.random() - 0.5);
 
 // Default Information for Global Forecast Section
-function displayGlobalTemperature() {
-	for (let i = 0; i < 5; i++) {
-		axios
-			.get(`${apiWeather}?q=${cities[i]}&appid=${apiKey}&units=${units}`)
-			.then(response => {
-				const data = response.data;
-				cityNames[i].innerHTML = `${data.name}`;
-				countryNames[i].innerHTML = `${data.sys.country}`;
-				cityTemps[i].innerHTML = Math.round(data.main.temp);
-				cityWeatherDesc[i].innerHTML = `${data.weather[0].description}`;
-				axios.get('icons.json').then(icon => {
-					for (let k = 0; k < icon.data.length; k++) {
-						if (
-							data.weather[0].id === icon.data[k].id &&
-							data.weather[0].icon === icon.data[k].icon
-						) {
-							let globalWeatherIcon = document.querySelectorAll('.global-icon');
-							globalWeatherIcon[i].setAttribute('src', icon.data[k].src);
-							globalWeatherIcon[i].setAttribute('alt', icon.data[k].alt);
-						}
-					}
-				});
-			});
+function displayGlobalTemperatures() {
+	countryRows.forEach(async (item, i) => {
+		const response = await axios.get(
+			`${apiWeather}?q=${cities[i]}&appid=${apiKey}&units=${units}`
+		);
+		const data = response.data;
+
+		cityNames[i].innerHTML = `${data.name}`;
+		countryNames[i].innerHTML = `${data.sys.country}`;
+		cityTemps[i].innerHTML = Math.round(data.main.temp);
+		cityWeatherDesc[i].innerHTML = `${data.weather[0].description}`;
+
+		renderIcons(item, data.weather[0].id, data.weather[0].icon);
+	});
+}
+
+async function renderIcons(item, dataId, dataIcon) {
+	const response = await axios.get('icons.json');
+	const customIcons = response.data;
+
+	const iconMatch = customIcons.find(
+		icon => icon.id === dataId && icon.icon === dataIcon
+	);
+
+	if (iconMatch) {
+		const globalWeatherIcon = item.querySelector('.global-icon');
+		globalWeatherIcon.setAttribute('src', iconMatch.src);
+		globalWeatherIcon.setAttribute('alt', iconMatch.alt);
 	}
 }
 
-displayGlobalTemperature();
+displayGlobalTemperatures();
 
 const globalContainer = document.querySelector('.global-items-wrapper');
 globalContainer.addEventListener('click', event => {
