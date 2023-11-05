@@ -405,7 +405,7 @@ globalContainer.addEventListener('click', event => {
 });
 
 async function renderIcons(location, dataId, dataIcon, imgEl) {
-	const response = await axios.get('icons.json');
+	const response = await axios.get('/json/icons.json');
 	const customIcons = response.data;
 
 	const iconMatch = customIcons.find(
