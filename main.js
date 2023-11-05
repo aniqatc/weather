@@ -22,7 +22,7 @@ function changeTheme() {
 }
 
 // Variables for API & Location Heading
-const apiKey = 'OPENWEATHER API KEY HERE';
+const apiKey = 'OPENWEATHERAPI-KEY';
 const apiWeather = 'https://api.openweathermap.org/data/2.5/weather';
 const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
 let units = 'imperial';
@@ -135,107 +135,160 @@ function displayCurrentTemperature(response) {
 	if (response.status == 200) {
 		const data = response.data;
 
-		// Get Local Date Object for Searched Cities
-		function localDate(unix) {
-			const date = new Date();
-			const timestamp = unix;
-			const offset = date.getTimezoneOffset() * 60000;
-			const utc = timestamp + offset;
-			const updatedDate = new Date(utc + 1000 * data.timezone);
-			return updatedDate;
-		}
-
-		// Sunset & Sunrise Times
-		const apiSunrise = data.sys.sunrise * 1000;
-		const apiSunset = data.sys.sunset * 1000;
-		const options = {
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: true,
-		};
-		sunrise.innerHTML = localDate(apiSunrise).toLocaleString([], options);
-		sunset.innerHTML = localDate(apiSunset).toLocaleString([], options);
-
-		// Change Current Time/Date to Location
-		const today = new Date();
-		const localToday = today.getTime();
-		const dateStatement = `${localDate(localToday).toLocaleDateString([], {
-			weekday: 'long',
-			month: 'long',
-			day: 'numeric',
-		})} at ${localDate(localToday).toLocaleString([], options)}`;
-		todaysDate.innerHTML = `${dateStatement}`;
-
-		// Change Landscape Image Based on Sunset / Sunrises
-		const sunriseHour = localDate(apiSunrise).getHours();
-		const sunsetHour = localDate(apiSunset).getHours();
-
-		if (
-			localDate(localToday).getHours() < sunriseHour ||
-			localDate(localToday).getHours() >= sunsetHour
-		) {
-			scenery.src = '/assets/night-landscape.png';
-			scenery.alt = 'Night landscape';
-		} else {
-			scenery.src = '/assets/day-landscape.png';
-			scenery.alt = 'Day landscape';
-		}
-
 		// Update Weather Details
-		locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
-		currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
-		highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
-		lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
-		feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
-		tempDescription.innerHTML = `${data.weather[0].description}`;
-		wind.innerHTML = `${Math.round(data.wind.speed)}`;
-		humidity.innerHTML = `${data.main.humidity}`;
-		visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
-		clouds.innerHTML = `${data.clouds.all}`;
+		displayWeatherDetails(data);
 
-		// Change Icon for Main Overview
-		axios.get('icons.json').then(icon => {
-			for (let i = 0; i < icon.data.length; i++) {
-				if (
-					data.weather[0].icon === icon.data[i].icon &&
-					data.weather[0].id === icon.data[i].id
-				) {
-					const mainWeatherIcon = document.querySelector('.default-main-icon');
-					mainWeatherIcon.setAttribute('src', icon.data[i].src);
-					mainWeatherIcon.setAttribute('alt', icon.data[i].alt);
-				}
-			}
-		});
+		// Render Icon for Main Card
+		renderIcons(
+			document,
+			data.weather[0].id,
+			data.weather[0].icon,
+			`.default-main-icon`
+		);
 
 		// Weather Condition Message Indicator
-		const weatherType = data.weather[0].main;
-		if (
-			weatherType === 'Rain' ||
-			weatherType === 'Drizzle' ||
-			weatherType === 'Clouds'
-		) {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
-		} else if (weatherType === 'Thunderstorm' || weatherType === 'Tornado') {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
-		} else if (weatherType === 'Snow') {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
-		} else if (weatherType === 'Clear') {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
-		} else if (
-			weatherType === 'Mist' ||
-			weatherType === 'Fog' ||
-			weatherType === 'Haze'
-		) {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
-		} else {
-			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
-		}
+		displayWeatherCondition(data.weather[0].main);
 
-		// Call Daily Forecast Function Based on Current Location Data
+		// Daily Forecast Function
 		getForecast(response.data.coord);
+
+		// Current Time/Date to Location
+		const localDateObject = new Date().getTime();
+		displayLocalDate(data, localDateObject);
+
+		// Sunset/Sunrise
+		const apiSunrise = data.sys.sunrise * 1000;
+		const apiSunset = data.sys.sunset * 1000;
+		displaySunsetSunriseTime(data, localDateObject, apiSunrise, apiSunset);
 
 		// Local Storage
 		localStorage.setItem('location', `${data.name}`);
+	}
+}
+
+// Get Local Date Object for Searched Cities
+function localDate(unix, timezone) {
+	const date = new Date();
+	const timestamp = unix;
+	const offset = date.getTimezoneOffset() * 60000;
+	const utc = timestamp + offset;
+	const updatedDate = new Date(utc + 1000 * timezone);
+	return updatedDate;
+}
+
+// Format Local Date Objects to Strings
+function formatDate(object, options, method) {
+	if (method === 'toLocaleString') {
+		return object.toLocaleString([], options);
+	}
+
+	if (method === 'toLocaleDateString') {
+		return object.toLocaleDateString([], options);
+	}
+}
+
+// Display Local Date
+function displayLocalDate(data, dateObject) {
+	const localDateString = formatDate(
+		localDate(dateObject, data.timezone),
+		{
+			weekday: 'long',
+			month: 'long',
+			day: 'numeric',
+		},
+		'toLocaleDateString'
+	);
+	const localTimeString = localDate(dateObject, data.timezone).toLocaleString(
+		[],
+		{
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		}
+	);
+	todaysDate.innerHTML = `${localTimeString} at ${localDateString}`;
+}
+
+// Handle sunset/sunrise
+function displaySunsetSunriseTime(
+	data,
+	localDateObject,
+	sunriseTime,
+	sunsetTime
+) {
+	sunrise.innerHTML = formatDate(
+		localDate(sunriseTime, data.timezone),
+		{
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		},
+		'toLocaleString'
+	);
+	sunset.innerHTML = formatDate(
+		localDate(sunsetTime, data.timezone),
+		{
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		},
+		'toLocaleString'
+	);
+
+	const sunriseHour = localDate(sunriseTime, data.timezone).getHours();
+	const sunsetHour = localDate(sunsetTime, data.timezone).getHours();
+
+	if (
+		localDate(localDateObject, data.timezone).getHours() < sunriseHour ||
+		localDate(localDateObject, data.timezone).getHours() >= sunsetHour
+	) {
+		scenery.src = '/assets/night-landscape.png';
+		scenery.alt = 'Night landscape';
+	} else {
+		scenery.src = '/assets/day-landscape.png';
+		scenery.alt = 'Day landscape';
+	}
+}
+
+function displayWeatherDetails(data) {
+	locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
+	currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
+	highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
+	lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
+	feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
+	tempDescription.innerHTML = `${data.weather[0].description}`;
+	wind.innerHTML = `${Math.round(data.wind.speed)}`;
+	humidity.innerHTML = `${data.main.humidity}`;
+	visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
+	clouds.innerHTML = `${data.clouds.all}`;
+}
+
+function displayWeatherCondition(data) {
+	const weatherType = data;
+
+	switch (weatherType) {
+		case 'Rain':
+		case 'Drizzle':
+		case 'Clouds':
+			conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
+			break;
+		case 'Thunderstorm':
+		case 'Tornado':
+			conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
+			break;
+		case 'Snow':
+			conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
+			break;
+		case 'Clear':
+			conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
+			break;
+		case 'Mist':
+		case 'Fog':
+		case 'Haze':
+			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
+			break;
+		default:
+			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
 	}
 }
 
@@ -244,60 +297,49 @@ function displayForecast(response) {
 	// Added Dew Point // Original API Call Does Not Support
 	const dewPoint = document.querySelector('#dew-point');
 	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
+
 	// Daily Forecast
 	const forecastData = response.data.daily;
 	const forecastContainer = document.querySelector('.full-forecast');
 	let forecastHTML = '';
+
 	forecastData.forEach(function (day, index) {
 		if (index < 7) {
-			forecastHTML += `<div class="daily m-2 m-md-0">
-							<p>${formatDay(day.dt)}</p>
-							<img
-								src="/assets/loading.svg"
-								class="weather-icon forecast-icon mb-2"
-								height="45"
-								width="50"
-								alt="Loading icon"
-							/>
-							<p>
-								<span class="temps">${Math.round(
-									day.temp.max
-								)}</span>°<span class="fahrenheit">${
-				units === 'metric' ? 'C' : 'F'
-			} </span
-								><br />
-								<span class="daily-low">
-									<span class="forecast-low temps">${Math.round(
-										day.temp.min
-									)}</span>°<span class="fahrenheit"
-										>${units === 'metric' ? 'C' : 'F'}
-									</span>
-								</span>
-							</p>
-						</div>
-						`;
-			// Icon Matching for Each Daily Forecast
-			axios.get('icons.json').then(icon => {
-				for (let i = 0; i < icon.data.length; i++) {
-					if (
-						day.weather[0].id === icon.data[i].id &&
-						day.weather[0].icon === icon.data[i].icon
-					) {
-						forecastHTML = forecastHTML.replace(
-							'src="/assets/loading.svg"',
-							`src="${icon.data[i].src}"`
-						);
-						forecastHTML = forecastHTML.replace(
-							'alt="Loading icon"',
-							`alt="${icon.data[i].alt}"`
-						);
-					}
-				}
-				forecastContainer.innerHTML = forecastHTML;
-			});
+			forecastHTML += `
+			<div class="daily m-2 m-md-0">
+				<p>${formatDay(day.dt)}</p>
+					<img
+						src="/assets/loading.svg"
+						class="weather-icon forecast-icon mb-2"
+						height="45"
+						width="50"
+						alt="Loading icon"
+						id="icon-${index}"
+					/>
+				<p>
+					<span class="temps">${Math.round(day.temp.max)}</span>°
+					<span class="fahrenheit">${units === 'metric' ? 'C' : 'F'} 
+					</span><br />
+					<span class="daily-low">
+						<span class="forecast-low temps">${Math.round(
+							day.temp.min
+						)}</span>°<span class="fahrenheit">${units === 'metric' ? 'C' : 'F'}
+					</span>
+					</span>
+				</p>
+			</div>`;
+			forecastContainer.innerHTML = forecastHTML;
+
+			renderIcons(
+				forecastContainer,
+				day.weather[0].id,
+				day.weather[0].icon,
+				`#icon-${index}`
+			);
 		}
 	});
 }
+
 // Format Daily Forecast Unix Timestamps
 function formatDay(unix) {
 	const date = new Date(unix * 1000);
@@ -311,6 +353,7 @@ const cityTemps = document.querySelectorAll('.global-temps');
 const cityWeatherDesc = document.querySelectorAll('.global-descriptions');
 const cityNames = document.querySelectorAll('.global-name');
 const countryNames = document.querySelectorAll('.country-name');
+const countryRows = document.querySelectorAll('.global-item');
 const cities = [
 	'Seattle',
 	'Rabat',
@@ -349,23 +392,8 @@ function displayGlobalTemperatures() {
 		cityTemps[i].innerHTML = Math.round(data.main.temp);
 		cityWeatherDesc[i].innerHTML = `${data.weather[0].description}`;
 
-		renderIcons(item, data.weather[0].id, data.weather[0].icon);
+		renderIcons(item, data.weather[0].id, data.weather[0].icon, '.global-icon');
 	});
-}
-
-async function renderIcons(item, dataId, dataIcon) {
-	const response = await axios.get('icons.json');
-	const customIcons = response.data;
-
-	const iconMatch = customIcons.find(
-		icon => icon.id === dataId && icon.icon === dataIcon
-	);
-
-	if (iconMatch) {
-		const globalWeatherIcon = item.querySelector('.global-icon');
-		globalWeatherIcon.setAttribute('src', iconMatch.src);
-		globalWeatherIcon.setAttribute('alt', iconMatch.alt);
-	}
 }
 
 displayGlobalTemperatures();
@@ -380,3 +408,18 @@ globalContainer.addEventListener('click', event => {
 		behavior: 'smooth',
 	});
 });
+
+async function renderIcons(location, dataId, dataIcon, imgEl) {
+	const response = await axios.get('icons.json');
+	const customIcons = response.data;
+
+	const iconMatch = customIcons.find(
+		icon => icon.id === dataId && icon.icon === dataIcon
+	);
+
+	if (iconMatch) {
+		const icon = location.querySelector(imgEl);
+		icon.setAttribute('src', iconMatch.src);
+		icon.setAttribute('alt', iconMatch.alt);
+	}
+}
