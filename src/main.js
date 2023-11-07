@@ -236,10 +236,10 @@ const timeManager = {
 			'toLocaleString'
 		);
 
-		this.changeScenery(data, localDateObject);
+		this.changeSceneryImage(data, localDateObject, sunriseTime, sunsetTime);
 	},
 
-	changeScenery: function (data, localDateObject) {
+	changeSceneryImage: function (data, localDateObject, sunriseTime, sunsetTime) {
 		const scenery = document.querySelector('#scenery');
 		const sunriseHour = this.convertUnixToTimezone(sunriseTime, data.timezone).getHours();
 		const sunsetHour = this.convertUnixToTimezone(sunsetTime, data.timezone).getHours();
@@ -279,7 +279,7 @@ function toggleTemp(event) {
 
 	// Update Data to Reflect Celsius or Fahrenheit Change
 	weatherService.displaySelectedLocationWeather(locationHeading.textContent);
-	displayGlobalTemperatures();
+	globalWeather.getGlobalTemperatures();
 }
 
 celsius.addEventListener('click', toggleTemp);
@@ -422,62 +422,71 @@ function displayForecast(response) {
 	});
 }
 
-// Display Temperatures for Global Forecast (Default)
-const cityTemps = document.querySelectorAll('.global-temps');
-const cityWeatherDesc = document.querySelectorAll('.global-descriptions');
-const cityNames = document.querySelectorAll('.global-name');
-const countryNames = document.querySelectorAll('.country-name');
-const countryRows = document.querySelectorAll('.global-item');
-const randomCities = [
-	'Seattle',
-	'Rabat',
-	'London',
-	'Paris',
-	'Delhi',
-	'Jakarta',
-	'Manila',
-	'Shanghai',
-	'Tokyo',
-	'Cairo',
-	'Dhaka',
-	'New York',
-	'Istanbul',
-	'Los Angeles',
-	'Munich',
-	'Dubai',
-	'Chile',
-	'Florida',
-	'Sydney',
-].sort(() => Math.random() - 0.5);
+const globalWeather = {
+	globalContainer: document.querySelector('.global-items-wrapper'),
+	cityTemps: document.querySelectorAll('.global-temps'),
+	cityWeatherDesc: document.querySelectorAll('.global-descriptions'),
+	cityNames: document.querySelectorAll('.global-name'),
+	countryNames: document.querySelectorAll('.country-name'),
+	countryRows: document.querySelectorAll('.global-item'),
+	randomCities: [
+		'Seattle',
+		'Rabat',
+		'London',
+		'Paris',
+		'Delhi',
+		'Jakarta',
+		'Manila',
+		'Shanghai',
+		'Tokyo',
+		'Cairo',
+		'Dhaka',
+		'New York',
+		'Istanbul',
+		'Los Angeles',
+		'Munich',
+		'Dubai',
+		'Chile',
+		'Florida',
+		'Sydney',
+	].sort(() => Math.random() - 0.5),
 
-// Default Information for Global Forecast Section
-function displayGlobalTemperatures() {
-	countryRows.forEach(async (item, i) => {
-		weatherService.byName(randomCities[i]).then(response => {
-			cityNames[i].innerHTML = `${response.data.name}`;
-			countryNames[i].innerHTML = `${response.data.sys.country}`;
-			cityTemps[i].innerHTML = Math.round(response.data.main.temp);
-			cityWeatherDesc[i].innerHTML = `${response.data.weather[0].description}`;
-			weatherService.renderIcons(
-				item,
-				response.data.weather[0].id,
-				response.data.weather[0].icon,
-				'.global-icon'
-			);
+	initialize: function () {
+		this.globalContainer.addEventListener('click', this.updateWeatherData.bind(this));
+		this.getGlobalTemperatures();
+	},
+
+	getGlobalTemperatures: function () {
+		this.countryRows.forEach((item, i) => {
+			weatherService
+				.byName(this.randomCities[i])
+				.then(response => this.displayGlobalTemperatures(response, i, item));
 		});
-	});
-}
+	},
 
-displayGlobalTemperatures();
+	displayGlobalTemperatures: function (response, i, item) {
+		this.cityNames[i].innerHTML = `${response.data.name}`;
+		this.countryNames[i].innerHTML = `${response.data.sys.country}`;
+		this.cityTemps[i].innerHTML = Math.round(response.data.main.temp);
+		this.cityWeatherDesc[i].innerHTML = `${response.data.weather[0].description}`;
+		weatherService.renderIcons(
+			item,
+			response.data.weather[0].id,
+			response.data.weather[0].icon,
+			'.global-icon'
+		);
+	},
 
-const globalContainer = document.querySelector('.global-items-wrapper');
-globalContainer.addEventListener('click', event => {
-	const clickedEl = event.target.closest('.global-item');
-	const clickedCountry = clickedEl.querySelector('.global-name').textContent;
+	updateWeatherData: function (event) {
+		const clickedEl = event.target.closest('.global-item');
+		const clickedCountry = clickedEl.querySelector('.global-name').textContent;
 
-	weatherService.displaySelectedLocationWeather(clickedCountry);
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth',
-	});
-});
+		weatherService.displaySelectedLocationWeather(clickedCountry);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	},
+};
+
+globalWeather.initialize();
