@@ -1,5 +1,3 @@
-const OPENWEATHER_KEY = 'API-KEY-HERE';
-
 class WeatherService {
 	constructor(apiKey) {
 		this.apiKey = apiKey;
@@ -20,7 +18,7 @@ class WeatherService {
 		const response = await axios.get(
 			`${this.forecastData}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${this.apiKey}&units=${this.units}`
 		);
-		displayForecast(response);
+		dailyWeather.displayForecast(response);
 	}
 
 	async byGeolocation(position) {
@@ -28,11 +26,13 @@ class WeatherService {
 		const response = await axios.get(
 			`${this.generalData}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${this.units}`
 		);
-		displayCurrentTemperature(response);
+		selectedLocationWeather.displayCurrentTemperature(response);
 	}
 
 	displaySelectedLocationWeather(location) {
-		this.byName(location).then(response => displayCurrentTemperature(response));
+		this.byName(location).then(response =>
+			selectedLocationWeather.displayCurrentTemperature(response)
+		);
 	}
 
 	initializeGeolocation() {
@@ -72,11 +72,6 @@ class WeatherService {
 	}
 }
 
-const weatherService = new WeatherService(OPENWEATHER_KEY);
-weatherService.initializeGeolocation();
-weatherService.fetchCityList();
-weatherService.getSavedLocation();
-
 const themeManager = {
 	body: document.querySelector('body'),
 	themeToggle: document.querySelector('#flexSwitchCheckChecked'),
@@ -98,8 +93,6 @@ const themeManager = {
 		}
 	},
 };
-
-themeManager.initialize();
 
 const searchManager = {
 	suggestionsList: document.querySelector('.search-suggestions'),
@@ -158,8 +151,6 @@ const searchManager = {
 		this.suggestionsList.style.opacity = '0';
 	},
 };
-
-searchManager.initialize();
 
 const timeManager = {
 	// Get Local Date Object for Searched Cities
@@ -257,136 +248,130 @@ const timeManager = {
 	},
 };
 
-const locationHeading = document.querySelector('#location');
-const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
-const fahrenheit = document.querySelectorAll('.fahrenheit');
-const celsius = document.querySelector('.celsius');
-const windUnit = document.querySelector('#wind-unit');
+const selectedLocationWeather = {
+	locationHeading: document.querySelector('#location'),
+	allTemps: document.querySelectorAll('#temp-now, .temps, .faded-temp'),
+	fahrenheit: document.querySelectorAll('.fahrenheit'),
+	celsius: document.querySelector('.celsius'),
+	windUnit: document.querySelector('#wind-unit'),
+	currentTemp: document.querySelector('#temp-now'),
+	highTemp: document.querySelector('#high-temp'),
+	lowTemp: document.querySelector('#low-temp'),
+	feelsLikeTemp: document.querySelector('#feels-like'),
+	tempDescription: document.querySelector('#description-temp'),
+	wind: document.querySelector('#wind'),
+	humidity: document.querySelector('#humidity'),
+	visibility: document.querySelector('#visibility'),
+	clouds: document.querySelector('#clouds'),
+	conditionMsg: document.querySelector('#condition-msg'),
 
-function toggleTemp(event) {
-	event.preventDefault();
-	if (weatherService.units === 'metric') {
-		celsius.innerHTML = 'C';
-		fahrenheit.forEach(el => (el.innerHTML = 'F'));
-		windUnit.innerHTML = `mph`;
-		weatherService.units = 'imperial';
-	} else if (weatherService.units === 'imperial') {
-		celsius.innerHTML = 'F';
-		fahrenheit.forEach(el => (el.innerHTML = 'C'));
-		windUnit.innerHTML = `km/h`;
-		weatherService.units = 'metric';
-	}
+	initialize: function () {
+		this.celsius.addEventListener('click', this.toggleTemp.bind(this));
+	},
 
-	// Update Data to Reflect Celsius or Fahrenheit Change
-	weatherService.displaySelectedLocationWeather(locationHeading.textContent);
-	globalWeather.getGlobalTemperatures();
-}
+	toggleTemp: function (event) {
+		event.preventDefault();
+		if (weatherService.units === 'metric') {
+			this.celsius.innerHTML = 'C';
+			this.fahrenheit.forEach(el => (el.innerHTML = 'F'));
+			this.windUnit.innerHTML = `mph`;
+			weatherService.units = 'imperial';
+		} else if (weatherService.units === 'imperial') {
+			this.celsius.innerHTML = 'F';
+			this.fahrenheit.forEach(el => (el.innerHTML = 'C'));
+			this.windUnit.innerHTML = `km/h`;
+			weatherService.units = 'metric';
+		}
 
-celsius.addEventListener('click', toggleTemp);
+		// Update Data to Reflect Celsius or Fahrenheit Change
+		weatherService.displaySelectedLocationWeather(this.locationHeading.textContent);
+		globalWeather.getGlobalTemperatures();
+	},
 
-// Display Temperature
-function displayCurrentTemperature(response) {
-	if (response.status == 200) {
-		const data = response.data;
+	displayCurrentTemperature: function (response) {
+		if (response.status == 200) {
+			const data = response.data;
 
-		// Update Weather Details
-		displayWeatherDetails(data);
+			// Rendering selected location's weather data
+			this.displayWeatherDetails(data);
+			this.displayWeatherCondition(data.weather[0].main);
+			weatherService.fetchDailyForecast(response.data.coord);
+			weatherService.renderIcons(
+				document,
+				data.weather[0].id,
+				data.weather[0].icon,
+				`.default-main-icon`
+			);
 
-		// Render Icon for Main Card
-		weatherService.renderIcons(
-			document,
-			data.weather[0].id,
-			data.weather[0].icon,
-			`.default-main-icon`
-		);
+			// User's Local Time
+			const localDateObject = new Date().getTime();
+			timeManager.printLocalDateString(data, localDateObject);
 
-		// Weather Condition Message Indicator
-		displayWeatherCondition(data.weather[0].main);
+			// Location's Local Time
+			const apiSunrise = data.sys.sunrise * 1000;
+			const apiSunset = data.sys.sunset * 1000;
+			timeManager.displaySunsetSunriseTime(data, localDateObject, apiSunrise, apiSunset);
 
-		// Daily Forecast Function
-		weatherService.fetchDailyForecast(response.data.coord);
+			localStorage.setItem('location', `${data.name}`);
+		}
+	},
 
-		// Current Time/Date to Location
-		const localDateObject = new Date().getTime();
-		timeManager.printLocalDateString(data, localDateObject);
+	displayWeatherDetails: function (data) {
+		this.locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
+		this.currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
+		this.highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
+		this.lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
+		this.feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
+		this.tempDescription.innerHTML = `${data.weather[0].description}`;
+		this.wind.innerHTML = `${Math.round(data.wind.speed)}`;
+		this.humidity.innerHTML = `${data.main.humidity}`;
+		this.visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
+		this.clouds.innerHTML = `${data.clouds.all}`;
+	},
 
-		// Sunset/Sunrise
-		const apiSunrise = data.sys.sunrise * 1000;
-		const apiSunset = data.sys.sunset * 1000;
-		timeManager.displaySunsetSunriseTime(data, localDateObject, apiSunrise, apiSunset);
+	displayWeatherCondition: function (data) {
+		const weatherType = data;
 
-		// Local Storage
-		localStorage.setItem('location', `${data.name}`);
-	}
-}
+		switch (weatherType) {
+			case 'Rain':
+			case 'Drizzle':
+			case 'Clouds':
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
+				break;
+			case 'Thunderstorm':
+			case 'Tornado':
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
+				break;
+			case 'Snow':
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
+				break;
+			case 'Clear':
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
+				break;
+			case 'Mist':
+			case 'Fog':
+			case 'Haze':
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
+				break;
+			default:
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
+		}
+	},
+};
 
-function displayWeatherDetails(data) {
-	const currentTemp = document.querySelector('#temp-now');
-	const highTemp = document.querySelector('#high-temp');
-	const lowTemp = document.querySelector('#low-temp');
-	const feelsLikeTemp = document.querySelector('#feels-like');
-	const tempDescription = document.querySelector('#description-temp');
-	const wind = document.querySelector('#wind');
-	const humidity = document.querySelector('#humidity');
-	const visibility = document.querySelector('#visibility');
-	const clouds = document.querySelector('#clouds');
+const dailyWeather = {
+	dewPoint: document.querySelector('#dew-point'),
+	forecastContainer: document.querySelector('.full-forecast'),
 
-	locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
-	currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
-	highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
-	lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
-	feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
-	tempDescription.innerHTML = `${data.weather[0].description}`;
-	wind.innerHTML = `${Math.round(data.wind.speed)}`;
-	humidity.innerHTML = `${data.main.humidity}`;
-	visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
-	clouds.innerHTML = `${data.clouds.all}`;
-}
+	displayForecast: function (response) {
+		// Note: dew point is only available w/ one-call API & not with the general data call
+		this.dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
+		const forecastData = response.data.daily;
+		let forecastHTML = '';
 
-function displayWeatherCondition(data) {
-	const conditionMsg = document.querySelector('#condition-msg');
-	const weatherType = data;
-
-	switch (weatherType) {
-		case 'Rain':
-		case 'Drizzle':
-		case 'Clouds':
-			conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
-			break;
-		case 'Thunderstorm':
-		case 'Tornado':
-			conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
-			break;
-		case 'Snow':
-			conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
-			break;
-		case 'Clear':
-			conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
-			break;
-		case 'Mist':
-		case 'Fog':
-		case 'Haze':
-			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
-			break;
-		default:
-			conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
-	}
-}
-
-// Display Daily Forecast Data
-function displayForecast(response) {
-	// Added Dew Point // Original API Call Does Not Support
-	const dewPoint = document.querySelector('#dew-point');
-	dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
-
-	// Daily Forecast
-	const forecastData = response.data.daily;
-	const forecastContainer = document.querySelector('.full-forecast');
-	let forecastHTML = '';
-
-	forecastData.forEach(function (day, index) {
-		if (index < 7) {
-			forecastHTML += `
+		forecastData.forEach((day, index) => {
+			if (index < 7) {
+				forecastHTML += `
 			<div class="daily m-2 m-md-0">
 				<p>${timeManager.formatDay(day.dt)}</p>
 					<img
@@ -399,28 +384,29 @@ function displayForecast(response) {
 					/>
 				<p>
 					<span class="temps">${Math.round(day.temp.max)}</span>°<span class="fahrenheit">${
-				weatherService.units === 'metric' ? 'C' : 'F'
-			}
+					weatherService.units === 'metric' ? 'C' : 'F'
+				}
 					</span><br />
 					<span class="daily-low">
 						<span class="forecast-low temps">${Math.round(day.temp.min)}</span>°<span class="fahrenheit">${
-				weatherService.units === 'metric' ? 'C' : 'F'
-			}
+					weatherService.units === 'metric' ? 'C' : 'F'
+				}
 					</span>
 					</span>
 				</p>
 			</div>`;
-			forecastContainer.innerHTML = forecastHTML;
+				this.forecastContainer.innerHTML = forecastHTML;
 
-			weatherService.renderIcons(
-				forecastContainer,
-				day.weather[0].id,
-				day.weather[0].icon,
-				`#icon-${index}`
-			);
-		}
-	});
-}
+				weatherService.renderIcons(
+					this.forecastContainer,
+					day.weather[0].id,
+					day.weather[0].icon,
+					`#icon-${index}`
+				);
+			}
+		});
+	},
+};
 
 const globalWeather = {
 	globalContainer: document.querySelector('.global-items-wrapper'),
@@ -489,4 +475,13 @@ const globalWeather = {
 	},
 };
 
+const OPENWEATHER_KEY = 'API-KEY-HERE';
+const weatherService = new WeatherService(OPENWEATHER_KEY);
+
+weatherService.initializeGeolocation();
+weatherService.fetchCityList();
+weatherService.getSavedLocation();
+themeManager.initialize();
+searchManager.initialize();
+selectedLocationWeather.initialize();
 globalWeather.initialize();
