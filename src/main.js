@@ -161,6 +161,102 @@ const searchManager = {
 
 searchManager.initialize();
 
+const timeManager = {
+	// Get Local Date Object for Searched Cities
+	convertUnixToTimezone: function (unix, timezone) {
+		const date = new Date();
+		const timestamp = unix;
+		const offset = date.getTimezoneOffset() * 60000;
+		const utc = timestamp + offset;
+		const convertedDateObject = new Date(utc + 1000 * timezone);
+		return convertedDateObject;
+	},
+	// Format Local Date Objects to Strings
+	formatDate: function (object, options, method) {
+		if (method === 'toLocaleString') {
+			return object.toLocaleString([], options);
+		}
+
+		if (method === 'toLocaleDateString') {
+			return object.toLocaleDateString([], options);
+		}
+	},
+	// Format Daily Forecast Unix Timestamps
+	formatDay: function (unix) {
+		const date = new Date(unix * 1000);
+		const day = date.getDay();
+		const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+		return days[day];
+	},
+
+	// Display Local Date
+	printLocalDateString: function (data, dateObject) {
+		const localDateString = this.formatDate(
+			this.convertUnixToTimezone(dateObject, data.timezone),
+			{
+				weekday: 'long',
+				month: 'long',
+				day: 'numeric',
+			},
+			'toLocaleDateString'
+		);
+		const localTimeString = this.convertUnixToTimezone(dateObject, data.timezone).toLocaleString(
+			[],
+			{
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: true,
+			}
+		);
+		const todaysDate = document.querySelector('#today');
+		todaysDate.innerHTML = `${localDateString} at ${localTimeString}`;
+	},
+
+	// Handle sunset/sunrise
+	displaySunsetSunriseTime: function (data, localDateObject, sunriseTime, sunsetTime) {
+		const sunrise = document.querySelector('#sunrise-time');
+		const sunset = document.querySelector('#sunset-time');
+
+		sunrise.innerHTML = this.formatDate(
+			this.convertUnixToTimezone(sunriseTime, data.timezone),
+			{
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: true,
+			},
+			'toLocaleString'
+		);
+		sunset.innerHTML = this.formatDate(
+			this.convertUnixToTimezone(sunsetTime, data.timezone),
+			{
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: true,
+			},
+			'toLocaleString'
+		);
+
+		this.changeScenery(data, localDateObject);
+	},
+
+	changeScenery: function (data, localDateObject) {
+		const scenery = document.querySelector('#scenery');
+		const sunriseHour = this.convertUnixToTimezone(sunriseTime, data.timezone).getHours();
+		const sunsetHour = this.convertUnixToTimezone(sunsetTime, data.timezone).getHours();
+
+		if (
+			this.convertUnixToTimezone(localDateObject, data.timezone).getHours() < sunriseHour ||
+			this.convertUnixToTimezone(localDateObject, data.timezone).getHours() >= sunsetHour
+		) {
+			scenery.src = '/assets/night-landscape.png';
+			scenery.alt = 'Night landscape';
+		} else {
+			scenery.src = '/assets/day-landscape.png';
+			scenery.alt = 'Day landscape';
+		}
+	},
+};
+
 const locationHeading = document.querySelector('#location');
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
 const fahrenheit = document.querySelectorAll('.fahrenheit');
@@ -212,107 +308,15 @@ function displayCurrentTemperature(response) {
 
 		// Current Time/Date to Location
 		const localDateObject = new Date().getTime();
-		printLocalDateString(data, localDateObject);
+		timeManager.printLocalDateString(data, localDateObject);
 
 		// Sunset/Sunrise
 		const apiSunrise = data.sys.sunrise * 1000;
 		const apiSunset = data.sys.sunset * 1000;
-		displaySunsetSunriseTime(data, localDateObject, apiSunrise, apiSunset);
+		timeManager.displaySunsetSunriseTime(data, localDateObject, apiSunrise, apiSunset);
 
 		// Local Storage
 		localStorage.setItem('location', `${data.name}`);
-	}
-}
-
-// Get Local Date Object for Searched Cities
-function convertDateToSelectedLocale(unix, timezone) {
-	const date = new Date();
-	const timestamp = unix;
-	const offset = date.getTimezoneOffset() * 60000;
-	const utc = timestamp + offset;
-	const convertedDateObject = new Date(utc + 1000 * timezone);
-	return convertedDateObject;
-}
-
-// Format Local Date Objects to Strings
-function formatDate(object, options, method) {
-	if (method === 'toLocaleString') {
-		return object.toLocaleString([], options);
-	}
-
-	if (method === 'toLocaleDateString') {
-		return object.toLocaleDateString([], options);
-	}
-}
-
-// Format Daily Forecast Unix Timestamps
-function formatDay(unix) {
-	const date = new Date(unix * 1000);
-	const day = date.getDay();
-	const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-	return days[day];
-}
-
-// Display Local Date
-function printLocalDateString(data, dateObject) {
-	const localDateString = formatDate(
-		convertDateToSelectedLocale(dateObject, data.timezone),
-		{
-			weekday: 'long',
-			month: 'long',
-			day: 'numeric',
-		},
-		'toLocaleDateString'
-	);
-	const localTimeString = convertDateToSelectedLocale(dateObject, data.timezone).toLocaleString(
-		[],
-		{
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: true,
-		}
-	);
-	const todaysDate = document.querySelector('#today');
-	todaysDate.innerHTML = `${localDateString} at ${localTimeString}`;
-}
-
-// Handle sunset/sunrise
-function displaySunsetSunriseTime(data, localDateObject, sunriseTime, sunsetTime) {
-	const sunrise = document.querySelector('#sunrise-time');
-	const sunset = document.querySelector('#sunset-time');
-
-	sunrise.innerHTML = formatDate(
-		convertDateToSelectedLocale(sunriseTime, data.timezone),
-		{
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: true,
-		},
-		'toLocaleString'
-	);
-	sunset.innerHTML = formatDate(
-		convertDateToSelectedLocale(sunsetTime, data.timezone),
-		{
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: true,
-		},
-		'toLocaleString'
-	);
-
-	const scenery = document.querySelector('#scenery');
-	const sunriseHour = convertDateToSelectedLocale(sunriseTime, data.timezone).getHours();
-	const sunsetHour = convertDateToSelectedLocale(sunsetTime, data.timezone).getHours();
-
-	if (
-		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() < sunriseHour ||
-		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() >= sunsetHour
-	) {
-		scenery.src = '/assets/night-landscape.png';
-		scenery.alt = 'Night landscape';
-	} else {
-		scenery.src = '/assets/day-landscape.png';
-		scenery.alt = 'Day landscape';
 	}
 }
 
@@ -384,7 +388,7 @@ function displayForecast(response) {
 		if (index < 7) {
 			forecastHTML += `
 			<div class="daily m-2 m-md-0">
-				<p>${formatDay(day.dt)}</p>
+				<p>${timeManager.formatDay(day.dt)}</p>
 					<img
 						src="/assets/loading.svg"
 						class="weather-icon forecast-icon mb-2"
