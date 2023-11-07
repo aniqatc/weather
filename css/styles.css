@@ -10,6 +10,9 @@
 	--icon-btn-color: #0a95c0;
 	--btn-bg: #f0f7f8;
 	--btn-border: 1px solid #0a95c0;
+	--search-text: #8c8c8c;
+	--search-bg: rgba(255, 255, 255, 0.75);
+	--search-bg-hover: #fff;
 }
 
 .dark {
@@ -25,6 +28,9 @@
 	--icon-btn-color: #f6f7fa;
 	--btn-bg: #2e3540;
 	--btn-border: 1px solid #545555;
+	--search-text: #bdbdbd;
+	--search-bg: rgba(0, 0, 0, 0.4);
+	--search-bg-hover: rgba(0, 0, 0, 0.75);
 }
 
 body {
@@ -151,6 +157,41 @@ button i {
 	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
+.search-suggestions {
+	position: absolute;
+	top: 42px;
+	left: 48px;
+	width: 432px;
+	border: 1px solid #0a95c0;
+	border-top: 0;
+	z-index: 10;
+	border-radius: 0 0 4px 4px !important;
+	background-color: var(--search-bg);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+	opacity: 0;
+}
+
+.search-suggestions li {
+	color: var(--search-text);
+	padding: 4px 13px;
+}
+
+.search-suggestions li:first-of-type {
+	padding-top: 8px;
+}
+
+.search-suggestions li:last-of-type {
+	padding-bottom: 8px;
+}
+
+.search-suggestions li:hover {
+	background-color: var(--search-bg-hover);
+	width: 100%;
+	color: #0a95c0;
+	font-weight: 500;
+	cursor: pointer;
+}
+
 /* THEME TOGGLE SWITCH  */
 
 #flexSwitchCheckChecked {
@@ -175,8 +216,7 @@ button i {
 
 .local-overview,
 .global-overview {
-	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15),
-		-2px -2px 6px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15), -2px -2px 6px 1px rgba(0, 0, 0, 0.15);
 	border-radius: 20px;
 	background: var(--container-bg);
 }
@@ -343,5 +383,36 @@ button i {
 		border-radius: 10px;
 		height: 10px;
 		display: unset;
+	}
+}
+
+/* Search suggestion */
+@media only screen and (max-width: 1400px) {
+	.search-suggestions {
+		width: 356px;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+	.search-suggestions {
+		width: 281px;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	.search-suggestions {
+		width: 181px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.search-suggestions {
+		width: 344px;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+	.search-suggestions {
+		display: none;
 	}
 }

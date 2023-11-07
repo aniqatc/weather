@@ -2,51 +2,71 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="author" content="Aniqa" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="author"
+			content="Aniqa" />
 		<meta
 			name="description"
-			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond. Dashboard with light/dark functionality was built with Bootstrap & CSS for styling, JavaScript for functionality, and API for live weather data."
-		/>
-		<meta property="og:title" content="Weather Dashboard" />
+			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond. Dashboard with light/dark functionality was built with Bootstrap & CSS for styling, JavaScript for functionality, and API for live weather data." />
+		<meta
+			property="og:title"
+			content="Weather Dashboard" />
 		<meta
 			property="og:description"
-			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond."
-		/>
+			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond." />
 		<meta
 			property="og:image"
-			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png"
-		/>
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content="@aniqatc" />
+			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
+		<meta
+			name="twitter:card"
+			content="summary_large_image" />
+		<meta
+			name="twitter:site"
+			content="@aniqatc" />
 		<meta
 			name="twitter:image"
-			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png"
-		/>
-		<meta name="twitter:image:alt" content="Hero section of website" />
+			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
+		<meta
+			name="twitter:image:alt"
+			content="Hero section of website" />
 		<title>Weather Dashboard</title>
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 			rel="stylesheet"
 			integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-			crossorigin="anonymous"
-		/>
+			crossorigin="anonymous" />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
 		<link
 			href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+			rel="stylesheet" />
+		<link
+			href="/assets/favicon.png"
+			type="image/x-icon"
+			rel="icon" />
+		<link
+			href="/css/styles.css"
 			rel="stylesheet"
-		/>
-		<link href="/assets/favicon.png" type="image/x-icon" rel="icon" />
-		<link href="/css/styles.css" rel="stylesheet" type="text/css" />
+			type="text/css" />
 		<script
 			src="https://kit.fontawesome.com/50cde61edc.js"
-			crossorigin="anonymous"
-		></script>
+			crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-		<script defer src="/src/main.js"></script>
+		<script
+			defer
+			src="/src/main.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -58,33 +78,31 @@
 						<button
 							class="btn btn-outline-primary"
 							id="geolocation-btn"
-							type="button"
-						>
+							type="button">
 							<i class="fa-solid fa-location-arrow"></i>
 						</button>
+
 						<input
 							type="search"
 							placeholder="Search City..."
 							class="form-control"
 							id="search-input"
 							autocapitalize="on"
-							autocomplete="address-level2"
-						/><button
+							autocomplete="off" />
+						<ul class="search-suggestions"></ul>
+						<button
 							type="submit"
-							class="btn btn-outline-primary me-2 search-btn"
-						>
+							class="btn btn-outline-primary me-2 search-btn">
 							<i class="fa-solid fa-magnifying-glass-location"></i>
 						</button>
 					</form>
-					<div
-						class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1"
-					>
+
+					<div class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1">
 						<input
 							class="form-check-input"
 							type="checkbox"
 							id="flexSwitchCheckChecked"
-							role="switch"
-						/>
+							role="switch" />
 					</div>
 				</div>
 			</header>
@@ -101,27 +119,31 @@
 									<div class="card-body">
 										<div class="d-flex">
 											<h1 class="flex-grow-1">
-												<span id="temp-now"></span>°<span class="fahrenheit"
-													>F
-												</span>
+												<span id="temp-now"></span>°<span class="fahrenheit">F </span>
 												<span class="toggle-temps"
-													>/ <a href="#" class="celsius">C</a></span
+													>/
+													<a
+														href="#"
+														class="celsius"
+														>C</a
+													></span
 												>
 											</h1>
 
 											<h3 class="text-end pt-2">
 												<small>High</small>
-												<span class="temps" id="high-temp"></span>°<span
-													class="fahrenheit"
-													>F</span
-												>
+												<span
+													class="temps"
+													id="high-temp"></span
+												>°<span class="fahrenheit">F</span>
 												<br />
 
 												<small>Low </small>
-												<span class="temps" id="low-temp">30</span>°<span
-													class="fahrenheit"
-													>F</span
-												>
+												<span
+													class="temps"
+													id="low-temp"
+													>30</span
+												>°<span class="fahrenheit">F</span>
 											</h3>
 										</div>
 										<br /><br />
@@ -130,10 +152,10 @@
 												<p>
 													<span id="description-temp">Mostly Sunny</span><br />
 													Feels like
-													<span class="temps" id="feels-like"></span>°<span
-														class="fahrenheit"
-														>F</span
-													>
+													<span
+														class="temps"
+														id="feels-like"></span
+													>°<span class="fahrenheit">F</span>
 													<br />
 													<small id="condition-msg"></small>
 												</p>
@@ -143,17 +165,14 @@
 													src="/assets/loading.svg"
 													width="85"
 													class="weather-icon default-main-icon"
-													alt="Loading icon"
-												/>
+													alt="Loading icon" />
 											</div>
 										</div>
 									</div>
 								</div>
 							</section>
 							<div class="w-100 d-lg-none d-block"></div>
-							<section
-								class="temp-details col-lg-4 col-md-5 mt-3 mt-md-2 mt-lg-0"
-							>
+							<section class="temp-details col-lg-4 col-md-5 mt-3 mt-md-2 mt-lg-0">
 								<div class="card p-1 initial">
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item d-flex">
@@ -163,10 +182,10 @@
 										</li>
 										<li class="list-group-item d-flex">
 											<strong class="flex-grow-1">Dew Point </strong
-											><span id="dew-point" class="temps"></span>°<span
-												class="fahrenheit"
-												>F</span
-											>
+											><span
+												id="dew-point"
+												class="temps"></span
+											>°<span class="fahrenheit">F</span>
 											<i class="fa-solid fa-droplet align-self-center"></i>
 										</li>
 										<li class="list-group-item d-flex">
@@ -197,8 +216,7 @@
 										src="/assets/day-landscape.png"
 										class="card-img w-100"
 										id="scenery"
-										alt="Landscape scenery"
-									/>
+										alt="Landscape scenery" />
 									<div class="card-img-overlay text-center">
 										<i class="fa-solid fa-sun"></i>
 										<h3>Sunrise</h3>
@@ -212,37 +230,27 @@
 							</section>
 						</div>
 					</div>
-					<section
-						class="full-forecast d-flex justify-content-md-around my-4"
-					></section>
+					<section class="full-forecast d-flex justify-content-md-around my-4"></section>
 				</div>
 				<div class="w-100 d-lg-none d-block mb-2"></div>
-				<section
-					class="global-overview mx-lg-4 col-xl-3 mt-4 flex-lg-shrink-1 me-lg-0 pb-1"
-				>
+				<section class="global-overview mx-lg-4 col-xl-3 mt-4 flex-lg-shrink-1 me-lg-0 pb-1">
 					<div class="p-1 mt-3">
 						<h2 class="mx-1 mb-3">Forecast in Other <strong>Cities</strong></h2>
 						<hr />
 						<div class="global-items-wrapper d-flex flex-column">
 							<div class="container global-item align-items-center">
-								<div
-									class="row align-items-center flex-nowrap justify-content-center"
-								>
+								<div class="row align-items-center flex-nowrap justify-content-center">
 									<p class="col">
-										<b class="global-name"></b><br /><small
-											class="country-name"
-										></small>
+										<b class="global-name"></b><br /><small class="country-name"></small>
 									</p>
 									<img
 										src="/assets/loading.svg"
 										height="50"
 										class="col-3 weather-icon global-icon"
-										alt="Loading icon"
-									/>
+										alt="Loading icon" />
 									<p class="text-end col">
 										<strong
-											><span class="temps global-temps"></span>°<span
-												class="fahrenheit"
+											><span class="temps global-temps"></span>°<span class="fahrenheit"
 												>F
 											</span></strong
 										><br /><small class="global-descriptions"></small>
@@ -251,24 +259,18 @@
 							</div>
 							<hr />
 							<div class="container global-item align-items-center">
-								<div
-									class="row align-items-center flex-nowrap justify-content-center"
-								>
+								<div class="row align-items-center flex-nowrap justify-content-center">
 									<p class="col">
-										<b class="global-name"></b><br /><small
-											class="country-name"
-										></small>
+										<b class="global-name"></b><br /><small class="country-name"></small>
 									</p>
 									<img
 										src="/assets/loading.svg"
 										height="50"
 										class="col-3 weather-icon global-icon"
-										alt="Loading icon"
-									/>
+										alt="Loading icon" />
 									<p class="text-end col">
 										<strong
-											><span class="temps global-temps"></span>°<span
-												class="fahrenheit"
+											><span class="temps global-temps"></span>°<span class="fahrenheit"
 												>F
 											</span></strong
 										><br /><small class="global-descriptions"></small>
@@ -277,24 +279,18 @@
 							</div>
 							<hr />
 							<div class="container global-item align-items-center">
-								<div
-									class="row align-items-center flex-nowrap justify-content-center"
-								>
+								<div class="row align-items-center flex-nowrap justify-content-center">
 									<p class="col">
-										<b class="global-name"></b><br /><small
-											class="country-name"
-										></small>
+										<b class="global-name"></b><br /><small class="country-name"></small>
 									</p>
 									<img
 										src="/assets/loading.svg"
 										height="50"
 										class="col-3 weather-icon global-icon"
-										alt="Loading icon"
-									/>
+										alt="Loading icon" />
 									<p class="text-end col">
 										<strong
-											><span class="temps global-temps"></span>°<span
-												class="fahrenheit"
+											><span class="temps global-temps"></span>°<span class="fahrenheit"
 												>F
 											</span></strong
 										><br /><small class="global-descriptions"></small>
@@ -303,24 +299,18 @@
 							</div>
 							<hr />
 							<div class="container global-item align-items-center">
-								<div
-									class="row align-items-center flex-nowrap justify-content-center"
-								>
+								<div class="row align-items-center flex-nowrap justify-content-center">
 									<p class="col">
-										<b class="global-name"></b><br /><small
-											class="country-name"
-										></small>
+										<b class="global-name"></b><br /><small class="country-name"></small>
 									</p>
 									<img
 										src="/assets/loading.svg"
 										height="50"
 										class="col-3 weather-icon global-icon"
-										alt="Loading icon"
-									/>
+										alt="Loading icon" />
 									<p class="text-end col">
 										<strong
-											><span class="temps global-temps"></span>°<span
-												class="fahrenheit"
+											><span class="temps global-temps"></span>°<span class="fahrenheit"
 												>F
 											</span></strong
 										><br /><small class="global-descriptions"></small>
@@ -329,24 +319,18 @@
 							</div>
 							<hr />
 							<div class="container global-item align-items-center">
-								<div
-									class="row align-items-center flex-nowrap justify-content-center"
-								>
+								<div class="row align-items-center flex-nowrap justify-content-center">
 									<p class="col">
-										<b class="global-name"></b><br /><small
-											class="country-name"
-										></small>
+										<b class="global-name"></b><br /><small class="country-name"></small>
 									</p>
 									<img
 										src="/assets/loading.svg"
 										height="50"
 										class="col-3 weather-icon global-icon"
-										alt="Loading icon"
-									/>
+										alt="Loading icon" />
 									<p class="text-end col">
 										<strong
-											><span class="temps global-temps"></span>°<span
-												class="fahrenheit"
+											><span class="temps global-temps"></span>°<span class="fahrenheit"
 												>F
 											</span></strong
 										><br /><small class="global-descriptions"></small>

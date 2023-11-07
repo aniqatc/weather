@@ -34,6 +34,54 @@ if (userLocation) {
 	getWeatherByName('New York');
 }
 
+const searchInput = document.querySelector('#search-input');
+let citiesArray;
+
+fetch('/json/cities.json')
+	.then(response => response.json())
+	.then(data => {
+		citiesArray = data;
+	});
+
+const suggestionsContainer = document.querySelector('.search-suggestions');
+searchInput.addEventListener('keyup', () => {
+	const inputText = searchInput.value.trim();
+	clearSuggestions();
+	if (inputText) {
+		let suggestions = citiesArray.filter(city =>
+			city.name.toLowerCase().startsWith(inputText.toLowerCase())
+		);
+		suggestions = suggestions.slice(0, 4);
+		showSuggestions(suggestions);
+	}
+});
+
+function showSuggestions(suggestions) {
+	suggestions.forEach(city => {
+		const li = document.createElement('li');
+		li.textContent = city.name;
+		suggestionsContainer.appendChild(li);
+		suggestionsContainer.style.opacity = '1';
+
+		li.addEventListener('click', () => {
+			li.textContent;
+			getWeatherByName(li.textContent);
+			clearSuggestions();
+		});
+	});
+}
+
+document.addEventListener('click', function (event) {
+	if (!suggestionsContainer.contains(event.target)) {
+		clearSuggestions();
+	}
+});
+
+function clearSuggestions() {
+	suggestionsContainer.innerHTML = '';
+	suggestionsContainer.style.opacity = '0';
+}
+
 // Call API by Search Functionality
 function searchCity(event) {
 	event.preventDefault();
@@ -61,9 +109,7 @@ geolocationButton.addEventListener('click', function () {
 
 // Call API by City Name
 async function getWeatherByName(location) {
-	const response = await axios.get(
-		`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`
-	);
+	const response = await axios.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`);
 	displayCurrentTemperature(response);
 }
 
@@ -111,12 +157,7 @@ function displayCurrentTemperature(response) {
 		displayWeatherDetails(data);
 
 		// Render Icon for Main Card
-		renderIcons(
-			document,
-			data.weather[0].id,
-			data.weather[0].icon,
-			`.default-main-icon`
-		);
+		renderIcons(document, data.weather[0].id, data.weather[0].icon, `.default-main-icon`);
 
 		// Weather Condition Message Indicator
 		displayWeatherCondition(data.weather[0].main);
@@ -178,25 +219,20 @@ function printLocalDateString(data, dateObject) {
 		},
 		'toLocaleDateString'
 	);
-	const localTimeString = convertDateToSelectedLocale(
-		dateObject,
-		data.timezone
-	).toLocaleString([], {
-		hour: '2-digit',
-		minute: '2-digit',
-		hour12: true,
-	});
+	const localTimeString = convertDateToSelectedLocale(dateObject, data.timezone).toLocaleString(
+		[],
+		{
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		}
+	);
 	const todaysDate = document.querySelector('#today');
 	todaysDate.innerHTML = `${localDateString} at ${localTimeString}`;
 }
 
 // Handle sunset/sunrise
-function displaySunsetSunriseTime(
-	data,
-	localDateObject,
-	sunriseTime,
-	sunsetTime
-) {
+function displaySunsetSunriseTime(data, localDateObject, sunriseTime, sunsetTime) {
 	const sunrise = document.querySelector('#sunrise-time');
 	const sunset = document.querySelector('#sunset-time');
 
@@ -220,20 +256,12 @@ function displaySunsetSunriseTime(
 	);
 
 	const scenery = document.querySelector('#scenery');
-	const sunriseHour = convertDateToSelectedLocale(
-		sunriseTime,
-		data.timezone
-	).getHours();
-	const sunsetHour = convertDateToSelectedLocale(
-		sunsetTime,
-		data.timezone
-	).getHours();
+	const sunriseHour = convertDateToSelectedLocale(sunriseTime, data.timezone).getHours();
+	const sunsetHour = convertDateToSelectedLocale(sunsetTime, data.timezone).getHours();
 
 	if (
-		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() <
-			sunriseHour ||
-		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() >=
-			sunsetHour
+		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() < sunriseHour ||
+		convertDateToSelectedLocale(localDateObject, data.timezone).getHours() >= sunsetHour
 	) {
 		scenery.src = '/assets/night-landscape.png';
 		scenery.alt = 'Night landscape';
@@ -321,26 +349,21 @@ function displayForecast(response) {
 						id="icon-${index}"
 					/>
 				<p>
-					<span class="temps">${Math.round(
-						day.temp.max
-					)}</span>°<span class="fahrenheit">${units === 'metric' ? 'C' : 'F'} 
+					<span class="temps">${Math.round(day.temp.max)}</span>°<span class="fahrenheit">${
+				units === 'metric' ? 'C' : 'F'
+			}
 					</span><br />
 					<span class="daily-low">
-						<span class="forecast-low temps">${Math.round(
-							day.temp.min
-						)}</span>°<span class="fahrenheit">${units === 'metric' ? 'C' : 'F'}
+						<span class="forecast-low temps">${Math.round(day.temp.min)}</span>°<span class="fahrenheit">${
+				units === 'metric' ? 'C' : 'F'
+			}
 					</span>
 					</span>
 				</p>
 			</div>`;
 			forecastContainer.innerHTML = forecastHTML;
 
-			renderIcons(
-				forecastContainer,
-				day.weather[0].id,
-				day.weather[0].icon,
-				`#icon-${index}`
-			);
+			renderIcons(forecastContainer, day.weather[0].id, day.weather[0].icon, `#icon-${index}`);
 		}
 	});
 }
@@ -376,9 +399,7 @@ const cities = [
 // Default Information for Global Forecast Section
 function displayGlobalTemperatures() {
 	countryRows.forEach(async (item, i) => {
-		const response = await axios.get(
-			`${apiWeather}?q=${cities[i]}&appid=${apiKey}&units=${units}`
-		);
+		const response = await axios.get(`${apiWeather}?q=${cities[i]}&appid=${apiKey}&units=${units}`);
 		const data = response.data;
 
 		cityNames[i].innerHTML = `${data.name}`;
@@ -408,9 +429,7 @@ async function renderIcons(location, dataId, dataIcon, imgEl) {
 	const response = await axios.get('/json/icons.json');
 	const customIcons = response.data;
 
-	const iconMatch = customIcons.find(
-		icon => icon.id === dataId && icon.icon === dataIcon
-	);
+	const iconMatch = customIcons.find(icon => icon.id === dataId && icon.icon === dataIcon);
 
 	if (iconMatch) {
 		const icon = location.querySelector(imgEl);
