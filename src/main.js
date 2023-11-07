@@ -1,58 +1,122 @@
-// Dark Mode Theme Change
-function setTheme() {
-	const body = document.querySelector('body');
-	body.classList.toggle('dark');
+const OPENWEATHER_KEY = 'API-KEY-HERE';
 
-	if (body.classList.contains('dark')) {
-		localStorage.setItem('theme', 'dark');
-	} else {
-		localStorage.setItem('theme', 'light');
+class WeatherService {
+	constructor(apiKey) {
+		this.apiKey = apiKey;
+		this.generalData = 'https://api.openweathermap.org/data/2.5/weather';
+		this.forecastData = 'https://api.openweathermap.org/data/2.5/onecall';
+		this.units = 'imperial';
+		this.geolocationButton = document.querySelector('#geolocation-btn');
+		this.cities;
+	}
+
+	async byName(location) {
+		return await axios.get(
+			`${this.generalData}?q=${location}&appid=${this.apiKey}&units=${this.units}`
+		);
+	}
+
+	async fetchDailyForecast(coordinates) {
+		const response = await axios.get(
+			`${this.forecastData}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${this.apiKey}&units=${this.units}`
+		);
+		displayForecast(response);
+	}
+
+	async byGeolocation(position) {
+		const { latitude: lat, longitude: lon } = position.coords;
+		const response = await axios.get(
+			`${this.generalData}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${this.units}`
+		);
+		displayCurrentTemperature(response);
+	}
+
+	initializeGeolocation() {
+		this.geolocationButton.addEventListener('click', () => {
+			navigator.geolocation.getCurrentPosition(this.byGeolocation.bind(this));
+		});
+	}
+
+	fetchCityList() {
+		fetch('/json/cities.json')
+			.then(response => response.json())
+			.then(data => {
+				this.cities = data;
+			});
+	}
+
+	displaySelectedLocationWeather(location) {
+		this.byName(location).then(response => displayCurrentTemperature(response));
+	}
+
+	getSavedLocation() {
+		const userLocation = localStorage.getItem('location');
+		if (userLocation) {
+			this.displaySelectedLocationWeather(userLocation);
+		} else {
+			this.displaySelectedLocationWeather('New York');
+		}
 	}
 }
 
-const themeToggle = document.querySelector('#flexSwitchCheckChecked');
-themeToggle.addEventListener('click', setTheme);
+const weatherService = new WeatherService(OPENWEATHER_KEY);
+weatherService.initializeGeolocation();
+weatherService.fetchCityList();
+weatherService.getSavedLocation();
 
-const userTheme = localStorage.getItem('theme');
-if (userTheme === 'dark') {
-	themeToggle.click();
-}
+const themeManager = {
+	body: document.querySelector('body'),
+	themeToggle: document.querySelector('#flexSwitchCheckChecked'),
 
-// Variables for API & Location Heading
-const apiKey = 'OPENWEATHERAPI-KEY';
-const apiWeather = 'https://api.openweathermap.org/data/2.5/weather';
-const apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall';
-let units = 'imperial';
-const locationHeading = document.querySelector('#location');
-const geolocationButton = document.querySelector('#geolocation-btn');
+	initialize: function () {
+		this.themeToggle.addEventListener('click', this.toggleTheme.bind(this));
+		this.getSavedTheme();
+	},
 
-// User Location Preference
-const userLocation = localStorage.getItem('location');
-if (userLocation) {
-	getWeatherByName(userLocation);
-} else {
-	getWeatherByName('New York');
-}
+	toggleTheme: function () {
+		this.body.classList.toggle('dark');
+		localStorage.setItem('theme', this.body.classList.contains('dark') ? 'dark' : 'light');
+	},
 
+	getSavedTheme: function () {
+		const userTheme = localStorage.getItem('theme');
+		if (userTheme === 'dark') {
+			this.themeToggle.click();
+		}
+	},
+};
+
+themeManager.initialize();
+
+// Handle search and suggestions
+const suggestionsList = document.querySelector('.search-suggestions');
 const searchInput = document.querySelector('#search-input');
-let citiesArray;
+const searchBtn = document.querySelector('.search-form');
+searchBtn.addEventListener('submit', searchCity);
 
-fetch('/json/cities.json')
-	.then(response => response.json())
-	.then(data => {
-		citiesArray = data;
-	});
+function searchCity(event) {
+	event.preventDefault();
+	const searchInputValue = document.querySelector('#search-input').value;
+	if (searchInputValue) {
+		weatherService.displaySelectedLocationWeather(searchInputValue);
+	}
+}
 
-const suggestionsContainer = document.querySelector('.search-suggestions');
 searchInput.addEventListener('keyup', () => {
 	const inputText = searchInput.value.trim();
 	clearSuggestions();
+
 	if (inputText) {
-		let suggestions = citiesArray.filter(city =>
-			city.name.toLowerCase().startsWith(inputText.toLowerCase())
-		);
-		suggestions = suggestions.slice(0, 4);
+		let suggestions = weatherService.cities
+			.filter(city => city.name.toLowerCase().startsWith(inputText.toLowerCase()))
+			.slice(0, 4);
 		showSuggestions(suggestions);
+	}
+});
+
+document.addEventListener('click', function (event) {
+	if (!suggestionsList.contains(event.target)) {
+		clearSuggestions();
 	}
 });
 
@@ -60,68 +124,24 @@ function showSuggestions(suggestions) {
 	suggestions.forEach(city => {
 		const li = document.createElement('li');
 		li.textContent = city.name;
-		suggestionsContainer.appendChild(li);
-		suggestionsContainer.style.opacity = '1';
+		suggestionsList.appendChild(li);
+		suggestionsList.style.opacity = '1';
 
 		li.addEventListener('click', () => {
 			li.textContent;
-			getWeatherByName(li.textContent);
+			weatherService.displaySelectedLocationWeather(li.textContent);
 			clearSuggestions();
 		});
 	});
 }
 
-document.addEventListener('click', function (event) {
-	if (!suggestionsContainer.contains(event.target)) {
-		clearSuggestions();
-	}
-});
-
 function clearSuggestions() {
-	suggestionsContainer.innerHTML = '';
-	suggestionsContainer.style.opacity = '0';
+	suggestionsList.innerHTML = '';
+	suggestionsList.style.opacity = '0';
 }
 
-// Call API by Search Functionality
-function searchCity(event) {
-	event.preventDefault();
-	const searchInput = document.querySelector('#search-input').value;
-	if (searchInput) {
-		getWeatherByName(searchInput);
-	}
-}
-
-const searchBtn = document.querySelector('.search-form');
-searchBtn.addEventListener('submit', searchCity);
-
-// Call API by Geolocation
-async function getLocation(position) {
-	const { latitude: lat, longitude: lon } = position.coords;
-	const response = await axios.get(
-		`${apiWeather}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`
-	);
-	displayCurrentTemperature(response);
-}
-
-geolocationButton.addEventListener('click', function () {
-	navigator.geolocation.getCurrentPosition(getLocation);
-});
-
-// Call API by City Name
-async function getWeatherByName(location) {
-	const response = await axios.get(`${apiWeather}?q=${location}&appid=${apiKey}&units=${units}`);
-	displayCurrentTemperature(response);
-}
-
-// Call API for Daily Forecast
-async function getDailyForecast(coordinates) {
-	const response = await axios.get(
-		`${apiOneCall}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
-	);
-	displayForecast(response);
-}
-
-// Change Units
+/////////
+const locationHeading = document.querySelector('#location');
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
 const fahrenheit = document.querySelectorAll('.fahrenheit');
 const celsius = document.querySelector('.celsius');
@@ -129,20 +149,20 @@ const windUnit = document.querySelector('#wind-unit');
 
 function toggleTemp(event) {
 	event.preventDefault();
-	if (units === 'metric') {
+	if (weatherService.units === 'metric') {
 		celsius.innerHTML = 'C';
 		fahrenheit.forEach(el => (el.innerHTML = 'F'));
 		windUnit.innerHTML = `mph`;
-		units = 'imperial';
-	} else if (units === 'imperial') {
+		weatherService.units = 'imperial';
+	} else if (weatherService.units === 'imperial') {
 		celsius.innerHTML = 'F';
 		fahrenheit.forEach(el => (el.innerHTML = 'C'));
 		windUnit.innerHTML = `km/h`;
-		units = 'metric';
+		weatherService.units = 'metric';
 	}
 
 	// Update Data to Reflect Celsius or Fahrenheit Change
-	getWeatherByName(locationHeading.textContent);
+	weatherService.displaySelectedLocationWeather(locationHeading.textContent);
 	displayGlobalTemperatures();
 }
 
@@ -163,7 +183,7 @@ function displayCurrentTemperature(response) {
 		displayWeatherCondition(data.weather[0].main);
 
 		// Daily Forecast Function
-		getDailyForecast(response.data.coord);
+		weatherService.fetchDailyForecast(response.data.coord);
 
 		// Current Time/Date to Location
 		const localDateObject = new Date().getTime();
@@ -350,12 +370,12 @@ function displayForecast(response) {
 					/>
 				<p>
 					<span class="temps">${Math.round(day.temp.max)}</span>°<span class="fahrenheit">${
-				units === 'metric' ? 'C' : 'F'
+				weatherService.units === 'metric' ? 'C' : 'F'
 			}
 					</span><br />
 					<span class="daily-low">
 						<span class="forecast-low temps">${Math.round(day.temp.min)}</span>°<span class="fahrenheit">${
-				units === 'metric' ? 'C' : 'F'
+				weatherService.units === 'metric' ? 'C' : 'F'
 			}
 					</span>
 					</span>
@@ -374,7 +394,7 @@ const cityWeatherDesc = document.querySelectorAll('.global-descriptions');
 const cityNames = document.querySelectorAll('.global-name');
 const countryNames = document.querySelectorAll('.country-name');
 const countryRows = document.querySelectorAll('.global-item');
-const cities = [
+const randomCities = [
 	'Seattle',
 	'Rabat',
 	'London',
@@ -399,15 +419,13 @@ const cities = [
 // Default Information for Global Forecast Section
 function displayGlobalTemperatures() {
 	countryRows.forEach(async (item, i) => {
-		const response = await axios.get(`${apiWeather}?q=${cities[i]}&appid=${apiKey}&units=${units}`);
-		const data = response.data;
-
-		cityNames[i].innerHTML = `${data.name}`;
-		countryNames[i].innerHTML = `${data.sys.country}`;
-		cityTemps[i].innerHTML = Math.round(data.main.temp);
-		cityWeatherDesc[i].innerHTML = `${data.weather[0].description}`;
-
-		renderIcons(item, data.weather[0].id, data.weather[0].icon, '.global-icon');
+		weatherService.byName(randomCities[i]).then(response => {
+			cityNames[i].innerHTML = `${response.data.name}`;
+			countryNames[i].innerHTML = `${response.data.sys.country}`;
+			cityTemps[i].innerHTML = Math.round(response.data.main.temp);
+			cityWeatherDesc[i].innerHTML = `${response.data.weather[0].description}`;
+			renderIcons(item, response.data.weather[0].id, response.data.weather[0].icon, '.global-icon');
+		});
 	});
 }
 
@@ -418,7 +436,7 @@ globalContainer.addEventListener('click', event => {
 	const clickedEl = event.target.closest('.global-item');
 	const clickedCountry = clickedEl.querySelector('.global-name').textContent;
 
-	getWeatherByName(clickedCountry);
+	weatherService.displaySelectedLocationWeather(clickedCountry);
 	window.scrollTo({
 		top: 0,
 		behavior: 'smooth',

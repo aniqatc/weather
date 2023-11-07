@@ -11,8 +11,7 @@
 	--btn-bg: #f0f7f8;
 	--btn-border: 1px solid #0a95c0;
 	--search-text: #8c8c8c;
-	--search-bg: rgba(255, 255, 255, 0.75);
-	--search-bg-hover: #fff;
+	--search-bg: rgba(255, 255, 255, 0.65);
 }
 
 .dark {
@@ -29,8 +28,7 @@
 	--btn-bg: #2e3540;
 	--btn-border: 1px solid #545555;
 	--search-text: #bdbdbd;
-	--search-bg: rgba(0, 0, 0, 0.4);
-	--search-bg-hover: rgba(0, 0, 0, 0.75);
+	--search-bg: rgba(0, 0, 0, 0.65);
 }
 
 body {
@@ -53,7 +51,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* ELEMENT & TEXT STYLES */
-
 h1 {
 	font-size: 28px;
 	font-weight: bold;
@@ -126,7 +123,6 @@ footer i {
 }
 
 /* SEARCH BAR */
-
 button i {
 	color: var(--icon-btn-color);
 	text-shadow: var(--icon-btn-shadow);
@@ -157,6 +153,7 @@ button i {
 	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
+/* Search suggestions */
 .search-suggestions {
 	position: absolute;
 	top: 42px;
@@ -168,6 +165,7 @@ button i {
 	border-radius: 0 0 4px 4px !important;
 	background-color: var(--search-bg);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+	backdrop-filter: blur(2px);
 	opacity: 0;
 }
 
@@ -185,7 +183,7 @@ button i {
 }
 
 .search-suggestions li:hover {
-	background-color: var(--search-bg-hover);
+	background-color: var(--global-hover);
 	width: 100%;
 	color: #0a95c0;
 	font-weight: 500;
@@ -193,7 +191,6 @@ button i {
 }
 
 /* THEME TOGGLE SWITCH  */
-
 #flexSwitchCheckChecked {
 	padding: 15px 24px;
 }
@@ -213,7 +210,6 @@ button i {
 }
 
 /* CONTAINER CONTENT */
-
 .local-overview,
 .global-overview {
 	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15), -2px -2px 6px 1px rgba(0, 0, 0, 0.15);
@@ -232,7 +228,6 @@ button i {
 }
 
 /* LOCAL WEATHER CONTAINER CONTENT */
-
 .daily,
 .card,
 .form-check-input {
@@ -281,7 +276,6 @@ button i {
 }
 
 /* DAILY FORECAST STYLES */
-
 .full-forecast {
 	overflow-x: scroll;
 	overflow-y: visible;
@@ -370,7 +364,7 @@ button i {
 	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
 }
 
-/* Apply Custom Scrollbar Styling for Smaller Devices */
+/* Custom scrollbar styling for forecast section */
 @media only screen and (max-width: 768px) {
 	.full-forecast {
 		-ms-overflow-style: unset;
@@ -386,7 +380,7 @@ button i {
 	}
 }
 
-/* Search suggestion */
+/* Search suggestion sizing adjustments */
 @media only screen and (max-width: 1400px) {
 	.search-suggestions {
 		width: 356px;
