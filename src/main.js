@@ -31,6 +31,10 @@ class WeatherService {
 		displayCurrentTemperature(response);
 	}
 
+	displaySelectedLocationWeather(location) {
+		this.byName(location).then(response => displayCurrentTemperature(response));
+	}
+
 	initializeGeolocation() {
 		this.geolocationButton.addEventListener('click', () => {
 			navigator.geolocation.getCurrentPosition(this.byGeolocation.bind(this));
@@ -45,16 +49,25 @@ class WeatherService {
 			});
 	}
 
-	displaySelectedLocationWeather(location) {
-		this.byName(location).then(response => displayCurrentTemperature(response));
-	}
-
 	getSavedLocation() {
 		const userLocation = localStorage.getItem('location');
 		if (userLocation) {
 			this.displaySelectedLocationWeather(userLocation);
 		} else {
 			this.displaySelectedLocationWeather('New York');
+		}
+	}
+
+	async renderIcons(location, dataId, dataIcon, imgEl) {
+		const response = await axios.get('/json/icons.json');
+		const customIcons = response.data;
+
+		const iconMatch = customIcons.find(icon => icon.id === dataId && icon.icon === dataIcon);
+
+		if (iconMatch) {
+			const icon = location.querySelector(imgEl);
+			icon.setAttribute('src', iconMatch.src);
+			icon.setAttribute('alt', iconMatch.alt);
 		}
 	}
 }
@@ -88,59 +101,66 @@ const themeManager = {
 
 themeManager.initialize();
 
-// Handle search and suggestions
-const suggestionsList = document.querySelector('.search-suggestions');
-const searchInput = document.querySelector('#search-input');
-const searchBtn = document.querySelector('.search-form');
-searchBtn.addEventListener('submit', searchCity);
+const searchManager = {
+	suggestionsList: document.querySelector('.search-suggestions'),
+	searchBtn: document.querySelector('.search-form'),
+	searchInput: document.querySelector('#search-input'),
 
-function searchCity(event) {
-	event.preventDefault();
-	const searchInputValue = document.querySelector('#search-input').value;
-	if (searchInputValue) {
-		weatherService.displaySelectedLocationWeather(searchInputValue);
-	}
-}
+	initialize: function () {
+		this.searchBtn.addEventListener('submit', this.submitCity.bind(this));
+		this.searchInput.addEventListener('keyup', this.typeInput.bind(this));
+		document.addEventListener('click', this.clickOutsideInput.bind(this));
+	},
 
-searchInput.addEventListener('keyup', () => {
-	const inputText = searchInput.value.trim();
-	clearSuggestions();
+	submitCity: function (event) {
+		event.preventDefault();
+		const searchInputValue = this.searchInput.value;
+		if (searchInputValue) {
+			weatherService.displaySelectedLocationWeather(searchInputValue);
+		}
+	},
 
-	if (inputText) {
-		let suggestions = weatherService.cities
-			.filter(city => city.name.toLowerCase().startsWith(inputText.toLowerCase()))
-			.slice(0, 4);
-		showSuggestions(suggestions);
-	}
-});
+	typeInput: function () {
+		const inputText = this.searchInput.value.trim();
+		this.clearSuggestions();
 
-document.addEventListener('click', function (event) {
-	if (!suggestionsList.contains(event.target)) {
-		clearSuggestions();
-	}
-});
+		if (inputText) {
+			let suggestions = weatherService.cities
+				.filter(city => city.name.toLowerCase().startsWith(inputText.toLowerCase()))
+				.slice(0, 4);
+			this.showSuggestions(suggestions);
+		}
+	},
 
-function showSuggestions(suggestions) {
-	suggestions.forEach(city => {
-		const li = document.createElement('li');
-		li.textContent = city.name;
-		suggestionsList.appendChild(li);
-		suggestionsList.style.opacity = '1';
+	clickOutsideInput: function (event) {
+		if (!this.suggestionsList.contains(event.target)) {
+			this.clearSuggestions();
+		}
+	},
 
-		li.addEventListener('click', () => {
-			li.textContent;
-			weatherService.displaySelectedLocationWeather(li.textContent);
-			clearSuggestions();
+	showSuggestions: function (suggestions) {
+		suggestions.forEach(city => {
+			const li = document.createElement('li');
+			li.textContent = city.name;
+			this.suggestionsList.appendChild(li);
+			this.suggestionsList.style.opacity = '1';
+
+			li.addEventListener('click', () => {
+				li.textContent;
+				weatherService.displaySelectedLocationWeather(li.textContent);
+				this.clearSuggestions();
+			});
 		});
-	});
-}
+	},
 
-function clearSuggestions() {
-	suggestionsList.innerHTML = '';
-	suggestionsList.style.opacity = '0';
-}
+	clearSuggestions: function () {
+		this.suggestionsList.innerHTML = '';
+		this.suggestionsList.style.opacity = '0';
+	},
+};
 
-/////////
+searchManager.initialize();
+
 const locationHeading = document.querySelector('#location');
 const allTemps = document.querySelectorAll('#temp-now, .temps, .faded-temp');
 const fahrenheit = document.querySelectorAll('.fahrenheit');
@@ -177,7 +197,12 @@ function displayCurrentTemperature(response) {
 		displayWeatherDetails(data);
 
 		// Render Icon for Main Card
-		renderIcons(document, data.weather[0].id, data.weather[0].icon, `.default-main-icon`);
+		weatherService.renderIcons(
+			document,
+			data.weather[0].id,
+			data.weather[0].icon,
+			`.default-main-icon`
+		);
 
 		// Weather Condition Message Indicator
 		displayWeatherCondition(data.weather[0].main);
@@ -383,7 +408,12 @@ function displayForecast(response) {
 			</div>`;
 			forecastContainer.innerHTML = forecastHTML;
 
-			renderIcons(forecastContainer, day.weather[0].id, day.weather[0].icon, `#icon-${index}`);
+			weatherService.renderIcons(
+				forecastContainer,
+				day.weather[0].id,
+				day.weather[0].icon,
+				`#icon-${index}`
+			);
 		}
 	});
 }
@@ -424,7 +454,12 @@ function displayGlobalTemperatures() {
 			countryNames[i].innerHTML = `${response.data.sys.country}`;
 			cityTemps[i].innerHTML = Math.round(response.data.main.temp);
 			cityWeatherDesc[i].innerHTML = `${response.data.weather[0].description}`;
-			renderIcons(item, response.data.weather[0].id, response.data.weather[0].icon, '.global-icon');
+			weatherService.renderIcons(
+				item,
+				response.data.weather[0].id,
+				response.data.weather[0].icon,
+				'.global-icon'
+			);
 		});
 	});
 }
@@ -442,16 +477,3 @@ globalContainer.addEventListener('click', event => {
 		behavior: 'smooth',
 	});
 });
-
-async function renderIcons(location, dataId, dataIcon, imgEl) {
-	const response = await axios.get('/json/icons.json');
-	const customIcons = response.data;
-
-	const iconMatch = customIcons.find(icon => icon.id === dataId && icon.icon === dataIcon);
-
-	if (iconMatch) {
-		const icon = location.querySelector(imgEl);
-		icon.setAttribute('src', iconMatch.src);
-		icon.setAttribute('alt', iconMatch.alt);
-	}
-}
