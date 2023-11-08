@@ -1,3 +1,11 @@
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+	window.addEventListener('load', () => {
+		navigator.serviceWorker.register('/src/service-worker.js');
+	});
+}
+
+// Weather App
 class WeatherService {
 	constructor(apiKey) {
 		this.apiKey = apiKey;
