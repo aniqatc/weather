@@ -1,15 +1,21 @@
 const CACHE_NAME = 'weather-cache-1';
-const CACHE_URLS = [
-	'/',
-	'/css/styles.css',
-	'/src/main.js',
-	'/json/cities.json',
-	'/json/icons.json',
-];
+const MAIN_URLS = ['/', '/css/styles.css', '/src/main.js', '/json/cities.json'];
 
-// Add resources to cache during install event
 self.addEventListener('install', event => {
-	event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CACHE_URLS)));
+	// waitUntil() ensures installing isn't complete until the following promise resolves
+	event.waitUntil(
+		caches.open(CACHE_NAME).then(cache => {
+			return fetch('/json/icons.json')
+				.then(response => response.json())
+				.then(icons => {
+					const iconURLs = icons.map(icon => icon.src);
+					const allURLS = MAIN_URLS.concat(iconURLs);
+					// Add all fetched URLs to the cache
+					console.log(allURLS);
+					return cache.addAll(allURLS);
+				});
+		})
+	);
 });
 
 // Fetch event fired any time resources from CACHE_URLS is fetched
