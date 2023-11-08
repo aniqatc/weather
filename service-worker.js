@@ -1,5 +1,5 @@
 const CACHE_NAME = 'weather-cache-1';
-const MAIN_URLS = ['/', '/css/styles.css', '/src/main.js', '/json/cities.json'];
+const MAIN_URLS = ['/', '/css/styles.css', '/src/main.js'];
 
 self.addEventListener('install', event => {
 	// waitUntil() ensures installing isn't complete until the following promise resolves
@@ -9,10 +9,9 @@ self.addEventListener('install', event => {
 				.then(response => response.json())
 				.then(icons => {
 					const iconURLs = icons.map(icon => icon.src);
-					const allURLS = MAIN_URLS.concat(iconURLs);
+					const allURLs = MAIN_URLS.concat(iconURLs);
 					// Add all fetched URLs to the cache
-					console.log(allURLS);
-					return cache.addAll(allURLS);
+					return cache.addAll(allURLs);
 				});
 		})
 	);
