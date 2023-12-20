@@ -35,7 +35,7 @@
 
 **Interactive Elements**
 
-- Search cities from a database of over 200,000 cities and updates all content related to the selected city
+- Search cities from a database of over 200,000 cities with dynamic autosuggestions 
 - Geolocation button fetches the user’s current location and updates all content based on user’s city
 - Toggle weather data between imperial and metric
 - ‘Forecast In Other Cities’ section shows current weather data for 5 random cities from around the world; clicking on the city will update the weather dashboard with that city’s weather data
