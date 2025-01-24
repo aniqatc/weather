@@ -287,7 +287,7 @@ const selectedLocationWeather = {
 		} else if (weatherService.units === 'imperial') {
 			this.celsius.innerHTML = 'F';
 			this.fahrenheit.forEach(el => (el.innerHTML = 'C'));
-			this.windUnit.innerHTML = `km/h`;
+			this.windUnit.innerHTML = `m/s`;
 			weatherService.units = 'metric';
 		}
 
