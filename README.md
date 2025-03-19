@@ -1,16 +1,16 @@
 ## Weather Dashboard
 
-[https://weather.aniqa.dev/](https://weather.aniqa.dev)
+[https://weather.ajay.dev/](https://weather.aniqa.dev)
 
 🌤️ A detailed light and dark mode dashboard with a complete overview of live weather conditions in the specified city. Option to toggle weather data between Celsius and Fahrenheit units. Sidebar with random major cities weather. Built using the OpenWeather API.
 
 ## Light Mode
 
-<a href="https://weather.aniqa.dev" target="_blank"><img src="https://github.com/aniqatc/weather/blob/main/assets/og-img.png?raw=true" style="max-width: 100%;"></a>
+<a href="https://weather.ajay.dev" target="_blank"><img src="https://github.com/ajay/weather/blob/main/assets/og-img.png?raw=true" style="max-width: 100%;"></a>
 
 ## Dark Mode
 
-<a href="https://weather.aniqa.dev" target="_blank"><img src="/assets/screenshot-dark.png" style="max-width: 100%;"></a>
+<a href="https://weather.ajay.dev" target="_blank"><img src="/assets/screenshot-dark.png" style="max-width: 100%;"></a>
 
 ## Tech
 
