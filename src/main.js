@@ -11,25 +11,34 @@ class WeatherService {
 		this.apiKey = apiKey;
 		this.generalData = 'https://api.openweathermap.org/data/2.5/weather';
 		this.forecastData = 'https://api.openweathermap.org/data/2.5/onecall';
-		this.units = 'imperial';
+		this.units = 'metric';
 		this.geolocationButton = document.querySelector('#geolocation-btn');
 		this.cities;
+		this.weatherCodes;
+		this.mySelectedCityName;
+		this.mySelectedCityLon;
+		this.mySelectedCityLat;
 	}
 
-	async byName(location) {
-		return await axios.get(
-			`${this.generalData}?q=${location}&appid=${this.apiKey}&units=${this.units}`
-		);
-	}
-
-	async fetchDailyForecast(coordinates) {
+	async byName(name,lat,lon) {
+		//https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&hourly=temperature_2m,weather_code,apparent_temperature,visibility,cloud_cover,snowfall,showers,rain,snow_depth,precipitation,precipitation_probability,dew_point_2m,relative_humidity_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=Europe%2FBerlin
+		//DONE
 		const response = await axios.get(
-			`${this.forecastData}?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly,alerts&appid=${this.apiKey}&units=${this.units}`
+			`https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&hourly=temperature_2m,weather_code,apparent_temperature,visibility,cloud_cover,snowfall,showers,rain,snow_depth,precipitation,precipitation_probability,dew_point_2m,relative_humidity_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=Europe%2FBerlin`
+		);
+		response.data.city = name;
+		return response;
+	}
+
+	async fetchDailyForecast(lat,lon) {
+		const response = await axios.get(
+			`https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&hourly=temperature_2m,weather_code,apparent_temperature,visibility,cloud_cover,snowfall,showers,rain,snow_depth,precipitation,precipitation_probability,dew_point_2m,relative_humidity_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=Europe%2FBerlin`
 		);
 		dailyWeather.displayForecast(response);
 	}
 
 	async byGeolocation(position) {
+		//Not Done!!!!!
 		const { latitude: lat, longitude: lon } = position.coords;
 		const response = await axios.get(
 			`${this.generalData}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${this.units}`
@@ -37,8 +46,9 @@ class WeatherService {
 		selectedLocationWeather.displayCurrentTemperature(response);
 	}
 
-	displaySelectedLocationWeather(location) {
-		this.byName(location).then(response =>
+	displaySelectedLocationWeather(name,lat,lon) {
+		//DONE
+		this.byName(name,lat,lon).then(response =>
 			selectedLocationWeather.displayCurrentTemperature(response)
 		);
 	}
@@ -57,6 +67,14 @@ class WeatherService {
 			});
 	}
 
+	fetchWeatherCodeList() {
+		fetch('/json/weathercodes.json')
+			.then(response => response.json())
+			.then(data => {
+				this.weatherCodes = data;
+			});
+	}
+
 	getSavedLocation() {
 		const userLocation = localStorage.getItem('location');
 		if (userLocation) {
@@ -70,12 +88,27 @@ class WeatherService {
 		const response = await axios.get('/json/icons.json');
 		const customIcons = response.data;
 
-		const iconMatch = customIcons.find(icon => icon.id === dataId && icon.icon === dataIcon);
+		 // Determine if it's day or night (optional, assumes current local hour)
+   		const nowHour = new Date().getHours();
+    	const isDay = nowHour >= 6 && nowHour < 18; // simple day/night check
+		// Try to find the matching icon
+    	let iconMatch = customIcons.find(icon => icon.id === dataId && (
+        	(isDay && icon.icon.endsWith('d')) || (!isDay && icon.icon.endsWith('n'))
+    	));
+
+		//const iconMatch = customIcons.find(icon => icon.id === dataId && icon.icon === dataIcon);
+
+		 // Fallback: if no day/night match, just match by id
+		if (!iconMatch) {
+			iconMatch = customIcons.find(icon => icon.id === dataId);
+		}
 
 		if (iconMatch) {
 			const icon = location.querySelector(imgEl);
-			icon.setAttribute('src', iconMatch.src);
-			icon.setAttribute('alt', iconMatch.alt);
+			if (icon) {
+				icon.setAttribute('src', iconMatch.src);
+				icon.setAttribute('alt', iconMatch.alt);
+			}
 		}
 	}
 }
@@ -146,9 +179,14 @@ const searchManager = {
 			this.suggestionsList.appendChild(li);
 			this.suggestionsList.style.opacity = '1';
 
+
 			li.addEventListener('click', () => {
 				li.textContent;
-				weatherService.displaySelectedLocationWeather(li.textContent);
+				mySelectedCityName = city.name;
+				mySelectedCityLon = city.coord.lon;
+				mySelectedCityLat = city.coord.lat				
+				weatherService.displaySelectedLocationWeather(city.name,city.coord.lat,city.coord.lon);
+				//console.log(`list clicked: ${li.textContent} with lat: ${city.coord.lat} and long ${city.coord.lon}`)
 				this.clearSuggestions();
 			});
 		});
@@ -182,10 +220,13 @@ const timeManager = {
 	},
 	// Format Daily Forecast Unix Timestamps
 	formatDay: function (unix) {
-		const date = new Date(unix * 1000);
-		const day = date.getDay();
-		const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-		return days[day];
+		const date = new Date(unix);
+    	// JS getDay(): 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    	const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    	const day = date.getDay();
+    
+    	return days[day];
+
 	},
 
 	// Display Local Date
@@ -301,13 +342,13 @@ const selectedLocationWeather = {
 			const data = response.data;
 
 			// Rendering selected location's weather data
-			this.displayWeatherDetails(data);
-			this.displayWeatherCondition(data.weather[0].main);
-			weatherService.fetchDailyForecast(response.data.coord);
+			this.displayWeatherDetails(data);//DONE 
+			this.displayWeatherCondition(data.current.weather_code,data.current.is_day);
+			weatherService.fetchDailyForecast(mySelectedCityLat,mySelectedCityLon);
 			weatherService.renderIcons(
 				document,
-				data.weather[0].id,
-				data.weather[0].icon,
+				data.current.weather_code,
+				null,
 				`.default-main-icon`
 			);
 
@@ -325,41 +366,67 @@ const selectedLocationWeather = {
 	},
 
 	displayWeatherDetails: function (data) {
-		this.locationHeading.innerHTML = `${data.name}, ${data.sys.country}`;
-		this.currentTemp.innerHTML = `${Math.round(data.main.temp)}`;
-		this.highTemp.innerHTML = `${Math.round(data.main.temp_max)}`;
-		this.lowTemp.innerHTML = `${Math.round(data.main.temp_min)}`;
-		this.feelsLikeTemp.innerHTML = `${Math.round(data.main.feels_like)}`;
-		this.tempDescription.innerHTML = `${data.weather[0].description}`;
-		this.wind.innerHTML = `${Math.round(data.wind.speed)}`;
-		this.humidity.innerHTML = `${data.main.humidity}`;
-		this.visibility.innerHTML = `${Math.round(data.visibility / 1000)}`;
-		this.clouds.innerHTML = `${data.clouds.all}`;
+		this.locationHeading.innerHTML = `${data.city}`;
+		this.currentTemp.innerHTML = `${Math.round(data.current.temperature_2m)}`;
+
+		this.highTemp.innerHTML = `${Math.round(data.daily.temperature_2m_max[0])}`;
+		this.lowTemp.innerHTML = `${Math.round(data.daily.temperature_2m_min[0])}`;
+
+		this.feelsLikeTemp.innerHTML = `${Math.round(data.current.apparent_temperature)}`;
+		this.tempDescription.innerHTML = `PH`;
+
+		this.wind.innerHTML = `${Math.round(data.current.wind_speed_10m)}`;
+		this.humidity.innerHTML = `${data.current.relative_humidity_2m}`;
+
+		this.visibility.innerHTML = `PH`;
+		this.clouds.innerHTML = `${data.current.cloud_cover}`;
 	},
 
-	displayWeatherCondition: function (data) {
-		const weatherType = data;
+	displayWeatherCondition: function (weatherCode,is_day ) {
+		const weatherData = weatherService.weatherCodes;
+		const codeKey = String(weatherCode);
+		const bDay = is_day === 1; 
 
-		switch (weatherType) {
-			case 'Rain':
-			case 'Drizzle':
-			case 'Clouds':
-				this.conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
-				break;
-			case 'Thunderstorm':
-			case 'Tornado':
-				this.conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
-				break;
-			case 'Snow':
-				this.conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
-				break;
-			case 'Clear':
+		const entry = weatherData[codeKey];
+		const weatherGroups = {
+    		sunny: [0, 1],
+    		partlyCloudy: [2],
+    		cloudy: [3],
+    		fog: [45, 48],
+    		drizzle: [51, 53, 55, 56, 57],
+    		rain: [61, 63, 65, 66, 67],
+    		snow: [71, 73, 75, 77],
+    		showers: [80, 81, 82],
+    		snowShowers: [85, 86],
+    		thunderstorm: [95],
+    		thunderstormHail: [96, 99]
+		};
+		switch (true) {
+			//Sunny
+			case weatherGroups.sunny.includes(weatherCode):
 				this.conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
 				break;
-			case 'Mist':
-			case 'Fog':
-			case 'Haze':
-				this.conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Visibility`;
+			case weatherGroups.partlyCloudy.includes(weatherCode):
+			case weatherGroups.cloudy.includes(weatherCode):
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
+				break;
+			case weatherGroups.fog.includes(weatherCode):
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ideal Conditions`;
+				break;
+			case weatherGroups.drizzle.includes(weatherCode):	
+			case weatherGroups.rain.includes(weatherCode):
+			case weatherGroups.showers.includes(weatherCode):
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-umbrella"></i> Umbrella Required`;
+					break;
+
+			case weatherGroups.snowShowers.includes(weatherCode):
+			case weatherGroups.snow.includes(weatherCode):
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-snowflake"></i> Dress Warm`;
+				break;
+			
+			case weatherGroups.thunderstorm.includes(weatherCode):
+			case weatherGroups.thunderstormHail.includes(weatherCode):
+				this.conditionMsg.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> Stay Indoors`;
 				break;
 			default:
 				this.conditionMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Poor Air Quality`;
@@ -373,45 +440,51 @@ const dailyWeather = {
 
 	displayForecast: function (response) {
 		// Note: dew point is only available w/ one-call API & not with the general data call
-		this.dewPoint.innerHTML = `${Math.round(response.data.current.dew_point)}`;
+		this.dewPoint.innerHTML = `PH`;
 		const forecastData = response.data.daily;
 		let forecastHTML = '';
 
-		forecastData.forEach((day, index) => {
+		forecastData.time.forEach((date, index) => {
 			if (index < 7) {
-				forecastHTML += `
-			<div class="daily m-2 m-md-0">
-				<p>${timeManager.formatDay(day.dt)}</p>
-					<img
-						src="/assets/loading.svg"
-						class="weather-icon forecast-icon mb-2"
-						height="45"
-						width="50"
-						alt="Loading icon"
-						id="icon-${index}"
-					/>
-				<p>
-					<span class="temps">${Math.round(day.temp.max)}</span>°<span class="fahrenheit">${
-					weatherService.units === 'metric' ? 'C' : 'F'
-				}
-					</span><br />
-					<span class="daily-low">
-						<span class="forecast-low temps">${Math.round(day.temp.min)}</span>°<span class="fahrenheit">${
-					weatherService.units === 'metric' ? 'C' : 'F'
-				}
-					</span>
-					</span>
-				</p>
-			</div>`;
-				this.forecastContainer.innerHTML = forecastHTML;
+				const maxTemp = forecastData.temperature_2m_max[index];
+        		const minTemp = forecastData.temperature_2m_min[index];
+        		const dayName = timeManager.formatDay(date); // format the date
+				const weatherCode = forecastData.weather_code[index];
 
-				weatherService.renderIcons(
-					this.forecastContainer,
-					day.weather[0].id,
-					day.weather[0].icon,
-					`#icon-${index}`
-				);
-			}
+
+				forecastHTML += `
+				<div class="daily m-2 m-md-0">
+					<p>${dayName}</p>
+						<img
+							src="/assets/loading.svg"
+							class="weather-icon forecast-icon mb-2"
+							height="45"
+							width="50"
+							alt="Loading icon"
+							id="icon-${index}"
+						/>
+					<p>
+						<span class="temps">${Math.round(maxTemp)}</span>°<span class="fahrenheit">${
+						weatherService.units === 'metric' ? 'C' : 'F'
+					}
+						</span><br />
+						<span class="daily-low">
+							<span class="forecast-low temps">${Math.round(minTemp)}</span>°<span class="fahrenheit">${
+						weatherService.units === 'metric' ? 'C' : 'F'
+					}
+						</span>
+						</span>
+					</p>
+				</div>`;
+					this.forecastContainer.innerHTML = forecastHTML;
+
+					weatherService.renderIcons(
+						this.forecastContainer,
+						weatherCode,
+						null,
+						`#icon-${index}`
+					);
+				}
 		});
 	},
 };
@@ -488,6 +561,7 @@ const weatherService = new WeatherService(OPENWEATHER_KEY);
 
 weatherService.initializeGeolocation();
 weatherService.fetchCityList();
+weatherService.fetchWeatherCodeList();
 weatherService.getSavedLocation();
 themeManager.initialize();
 searchManager.initialize();
