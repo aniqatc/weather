@@ -1,3 +1,14 @@
+/* ================================
+   Global Reset & Base Styles
+================================ */
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 :root {
 	--main-bg: #e7edfa;
 	--main-text: #000;
@@ -31,26 +42,35 @@
 	--search-bg: rgba(0, 0, 0, 0.65);
 }
 
+/* ================================
+   Layout & Body
+================================ */
 body {
 	min-height: 100vh;
 	display: flex;
-	justify-content: center;
 	flex-direction: column;
+	justify-content: flex-start;
 	background: var(--main-bg);
 	color: var(--main-text);
 	font-family: 'DM Sans', sans-serif;
 	scroll-behavior: smooth;
 }
 
-/* CUSTOM SCROLLBAR */
-body::-webkit-scrollbar,
-body::-webkit-scrollbar-thumb {
-	background-color: rgba(149, 205, 236, 0.25);
-	border-radius: 10px;
-	width: 10px;
+/* Sticky Tab Bar Fix */
+.tabs {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	display: flex;
+	background: var(--container-bg);
+	border-bottom: 2px solid #ddd;
+	margin: 0;
+	padding: 0;
 }
 
-/* ELEMENT & TEXT STYLES */
+/* ================================
+   Typography & Text Styles
+================================ */
 h1 {
 	font-size: 28px;
 	font-weight: bold;
@@ -67,19 +87,6 @@ h3 {
 	font-weight: lighter;
 }
 
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-strong {
-	font-weight: bold;
-}
-
-small {
-	font-size: 14px;
-}
-
 p {
 	margin: 5px 10px;
 }
@@ -89,46 +96,25 @@ a {
 	transition: all 150ms ease-in;
 	text-decoration: none;
 }
-
 a:hover {
 	background: linear-gradient(rgba(212, 214, 254, 0.8), #9acedd);
 	border-radius: 10px;
 	padding: 2px 4px;
 }
 
-hr {
-	margin: 0;
+/* ================================
+   Scrollbar
+================================ */
+body::-webkit-scrollbar,
+body::-webkit-scrollbar-thumb {
+	background-color: rgba(149, 205, 236, 0.25);
+	border-radius: 10px;
+	width: 10px;
 }
 
-footer i {
-	font-size: 14px;
-	color: var(--icon-color);
-	text-shadow: var(--icon-shadow);
-}
-
-.toggle-temps {
-	font-size: 14px;
-	vertical-align: super;
-}
-
-.toggle-temps a:hover {
-	font-size: 16px;
-}
-
-.celsius {
-	padding-left: 3px;
-}
-#location {
-	font-weight: bold;
-}
-
-/* SEARCH BAR */
-button i {
-	color: var(--icon-btn-color);
-	text-shadow: var(--icon-btn-shadow);
-	border: none;
-}
-
+/* ================================
+   Search Bar
+================================ */
 .input-group input {
 	font-size: 16px;
 	border-color: #0a95c0;
@@ -141,19 +127,18 @@ button i {
 	border-radius: 30px;
 	padding: 5px 14px;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+	transition: all 0.2s ease;
 }
-
 .input-group button:hover {
 	background-color: #0a95c0;
 	border-color: #0a95c0;
 }
-
 .input-group button:hover i {
 	color: white;
 	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Search suggestions */
+/* Search Suggestions */
 .search-suggestions {
 	position: absolute;
 	top: 42px;
@@ -162,251 +147,137 @@ button i {
 	border: 1px solid #0a95c0;
 	border-top: 0;
 	z-index: 10;
-	border-radius: 0 0 4px 4px !important;
+	border-radius: 0 0 4px 4px;
 	background-color: var(--search-bg);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 	backdrop-filter: blur(2px);
 	opacity: 0;
 }
 
-.search-suggestions li {
-	color: var(--search-text);
-	padding: 4px 13px;
-}
-
-.search-suggestions li:first-of-type {
-	padding-top: 8px;
-}
-
-.search-suggestions li:last-of-type {
-	padding-bottom: 8px;
-}
-
-.search-suggestions li:hover {
-	background-color: var(--global-hover);
-	width: 100%;
-	color: #0a95c0;
-	font-weight: 500;
+/* ================================
+   Tabs
+================================ */
+.tab-button {
+	flex: 1;
+	padding: 12px;
 	cursor: pointer;
+	background: #f4f4f4;
+	border: none;
+	border-right: 1px solid #ddd;
+	font-weight: bold;
+	text-align: center;
+	transition: background 0.2s ease;
+}
+.tab-button:last-child {
+	border-right: none;
+}
+.tab-button.active {
+	background: white;
+	color: var(--icon-btn-color);
+	border-bottom: 2px solid var(--icon-btn-color);
+}
+.dark .tab-button.active {
+	background: var(--container-bg);
+	color: var(--icon-btn-color);
 }
 
-/* THEME TOGGLE SWITCH  */
-#flexSwitchCheckChecked {
-	padding: 15px 24px;
+/* Tab Content */
+.tab-content {
+	display: none;
+	padding-top: 10px;
+	animation: fadeIn 0.3s ease;
+}
+.tab-content.active {
+	display: block;
+}
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
 }
 
-.form-switch .form-check-input {
-	margin-left: 0;
-}
-
-.form-check-input:checked {
-	background-color: #0a95c0;
-	border-color: #0a95c0;
-}
-
-.form-check-input {
-	background-color: #f0f7f8;
-	border-color: #0a95c0;
-}
-
-/* CONTAINER CONTENT */
+/* ================================
+   Weather Layout
+================================ */
 .local-overview,
 .global-overview {
-	box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15), -2px -2px 6px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
 	border-radius: 20px;
 	background: var(--container-bg);
-}
-
-.weather-icon {
-	filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2))
-		drop-shadow(-1px -1px 2px rgba(77, 77, 77, 0.3));
-}
-
-.forecast-icon,
-.global-icon {
-	transform: scale(1.6);
-}
-
-/* LOCAL WEATHER CONTAINER CONTENT */
-.daily,
-.card,
-.form-check-input {
-	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+	padding: 15px;
+	margin-bottom: 15px;
 }
 
 .current-weather {
 	background: #bfedfb;
 	border-radius: 10px;
-}
-
-.current-weather h1 {
-	font-size: 40px;
+	padding: 15px;
+	text-align: center;
 }
 
 .card {
 	min-height: 230px;
 	margin-top: 10px;
-}
-
-.card-img {
-	height: 230px;
-	object-fit: cover;
-	opacity: 0.5;
-}
-
-.card li {
-	font-size: 18px;
+	border-radius: 12px;
 	background: rgba(198, 241, 217, 0.4);
+	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.temp-details i {
-	font-size: 13px;
-	color: rgba(0, 82, 37, 0.798);
-	padding-left: 10px;
-}
-
-.temp-details .card {
-	background: rgba(198, 241, 217, 0.4);
-}
-
-.sun-time i {
-	font-size: 17px;
-	color: var(--icon-color);
-	text-shadow: var(--icon-shadow);
-}
-
-/* DAILY FORECAST STYLES */
+/* ================================
+   Forecast Styles
+================================ */
 .full-forecast {
-	overflow-x: scroll;
-	overflow-y: visible;
-	padding: 10px 10px 15px 10px;
+	overflow-x: auto;
+	padding: 10px;
 	width: 100%;
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
-
 .full-forecast::-webkit-scrollbar {
 	display: none;
 }
-
 .daily {
 	border-radius: 10px;
 	text-align: center;
 	background: rgba(149, 205, 236, 0.22);
 	padding: 8px 20px;
+	transition: transform 0.2s ease;
 }
-
-.daily p:first-child {
-	font-weight: bold;
-	text-transform: lowercase;
+.daily:hover {
+	background: rgba(73, 177, 234, 0.33);
+	transform: scale(1.05);
 }
-
 .daily-low {
 	font-size: 14px;
 	color: var(--forecast-text);
 }
 
-.daily:hover {
-	background: rgba(73, 177, 234, 0.33);
-	transform: scale(1.05);
+/* ================================
+   Calendar Styling
+================================ */
+#calendar {
+	max-width: 1100px;
+	margin: 20px auto;
+	padding: 10px;
+	background: var(--container-bg);
+	border-radius: 10px;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.daily:hover .weather-icon {
-	filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4));
-	transform: scale(1.9);
-}
-
-/* GLOBAL FORECAST STYLES */
-.global-overview h2 {
-	font-size: 22px;
-}
-
-.global-icon {
-	object-fit: contain;
-}
-
-.global-item:hover {
-	background: var(--global-hover);
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-.global-item:hover .global-icon {
-	transform: scale(1.8);
-	filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4));
-}
-
-.global-item {
-	min-height: 95px;
-	padding: 14px 2px;
-}
-
-#description-temp,
-.global-descriptions {
-	text-transform: capitalize;
-}
-
-/* Additional DARK STYLES */
-.dark .card:not(.initial),
-.list-group-item {
-	background-color: var(--main-bg);
+/* ================================
+   Dark Mode Overrides
+================================ */
+.dark .card,
+.dark .local-overview,
+.dark .global-overview {
+	background: var(--container-bg);
 	color: var(--main-text);
 	text-shadow: var(--text-shadow);
 }
 
-.dark .list-group-item i {
-	color: var(--icon-color);
-	text-shadow: var(--icon-shadow);
-}
-
-.dark .list-group-item {
-	color: rgb(246, 255, 250);
-	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
-}
-
-/* Custom scrollbar styling for forecast section */
-@media only screen and (max-width: 768px) {
-	.full-forecast {
-		-ms-overflow-style: unset;
-		scrollbar-width: unset;
-	}
-
-	.full-forecast::-webkit-scrollbar,
-	.full-forecast::-webkit-scrollbar-thumb {
-		background-color: rgba(149, 205, 236, 0.1);
-		border-radius: 10px;
-		height: 10px;
-		display: unset;
-	}
-}
-
-/* Search suggestion sizing adjustments */
-@media only screen and (max-width: 1400px) {
-	.search-suggestions {
-		width: 356px;
-	}
-}
-
-@media only screen and (max-width: 1200px) {
-	.search-suggestions {
-		width: 281px;
-	}
-}
-
-@media only screen and (max-width: 992px) {
-	.search-suggestions {
-		width: 181px;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	.search-suggestions {
-		width: 344px;
-	}
-}
-
-@media only screen and (max-width: 576px) {
-	.search-suggestions {
-		display: none;
-	}
+/* ================================
+   Accessibility & Misc
+================================ */
+a:focus,
+button:focus {
+	outline: 2px solid #0a95c0;
+	outline-offset: 2px;
 }

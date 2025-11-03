@@ -2,6 +2,11 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<!-- FullCalendar CSS -->
+		<!-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet" /> -->
+		<!-- FullCalendar JS -->
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
 		<meta
 			http-equiv="X-UA-Compatible"
 			content="IE=edge" />
@@ -72,7 +77,13 @@
 			href="/manifest.json" />
 	</head>
 	<body>
-		<div class="container">
+		<div class="tabs">
+  			<button class="tab-button active" data-tab="weather-tab">Weather</button>
+		  	<button class="tab-button" data-tab="calendar-tab">Calendar</button>
+		</div>
+		<div class="tab-content active" id="weather-tab">
+			<div id="weather-container">
+						<div class="container">
 			<header class="container text-md-start my-2 mt-3">
 				<div class="row align-items-center">
 					<h1 class="col-md-6">Weather Dashboard</h1>
@@ -344,12 +355,11 @@
 					</div>
 				</section>
 			</div>
-
 			<footer class="text-center my-3">
 				<i class="fa-solid fa-code"></i>
 				Designed & Coded by
-				<strong
-					><a
+				<strong>
+					<a
 						href="https://twitter.com/aniqatc"
 						target="_blank"
 						rel="noreferrer"
@@ -358,6 +368,11 @@
 					>
 				</strong>
 			</footer>
+		</div>
+			</div>
+		</div>
+		<div class="tab-content" id="calendar-tab">
+			<div id="calendar"></div>
 		</div>
 	</body>
 </html>

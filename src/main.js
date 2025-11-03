@@ -556,6 +556,109 @@ const globalWeather = {
 	},
 };
 
+const TabLogic = {
+	initialize: function () {
+		// TAB LOGIC
+		const tabButtons = document.querySelectorAll(".tab-button");
+		const tabContents = document.querySelectorAll(".tab-content");
+
+		tabButtons.forEach(btn => {
+			btn.addEventListener("click", () => {
+				const targetTab = btn.getAttribute("data-tab");
+
+				tabButtons.forEach(b => b.classList.remove("active"));
+				btn.classList.add("active");
+
+				tabContents.forEach(tab => {
+					tab.classList.remove("active");
+					if (tab.id === targetTab) tab.classList.add("active");
+				});
+
+				//Fix for FullCalendar re-render
+				if (targetTab === "calendar-tab" && window.calendar) {
+					setTimeout(() => {
+						window.calendar.updateSize();
+					}, 100); // small delay ensures it's visible first
+				}
+			});
+		});
+	},
+};
+
+const calendarRenderer = {
+	initialize: function () {
+
+		const calendarEl = document.getElementById('calendar');
+
+		// Make sure the element exists before trying to initialize FullCalendar
+		if (!calendarEl) {
+			console.warn('Calendar element not found');
+			return;
+		}
+
+  		const calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView: 'dayGridMonth',
+			initialDate: '2025-09-07',
+			headerToolbar: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth,timeGridWeek,timeGridDay'
+		},
+		events: [
+		{
+			title: 'All Day Event',
+			start: '2025-09-01'
+		},
+		{
+			title: 'Long Event',
+			start: '2025-09-07',
+			end: '2025-09-10'
+		},
+		{
+			groupId: '999',
+			title: 'Repeating Event',
+			start: '2025-09-09T16:00:00'
+		},
+		{
+			groupId: '999',
+			title: 'Repeating Event',
+			start: '2025-09-16T16:00:00'
+		},
+		{
+			title: 'Conference',
+			start: '2025-09-11',
+			end: '2025-09-13'
+		},
+		{
+			title: 'Meeting',
+			start: '2025-09-12T10:30:00',
+			end: '2025-09-12T12:30:00'
+		},
+		{
+			title: 'Lunch',
+			start: '2025-09-12T12:00:00'
+		},
+		{
+			title: 'Meeting',
+			start: '2025-09-12T14:30:00'
+		},
+		{
+			title: 'Birthday Party',
+			start: '2025-09-13T07:00:00'
+		},
+		{
+			title: 'Click for Google',
+			url: 'https://google.com/',
+			start: '2025-09-28'
+		}
+	]
+});
+
+	calendar.render();
+
+	window.calendar = calendar; // Expose calendar globally for tab re-rendering
+	}
+}
 const OPENWEATHER_KEY = 'API-KEY-HERE';
 const weatherService = new WeatherService(OPENWEATHER_KEY);
 
@@ -567,3 +670,8 @@ themeManager.initialize();
 searchManager.initialize();
 selectedLocationWeather.initialize();
 globalWeather.initialize();
+document.addEventListener("DOMContentLoaded", () => TabLogic.initialize());
+
+document.addEventListener('DOMContentLoaded', () => {
+	calendarRenderer.initialize();
+});
