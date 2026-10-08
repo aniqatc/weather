@@ -1,360 +1,341 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			http-equiv="X-UA-Compatible"
-			content="IE=edge" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0" />
-		<meta
-			name="author"
-			content="Aniqa" />
-		<meta
-			name="description"
-			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond. Dashboard with light/dark functionality was built with Bootstrap & CSS for styling, JavaScript for functionality, and API for live weather data." />
-		<meta
-			property="og:title"
-			content="Weather Dashboard" />
-		<meta
-			property="og:description"
-			content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond." />
-		<meta
-			property="og:image"
-			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
-		<meta
-			name="twitter:card"
-			content="summary_large_image" />
-		<meta
-			name="twitter:image"
-			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
-		<meta
-			name="twitter:image:alt"
-			content="Hero section of website" />
-		<title>Weather Dashboard</title>
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-			crossorigin="anonymous" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="author"
+      content="Aniqa" />
+    <meta
+      name="description"
+      content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond. Dashboard with light/dark functionality was built with Bootstrap & CSS for styling, JavaScript for functionality, and API for live weather data." />
+    <meta
+      property="og:title"
+      content="Weather Dashboard" />
+    <meta
+      property="og:description"
+      content="A minimalistic weather dashboard that gives you a complete overview of current weather conditions in your location and beyond." />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
+    <meta
+      name="twitter:card"
+      content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Hero section of website" />
+    <title>Weather Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous" />
 
-		<link
-			rel="preconnect"
-			href="https://fonts.googleapis.com" />
-		<link
-			rel="preconnect"
-			href="https://fonts.gstatic.com"
-			crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
-			rel="stylesheet" />
-		<link
-			href="/assets/favicon.png"
-			type="image/x-icon"
-			rel="icon" />
-		<link
-			href="/css/styles.css"
-			rel="stylesheet"
-			type="text/css" />
-		<!-- Font Awesome Free, pinned. The old kit script only loads on domains allowed in the Font Awesome account. -->
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" />
-		<script
-			defer
-			src="/src/main.js"></script>
-		<link
-			rel="manifest"
-			href="/manifest.json" />
-	</head>
-	<body>
-		<div class="container">
-			<header class="container text-md-start my-2 mt-3">
-				<div class="row align-items-center">
-					<h1 class="col-md-6">Weather Dashboard</h1>
-					<div class="w-100 d-md-none d-block"></div>
-					<form class="input-group col p-1 search-form">
-						<button
-							class="btn btn-outline-primary"
-							id="geolocation-btn"
-							type="button">
-							<i class="fa-solid fa-location-arrow"></i>
-						</button>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet" />
+    <link
+      href="/assets/favicon.png"
+      type="image/x-icon"
+      rel="icon" />
+    <link
+      href="/css/styles.css"
+      rel="stylesheet"
+      type="text/css" />
+    <!-- Font Awesome Free, pinned. The old kit script only loads on domains allowed in the Font Awesome account. -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" />
+    <script
+      defer
+      src="/src/main.js"></script>
+    <link
+      rel="manifest"
+      href="/manifest.json" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="container text-md-start my-2 mt-3">
+        <div class="row align-items-center">
+          <h1 class="col-md-6">Weather Dashboard</h1>
+          <div class="w-100 d-md-none d-block"></div>
+          <form class="input-group col p-1 search-form">
+            <button
+              class="btn btn-outline-primary"
+              id="geolocation-btn"
+              type="button"
+              title="Get weather in your current location"
+              aria-label="Get weather in your current location">
+              <i class="fa-solid fa-location-arrow"></i>
+            </button>
 
-						<input
-							type="search"
-							placeholder="Search City..."
-							class="form-control"
-							id="search-input"
-							autocapitalize="on"
-							autocomplete="off" />
-						<ul class="search-suggestions"></ul>
-						<button
-							type="submit"
-							class="btn btn-outline-primary me-2 search-btn">
-							<i class="fa-solid fa-magnifying-glass-location"></i>
-						</button>
-					</form>
+            <input
+              type="search"
+              placeholder="Search City..."
+              class="form-control"
+              id="search-input"
+              autocapitalize="on"
+              autocomplete="off" />
+            <ul class="search-suggestions"></ul>
+            <button
+              type="submit"
+              class="btn btn-outline-primary me-2 search-btn"
+              title="Search for a city"
+              aria-label="Search for a city">
+              <i class="fa-solid fa-magnifying-glass-location"></i>
+            </button>
+          </form>
 
-					<div class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							id="flexSwitchCheckChecked"
-							role="switch" />
-					</div>
-				</div>
-			</header>
-			<div class="row d-flex">
-				<div class="local-overview col ms-lg-4 mt-4">
-					<div class="mx-3 my-4">
-						<h2>Forecast in <span id="location"></span></h2>
-						<h3 id="today"></h3>
-					</div>
-					<div class="container flex-md-row flex-column">
-						<div class="row">
-							<section class="temp-overview col-lg-5">
-								<div class="current-weather card">
-									<div class="card-body">
-										<div class="d-flex">
-											<h1 class="flex-grow-1">
-												<span id="temp-now"></span>°<span class="fahrenheit">F </span>
-												<span class="toggle-temps"
-													>/
-													<a
-														href="#"
-														class="celsius"
-														>C</a
-													></span
-												>
-											</h1>
+          <div class="form-check form-switch ps-2 align-self-center col-1 me-4 me-md-1">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckChecked"
+              role="switch"
+              title="Toggle temperature units"
+              aria-label="Toggle temperature units" />
+          </div>
+        </div>
+      </header>
+      <div class="row d-flex">
+        <div class="local-overview col ms-lg-4 mt-4">
+          <div class="mx-3 my-4">
+            <h2>Forecast in <span id="location"></span></h2>
+            <h3 id="today"></h3>
+          </div>
+          <div class="container flex-md-row flex-column">
+            <div class="row">
+              <section class="temp-overview col-lg-5">
+                <div class="current-weather card">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <h1 class="flex-grow-1">
+                        <span id="temp-now"></span>°<span class="fahrenheit">F </span>
+                        <span class="toggle-temps"
+                          >/
+                          <a
+                            href="#"
+                            class="celsius"
+                            >C</a
+                          ></span
+                        >
+                      </h1>
 
-											<h3 class="text-end pt-2">
-												<small>High</small>
-												<span
-													class="temps"
-													id="high-temp"></span
-												>°<span class="fahrenheit">F</span>
-												<br />
+                      <h3 class="text-end pt-2">
+                        <small>High</small>
+                        <span
+                          class="temps"
+                          id="high-temp"></span
+                        >°<span class="fahrenheit">F</span>
+                        <br />
 
-												<small>Low </small>
-												<span
-													class="temps"
-													id="low-temp"
-													>--</span
-												>°<span class="fahrenheit">F</span>
-											</h3>
-										</div>
-										<br /><br />
-										<div class="d-flex">
-											<div class="flex-grow-1">
-												<p>
-													<span id="description-temp">Mostly Sunny</span><br />
-													Feels like
-													<span
-														class="temps"
-														id="feels-like"></span
-													>°<span class="fahrenheit">F</span>
-													<br />
-													<small id="condition-msg"></small>
-												</p>
-											</div>
-											<div>
-												<img
-													src="/assets/loading.svg"
-													width="85"
-													class="weather-icon default-main-icon"
-													alt="Loading icon" />
-											</div>
-										</div>
-									</div>
-								</div>
-							</section>
-							<div class="w-100 d-lg-none d-block"></div>
-							<section class="temp-details col-lg-4 col-md-5 mt-3 mt-md-2 mt-lg-0">
-								<div class="card p-1 initial">
-									<ul class="list-group list-group-flush">
-										<li class="list-group-item d-flex">
-											<strong class="flex-grow-1">Visibility </strong>
-											<span id="visibility">0</span><span id="visibility-unit">mi</span>
-											<i class="fa-solid fa-eye-slash align-self-center"></i>
-										</li>
-										<li class="list-group-item d-flex">
-											<strong class="flex-grow-1">Dew Point </strong
-											><span
-												id="dew-point"
-												class="temps"></span
-											>°<span class="fahrenheit">F</span>
-											<i class="fa-solid fa-droplet align-self-center"></i>
-										</li>
-										<li class="list-group-item d-flex">
-											<strong class="flex-grow-1">Wind </strong>
-											<span id="wind">0</span>
-											<span id="wind-unit">mph</span>
-											<i class="fa-solid fa-wind align-self-center"></i>
-										</li>
+                        <small>Low </small>
+                        <span
+                          class="temps"
+                          id="low-temp"
+                          >--</span
+                        >°<span class="fahrenheit">F</span>
+                      </h3>
+                    </div>
+                    <br /><br />
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <p>
+                          <span id="description-temp">Mostly Sunny</span><br />
+                          Feels like
+                          <span
+                            class="temps"
+                            id="feels-like"></span
+                          >°<span class="fahrenheit">F</span>
+                          <br />
+                          <small id="condition-msg"></small>
+                        </p>
+                      </div>
+                      <div>
+                        <img
+                          src="/assets/loading.svg"
+                          width="85"
+                          class="weather-icon default-main-icon"
+                          alt="Loading icon" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="w-100 d-lg-none d-block"></div>
+              <section class="temp-details col-lg-4 col-md-5 mt-3 mt-md-2 mt-lg-0">
+                <div class="card p-1 initial">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex">
+                      <strong class="flex-grow-1">Visibility </strong>
+                      <span id="visibility">0</span><span id="visibility-unit">mi</span>
+                      <i class="fa-solid fa-eye-slash align-self-center"></i>
+                    </li>
+                    <li class="list-group-item d-flex">
+                      <strong class="flex-grow-1">Dew Point </strong
+                      ><span
+                        id="dew-point"
+                        class="temps"></span
+                      >°<span class="fahrenheit">F</span>
+                      <i class="fa-solid fa-droplet align-self-center"></i>
+                    </li>
+                    <li class="list-group-item d-flex">
+                      <strong class="flex-grow-1">Wind </strong>
+                      <span id="wind">0</span>
+                      <span id="wind-unit">mph</span>
+                      <i class="fa-solid fa-wind align-self-center"></i>
+                    </li>
 
-										<li class="list-group-item d-flex">
-											<strong class="flex-grow-1"> Humidity</strong>
-											<span id="humidity">0</span>%
-											<i class="fa-solid fa-water align-self-center"></i>
-										</li>
+                    <li class="list-group-item d-flex">
+                      <strong class="flex-grow-1"> Humidity</strong>
+                      <span id="humidity">0</span>%
+                      <i class="fa-solid fa-water align-self-center"></i>
+                    </li>
 
-										<li class="list-group-item d-flex">
-											<strong class="flex-grow-1">Cloudiness </strong>
-											<span id="clouds"></span>%
-											<i class="fa-solid fa-cloud align-self-center"></i>
-										</li>
-									</ul>
-								</div>
-							</section>
-							<div class="w-100 d-md-none d-block"></div>
-							<section class="sun-time col-md mt-3 mt-md-2 mt-lg-0">
-								<div class="card">
-									<img
-										src="/assets/day-landscape.png"
-										class="card-img w-100"
-										id="scenery"
-										alt="Landscape scenery" />
-									<div class="card-img-overlay text-center">
-										<i class="fa-solid fa-sun"></i>
-										<h3>Sunrise</h3>
-										<h2 id="sunrise-time"></h2>
-										<br />
-										<i class="fa-solid fa-moon"></i>
-										<h3>Sunset</h3>
-										<h2 id="sunset-time"></h2>
-									</div>
-								</div>
-							</section>
-						</div>
-					</div>
-					<section class="full-forecast d-flex justify-content-md-around my-4"></section>
-				</div>
-				<div class="w-100 d-lg-none d-block mb-2"></div>
-				<section class="global-overview mx-lg-4 col-xl-3 mt-4 flex-lg-shrink-1 me-lg-0 pb-1">
-					<div class="p-1 mt-3">
-						<h2 class="mx-1 mb-3">Forecast in Other <strong>Cities</strong></h2>
-						<hr />
-						<div class="global-items-wrapper d-flex flex-column">
-							<div class="container global-item align-items-center">
-								<div class="row align-items-center flex-nowrap justify-content-center">
-									<p class="col">
-										<b class="global-name"></b><br /><small class="country-name"></small>
-									</p>
-									<img
-										src="/assets/loading.svg"
-										height="50"
-										class="col-3 weather-icon global-icon"
-										alt="Loading icon" />
-									<p class="text-end col">
-										<strong
-											><span class="temps global-temps"></span>°<span class="fahrenheit"
-												>F
-											</span></strong
-										><br /><small class="global-descriptions"></small>
-									</p>
-								</div>
-							</div>
-							<hr />
-							<div class="container global-item align-items-center">
-								<div class="row align-items-center flex-nowrap justify-content-center">
-									<p class="col">
-										<b class="global-name"></b><br /><small class="country-name"></small>
-									</p>
-									<img
-										src="/assets/loading.svg"
-										height="50"
-										class="col-3 weather-icon global-icon"
-										alt="Loading icon" />
-									<p class="text-end col">
-										<strong
-											><span class="temps global-temps"></span>°<span class="fahrenheit"
-												>F
-											</span></strong
-										><br /><small class="global-descriptions"></small>
-									</p>
-								</div>
-							</div>
-							<hr />
-							<div class="container global-item align-items-center">
-								<div class="row align-items-center flex-nowrap justify-content-center">
-									<p class="col">
-										<b class="global-name"></b><br /><small class="country-name"></small>
-									</p>
-									<img
-										src="/assets/loading.svg"
-										height="50"
-										class="col-3 weather-icon global-icon"
-										alt="Loading icon" />
-									<p class="text-end col">
-										<strong
-											><span class="temps global-temps"></span>°<span class="fahrenheit"
-												>F
-											</span></strong
-										><br /><small class="global-descriptions"></small>
-									</p>
-								</div>
-							</div>
-							<hr />
-							<div class="container global-item align-items-center">
-								<div class="row align-items-center flex-nowrap justify-content-center">
-									<p class="col">
-										<b class="global-name"></b><br /><small class="country-name"></small>
-									</p>
-									<img
-										src="/assets/loading.svg"
-										height="50"
-										class="col-3 weather-icon global-icon"
-										alt="Loading icon" />
-									<p class="text-end col">
-										<strong
-											><span class="temps global-temps"></span>°<span class="fahrenheit"
-												>F
-											</span></strong
-										><br /><small class="global-descriptions"></small>
-									</p>
-								</div>
-							</div>
-							<hr />
-							<div class="container global-item align-items-center">
-								<div class="row align-items-center flex-nowrap justify-content-center">
-									<p class="col">
-										<b class="global-name"></b><br /><small class="country-name"></small>
-									</p>
-									<img
-										src="/assets/loading.svg"
-										height="50"
-										class="col-3 weather-icon global-icon"
-										alt="Loading icon" />
-									<p class="text-end col">
-										<strong
-											><span class="temps global-temps"></span>°<span class="fahrenheit"
-												>F
-											</span></strong
-										><br /><small class="global-descriptions"></small>
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
+                    <li class="list-group-item d-flex">
+                      <strong class="flex-grow-1">Cloudiness </strong>
+                      <span id="clouds"></span>%
+                      <i class="fa-solid fa-cloud align-self-center"></i>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+              <div class="w-100 d-md-none d-block"></div>
+              <section class="sun-time col-md mt-3 mt-md-2 mt-lg-0">
+                <div class="card">
+                  <img
+                    src="/assets/day-landscape.png"
+                    class="card-img w-100"
+                    id="scenery"
+                    alt="Landscape scenery" />
+                  <div class="card-img-overlay text-center">
+                    <i class="fa-solid fa-sun"></i>
+                    <h3>Sunrise</h3>
+                    <h2 id="sunrise-time"></h2>
+                    <br />
+                    <i class="fa-solid fa-moon"></i>
+                    <h3>Sunset</h3>
+                    <h2 id="sunset-time"></h2>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <section class="full-forecast d-flex justify-content-md-around my-4"></section>
+        </div>
+        <div class="w-100 d-lg-none d-block mb-2"></div>
+        <section class="global-overview mx-lg-4 col-xl-3 mt-4 flex-lg-shrink-1 me-lg-0 pb-1">
+          <div class="p-1 mt-3">
+            <h2 class="mx-1 mb-3">Forecast in Other <strong>Cities</strong></h2>
+            <hr />
+            <div class="global-items-wrapper d-flex flex-column">
+              <div class="container global-item align-items-center">
+                <div class="row align-items-center flex-nowrap justify-content-center">
+                  <p class="col"><b class="global-name"></b><br /><small class="country-name"></small></p>
+                  <img
+                    src="/assets/loading.svg"
+                    height="50"
+                    class="col-3 weather-icon global-icon"
+                    alt="Loading icon" />
+                  <p class="text-end col">
+                    <strong><span class="temps global-temps"></span>°<span class="fahrenheit">F </span></strong
+                    ><br /><small class="global-descriptions"></small>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="container global-item align-items-center">
+                <div class="row align-items-center flex-nowrap justify-content-center">
+                  <p class="col"><b class="global-name"></b><br /><small class="country-name"></small></p>
+                  <img
+                    src="/assets/loading.svg"
+                    height="50"
+                    class="col-3 weather-icon global-icon"
+                    alt="Loading icon" />
+                  <p class="text-end col">
+                    <strong><span class="temps global-temps"></span>°<span class="fahrenheit">F </span></strong
+                    ><br /><small class="global-descriptions"></small>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="container global-item align-items-center">
+                <div class="row align-items-center flex-nowrap justify-content-center">
+                  <p class="col"><b class="global-name"></b><br /><small class="country-name"></small></p>
+                  <img
+                    src="/assets/loading.svg"
+                    height="50"
+                    class="col-3 weather-icon global-icon"
+                    alt="Loading icon" />
+                  <p class="text-end col">
+                    <strong><span class="temps global-temps"></span>°<span class="fahrenheit">F </span></strong
+                    ><br /><small class="global-descriptions"></small>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="container global-item align-items-center">
+                <div class="row align-items-center flex-nowrap justify-content-center">
+                  <p class="col"><b class="global-name"></b><br /><small class="country-name"></small></p>
+                  <img
+                    src="/assets/loading.svg"
+                    height="50"
+                    class="col-3 weather-icon global-icon"
+                    alt="Loading icon" />
+                  <p class="text-end col">
+                    <strong><span class="temps global-temps"></span>°<span class="fahrenheit">F </span></strong
+                    ><br /><small class="global-descriptions"></small>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="container global-item align-items-center">
+                <div class="row align-items-center flex-nowrap justify-content-center">
+                  <p class="col"><b class="global-name"></b><br /><small class="country-name"></small></p>
+                  <img
+                    src="/assets/loading.svg"
+                    height="50"
+                    class="col-3 weather-icon global-icon"
+                    alt="Loading icon" />
+                  <p class="text-end col">
+                    <strong><span class="temps global-temps"></span>°<span class="fahrenheit">F </span></strong
+                    ><br /><small class="global-descriptions"></small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-			<footer class="text-center my-3">
-				<i class="fa-solid fa-code"></i>
-				Designed & Coded by
-				<strong
-					><a
-						href="https://aniqa.dev"
-						target="_blank"
-						rel="noreferrer"
-						id="credits"
-						>Aniqa</a
-					>
-				</strong>
-			</footer>
-		</div>
-	</body>
+      <footer class="text-center my-3">
+        <i class="fa-solid fa-code"></i>
+        Designed & Coded by
+        <strong
+          ><a
+            href="https://aniqa.dev"
+            target="_blank"
+            rel="noreferrer"
+            id="credits"
+            >Aniqa</a
+          >
+        </strong>
+      </footer>
+    </div>
+  </body>
 </html>
