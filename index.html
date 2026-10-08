@@ -27,9 +27,6 @@
 			name="twitter:card"
 			content="summary_large_image" />
 		<meta
-			name="twitter:site"
-			content="@aniqatc" />
-		<meta
 			name="twitter:image"
 			content="https://raw.githubusercontent.com/aniqatc/weather/main/assets/og-img.png" />
 		<meta
@@ -60,10 +57,10 @@
 			href="/css/styles.css"
 			rel="stylesheet"
 			type="text/css" />
-		<script
-			src="https://kit.fontawesome.com/50cde61edc.js"
-			crossorigin="anonymous"></script>
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<!-- Font Awesome Free, pinned. The old kit script only loads on domains allowed in the Font Awesome account. -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" />
 		<script
 			defer
 			src="/src/main.js"></script>
@@ -145,7 +142,7 @@
 												<span
 													class="temps"
 													id="low-temp"
-													>30</span
+													>--</span
 												>°<span class="fahrenheit">F</span>
 											</h3>
 										</div>
@@ -180,7 +177,7 @@
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item d-flex">
 											<strong class="flex-grow-1">Visibility </strong>
-											<span id="visibility">0</span>km
+											<span id="visibility">0</span><span id="visibility-unit">mi</span>
 											<i class="fa-solid fa-eye-slash align-self-center"></i>
 										</li>
 										<li class="list-group-item d-flex">
@@ -350,7 +347,7 @@
 				Designed & Coded by
 				<strong
 					><a
-						href="https://twitter.com/aniqatc"
+						href="https://aniqa.dev"
 						target="_blank"
 						rel="noreferrer"
 						id="credits"

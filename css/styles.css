@@ -12,6 +12,8 @@
 	--btn-border: 1px solid #0a95c0;
 	--search-text: #8c8c8c;
 	--search-bg: rgba(255, 255, 255, 0.65);
+	--input-bg: #ffffff;
+	--input-text: #000;
 }
 
 .dark {
@@ -29,6 +31,10 @@
 	--btn-border: 1px solid #545555;
 	--search-text: #bdbdbd;
 	--search-bg: rgba(0, 0, 0, 0.65);
+	--input-bg: #2e3540;
+	--input-text: #f6f7fa;
+	/* Native controls (like the search field's clear button) follow the dark theme */
+	color-scheme: dark;
 }
 
 body {
@@ -129,6 +135,16 @@ button i {
 	border: none;
 }
 
+.input-group input,
+.input-group input:focus {
+	background-color: var(--input-bg);
+	color: var(--input-text);
+}
+
+.input-group input::placeholder {
+	color: var(--search-text);
+}
+
 .input-group input {
 	font-size: 16px;
 	border-color: #0a95c0;
@@ -155,10 +171,12 @@ button i {
 
 /* Search suggestions */
 .search-suggestions {
+	/* left, top and width are set in main.js to line up with the search input at any screen size */
 	position: absolute;
-	top: 42px;
-	left: 48px;
-	width: 432px;
+	top: 100%;
+	left: 0;
+	margin: 0;
+	box-sizing: border-box;
 	border: 1px solid #0a95c0;
 	border-top: 0;
 	z-index: 10;
@@ -182,7 +200,22 @@ button i {
 	padding-bottom: 8px;
 }
 
-.search-suggestions li:hover {
+.search-suggestions li:focus-visible {
+	outline: 2px solid #0a95c0;
+	outline-offset: -2px;
+}
+
+.search-suggestions .suggestion-message,
+.search-suggestions .suggestion-message:hover {
+	background-color: transparent;
+	color: var(--search-text);
+	font-weight: 400;
+	cursor: default;
+	white-space: normal;
+}
+
+.search-suggestions li:hover,
+.search-suggestions li:focus-visible {
 	background-color: var(--global-hover);
 	width: 100%;
 	color: #0a95c0;
@@ -380,33 +413,3 @@ button i {
 	}
 }
 
-/* Search suggestion sizing adjustments */
-@media only screen and (max-width: 1400px) {
-	.search-suggestions {
-		width: 356px;
-	}
-}
-
-@media only screen and (max-width: 1200px) {
-	.search-suggestions {
-		width: 281px;
-	}
-}
-
-@media only screen and (max-width: 992px) {
-	.search-suggestions {
-		width: 181px;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	.search-suggestions {
-		width: 344px;
-	}
-}
-
-@media only screen and (max-width: 576px) {
-	.search-suggestions {
-		display: none;
-	}
-}
