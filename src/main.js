@@ -504,6 +504,9 @@ const selectedLocationWeather = {
   renderUnitLabels: function () {
     document.querySelectorAll('.fahrenheit').forEach((el) => (el.textContent = units.tempLabel()));
     this.celsius.textContent = units.otherTempLabel();
+    const otherUnit = units.isMetric() ? 'Fahrenheit' : 'Celsius';
+    this.celsius.setAttribute('aria-label', `Switch to ${otherUnit}`);
+    this.celsius.title = `Switch to ${otherUnit}`;
     this.windUnit.textContent = units.windLabel();
     if (this.visibilityUnit) this.visibilityUnit.textContent = units.visibilityLabel();
   },
