@@ -34,11 +34,10 @@ A light and dark weather dashboard with live conditions and a 7-day forecast for
 
 ## Accessibility
 
-- Labeled search, location and unit controls
+- Labeled search, location, theme and unit controls, with the unit link saying which unit it switches to
 - Search suggestions support arrow keys, `Enter` and `Escape`, with visible focus styles
 - Errors from search, weather requests and geolocation appear as messages in the search box
 
-<!-- TODO: the theme switch in index.html (#flexSwitchCheckChecked) is labeled "Toggle temperature units", but it toggles light/dark mode. Fix the label, then this section can mention it. -->
 
 ## Project structure
 
