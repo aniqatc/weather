@@ -1,113 +1,94 @@
-## Weather Dashboard
+# Weather Dashboard
 
-[https://weather.aniqa.dev/](https://weather.aniqa.dev)
+A light and dark weather dashboard with live conditions and a 7-day forecast for any city, plus current weather in five random cities around the world.
 
-🌤️ A detailed light and dark mode dashboard with a complete overview of live weather conditions in the specified city. Option to toggle weather data between Celsius and Fahrenheit units. Sidebar with random major cities weather. Built using the OpenWeather API.
+**[Live site](https://weather.aniqa.dev)**
 
-## Light Mode
-
-<a href="https://weather.aniqa.dev" target="_blank"><img src="https://github.com/aniqatc/weather/blob/main/assets/og-img.png?raw=true" style="max-width: 100%;"></a>
-
-## Dark Mode
-
-<a href="https://weather.aniqa.dev" target="_blank"><img src="/assets/screenshot-dark.png" style="max-width: 100%;"></a>
+<table>
+  <tr>
+    <td width="50%"><a href="https://weather.aniqa.dev"><img src="assets/og-img.png" alt="The dashboard in light mode, showing current conditions, the forecast and a sidebar of other cities" width="100%"></a></td>
+    <td width="50%"><a href="https://weather.aniqa.dev"><img src="assets/screenshot-dark.png" alt="The same dashboard in dark mode" width="100%"></a></td>
+  </tr>
+</table>
 
 ## Tech
 
-- HTML5
-- CSS3
-- Bootstrap
-- JavaScript
-- Fetch API
-- OpenWeather API
-- Progressive Web App (PWA)
-- Service Worker
+- HTML, CSS and JavaScript, with Bootstrap for layout
+- OpenWeather Current Weather and One Call 3.0 APIs
+- [Meteocons](https://bas.dev/work/meteocons) animated icons, mapped to OpenWeather conditions in `json/icons.json`
+- A service worker and manifest for offline use (PWA)
 
-## Key Features
+## Features
 
-**Design**
+- Search over 200,000 cities with accent-insensitive suggestions (`sao paulo` finds São Paulo), navigable with the keyboard
+- Use your current location with one tap
+- Current conditions (feels like, high and low, humidity, wind, visibility, dew point, cloudiness, sunrise and sunset) and a forecast with the right local day names
+- Switch between °F and °C without another API request
+- "Forecast in Other Cities" shows five random cities; click one to load it
+- Remembers your last city and theme, and works offline after the first visit
 
-- Fully responsive without using any media queries
-- Layout and responsive achieved using Bootstrap
-- Styling done through custom CSS
-- Light and dark mode themes using CSS variables
-- Custom animated icons ([https://bas.dev/work/meteocons](https://bas.dev/work/meteocons))
-- Custom loading spinner animation that will appear until all data has been downloaded
-- Minimalistic and cohesive design
-- Subtle shadow usage to increase contrast between certain text elements and icons
-- Custom scrollbar styling
+## Design
 
-**Interactive Elements**
+- Light and dark themes built on CSS variables, with a switch in the header
+- Animated weather icons and a loading spinner until all data has arrived
 
-- Search over 200,000 cities with debounced, accent-insensitive autosuggestions
-- Search suggestions display city, state, and country and support keyboard navigation
-- Selecting a suggestion searches by coordinates for more accurate results
-- Geolocation button fetches the user’s current location and updates all weather data
-- Toggle weather data between imperial and metric units without re-fetching weather data
-- ‘Forecast In Other Cities’ section shows current weather data for 5 randomly selected cities from around the world
-- Clicking a city in the sidebar updates the weather dashboard with that city’s weather data
-- Responsive PWA with offline support and optimized caching
+## Accessibility
 
-**Additional Functionality/Behind-the-Scenes**
+- Labeled search, location, theme and unit controls, with the unit link saying which unit it switches to
+- Search suggestions support arrow keys, `Enter` and `Escape`, with visible focus styles
+- Errors from search, weather requests and geolocation appear as messages in the search box
 
-- Save user’s last selected city and theme to `localStorage`
-- Store the selected city with coordinates for more accurate weather requests
-- Support legacy saved city values for backwards compatibility
-- Use the city’s IANA timezone to display accurate local times and forecast day names
-- Display custom animated icons using a JSON mapping file that integrates with OpenWeather API data
-- Reusable functions for API requests, search, geolocation, and sidebar city selection
-- Load city search data on demand using 520 alphabetically indexed shards instead of loading the entire city database
-- Load weather icon data once and reuse it across the dashboard
-- Use a service worker with network-first and stale-while-revalidate caching strategies
-- Automatically remove outdated service worker caches
-- Use native `fetch` for API requests with centralized error handling
-- Safely handle `localStorage` access when storage is unavailable
-- Format weather data and visibility according to the selected unit system
+
+## Project structure
+
+- `index.html`: the dashboard markup
+- `src/main.js`: everything else, split into `WeatherService` (API calls) and managers for theme, search, time and each weather section
+- `css/styles.css`: theme variables and custom styles on top of Bootstrap
+- `json/cities/`: 520 search shards; `json/icons.json`: condition-to-icon mapping
+- `scripts/build-city-index.py`: builds the shards from OpenWeather's city list
+- `service-worker.js` and `manifest.json`: PWA support
+
+## Key concepts
+
+- **Sharded search data.** OpenWeather's city list is 42 MB, so a Python script splits it into 520 shards by the first two letters. The browser only downloads the shard for what you're typing.
+- **Coordinates over names.** Suggestions search by latitude and longitude, so cities with the same name resolve correctly, and saved cities keep their coordinates (older saved names still load).
+- **Local time from the city.** Times and forecast days use the city's IANA time zone, not your own.
+- **Caching that doesn't go stale.** Pages use network-first caching and static assets use stale-while-revalidate, and old caches are cleared on update. Weather responses are never cached.
+- **Fewer requests.** Units switch by re-rendering data already loaded, and `icons.json` loads once.
+
+## Setup
+
+Requires an [OpenWeather](https://openweathermap.org/api) API key with access to One Call 3.0. Replace the placeholder in `src/main.js`:
+
+```js
+const OPENWEATHER_KEY = 'YOUR_OPENWEATHER_API_KEY_HERE';
+```
+
+Then serve the folder with any local server, since the service worker won't register from a file:
+
+```bash
+git clone https://github.com/aniqatc/weather.git
+cd weather
+python3 -m http.server
+```
+
+To rebuild the search shards, download [city.list.json.gz](https://bulk.openweathermap.org/sample/city.list.json.gz), unzip it and run `python3 scripts/build-city-index.py city.list.json`.
 
 ## Changelog
 
-### 11/07/2023
+### October 2026
 
-- **Custom Search Suggestions**: Implemented a feature where search suggestions are dynamically generated and appear as the user types, enhancing the user experience by providing immediate suggestions for over 200K cities; additionally, added `searchManager` object to handle user queries from
-- **WeatherService Class**: Enhanced API handling within the `WeatherService` class
-- **ThemeManager Object**: Simplified theme management in the `themeManager`
-- **TimeManager Object** - Centralized all time-related manipulations within the `timeManager` object
-- **Objects for SelectedLocationWeather and GlobalWeather** - Improved handling of all weather-related data (both for the selected location and the randomized cities in the sidebar)
+- Fixed bugs found in a review with Claude: forecast day names, stale cached weather, metric wind speeds, daily highs and lows, and the broken service worker install
+- Replaced one 42 MB city file with 520 shards, removed Axios and added keyboard navigation and coordinate-based search
 
-### 11/08/2023
+### April 2026
 
-- **Enabled PWA functionality** to improve offline usage and performance on mobile devices:
-  - Implemented service worker caching for faster load times and offline access
-  - Added manifest file with application icons
+- Upgraded to the OpenWeather One Call 3.0 API
 
-### 10/08/2026
+### November 2023
 
-#### User-facing bugs
+- Added city search suggestions and PWA support, and reorganized the code into a service class and managers
 
-- **Fixed incorrect forecast day names**: Forecast days now use the selected city's IANA timezone, and the first forecast card is labeled "Today".
-- **Fixed stale weather data**: The service worker no longer caches OpenWeather API responses indefinitely. Page requests now use network-first caching, while static assets use stale-while-revalidate.
-- **Fixed service worker installation**: Resolved duplicate and invalid icon paths that prevented `cache.addAll()` from completing successfully, enabling offline support.
-- **Fixed metric wind speeds**: Weather requests now use imperial units and convert wind speed locally when metric units are selected.
-- **Fixed daily high/low temperatures**: Today's high and low now come from the daily forecast instead of the current weather station temperature spread.
-- **Improved weather descriptions**: Updated descriptions for `Clouds` and `Squall` conditions.
-- **Improved visibility units**: Visibility now displays in miles or kilometers based on the selected unit system.
-- **Fixed sidebar navigation errors**: Clicking between cities in "Forecast In Other Cities" no longer causes an error.
-- **Improved error handling**: Search, weather requests, and geolocation failures now display helpful messages directly in the search interface.
-- **Improved private browsing support**: `localStorage` access is now safely handled when storage is unavailable.
+### November 2022
 
-#### Performance
-
-- **Reduced initial city data by 42 MB**: The original `cities.json` database was replaced with 520 smaller alphabetically indexed shards. Only the shard needed for the current search is downloaded.
-- **Improved unit switching**: Changing between imperial and metric units now re-renders existing weather data instead of making additional API requests.
-- **Reduced icon requests**: `icons.json` is loaded once instead of once for every weather icon.
-- **Removed Axios**: Replaced Axios with a lightweight native `fetch` wrapper and removed the external unpkg dependency.
-- **Improved service worker caching**: Cache versioning and cleanup prevent outdated cached assets from being retained.
-
-#### Search
-
-- **Accent-insensitive search**: Searching for `sao paulo` can now find São Paulo.
-- **Improved suggestions**: Suggestions now display state and country information and are debounced to reduce unnecessary processing.
-- **Keyboard navigation**: Search suggestions can be navigated with the arrow keys and selected with Enter or dismissed with Escape.
-- **Coordinate-based selection**: Selecting an autocomplete result now searches using its coordinates, improving accuracy for cities with duplicate names.
-- **Improved direct search**: Pressing Enter still supports city names and `City, CC` searches.
-- **Improved city storage**: Saved locations now include coordinates while remaining compatible with previously saved string values.
+- Initial release
